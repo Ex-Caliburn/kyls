@@ -1,0 +1,16 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxd80f4ba87ac3e086",
+	"projectname": "klsl",
+	"miniprogramRoot": "./dist",
+	"libVersion": "1.9.94",
+	"condition": {}
+}
