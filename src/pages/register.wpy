@@ -1,0 +1,185 @@
+<style lang="less">
+</style>
+<template>
+
+  <view class="register">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">qq</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
+        </view>
+      </view>
+      <view class="weui-cells__title">选择</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">国家/地区</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+              <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title">带跳转的列表项</view>
+    <view class="weui-cells weui-cells_after-title">
+      <navigator url="/pages/searchbar" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">cell standard</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </navigator>
+      <navigator url="/pages/searchbar" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">cell standard</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </navigator>
+    </view>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Toast from 'wepy-com-toast'
+  import toast from '../mixins/toast'
+  import Tabbar from '@/components/tabbar' // alias example
+  import { post } from '../utils/service'
+  console.log(post)
+
+  export default class register extends wepy.page {
+    config = {
+      navigationBarTitleText: '信息登入'
+    }
+    components = {
+      tabbar: Tabbar
+    }
+
+    mixins = [toast]
+
+    data = {
+      qq: '123123',
+      countries: ['中国', '美国', '英国'],
+      countryIndex: 0,
+      inputValue: ''
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      bindCountryChange (e) {
+        this.countryIndex = e.detail.value
+      },
+      toast () {
+        let promise = this.$invoke('toast', 'show', {
+          title: '自定义标题',
+          img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+        })
+
+        promise.then((d) => {
+          console.log('toast done')
+        })
+      }
+    }
+
+    events = {}
+
+    onShow () {
+      post({
+        apiName: 'graduateRegister',
+        data: {
+          userId: 1,
+          userName: '123',
+          email: '123',
+          idNumber: '123',
+          undergraduateSchoolId: 1,
+          undergraduateMajorId: 1,
+          postgraduateSchoolId: 1,
+          postgraduateMajorTypeId: 1, // 专业大类
+          postgraduateMajorId: 1,
+          postgraduateNumber: '1',
+          degreeNature: 1, //  学位性质 1学术型、2专业型
+          studyMode: 1, // 就读学习方式 1:全日制、2:非全日制
+          grade: 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
+          publicSubjectFirst: '1', // 初试公共科目
+          professionalSubjectFirst: '1', // 初试专业科目，逗号分割
+          answerWill: '1', //  回答意愿
+          educationPicture: '1' // 学历证明图片 这个时参数
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(res => {
+        console.log(res)
+      })
+
+      post({
+        apiName: 'undergraduateRegister',
+        data: {
+          userId: 1,
+          userName: '123',
+          email: '123',
+          undergraduateSchoolId: 1,
+          undergraduateMajorId: 1,
+          isfreshGraduate: true, // 是否应届
+          volunteerSchool: '123', // 志愿学校
+          volunteerMajor: '123' // 志愿专业
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(res => {
+        console.log(res)
+      })
+    }
+
+    onLoad (params) {
+      this.ShowToast('123123')
+    }
+  }
+</script>

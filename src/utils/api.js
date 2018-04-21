@@ -20,6 +20,11 @@ const api = {
   * 登录相关
   * */
   'login': 'wx/login',
+  /*
+  * 信息录入
+  * */
+  graduateRegister: '/user/postgraduateRegister',
+  undergraduateRegister: '/user/undergraduateRegister',
 
   getScienceInfoByType: school + '/getScienceInfoByType',
   getPostgraduateSchool: school + '/getPostgraduateSchool',
