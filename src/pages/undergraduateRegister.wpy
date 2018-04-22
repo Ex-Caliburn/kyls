@@ -90,7 +90,7 @@
 
   import { post } from '../utils/service'
 
-  export default class Register extends wepy.page {
+  export default class undergraduateRegister extends wepy.page {
     config = {
       navigationBarTitleText: '信息录入'
     }
@@ -132,11 +132,12 @@
     events = {}
 
     onShow () {
-      let userId = this.
+      console.log(this.$parent)
+      let userId = this.$parent.globalData.userInfo.userId
       post({
         apiName: 'graduateRegister',
         data: {
-          userId: 1,
+          userId,
           userName: '123',
           email: '123',
           idNumber: '123',

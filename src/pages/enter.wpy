@@ -1,0 +1,107 @@
+<style>
+  .container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;/*垂直居中*/
+    justify-content: center;/*水平居中*/
+  }
+  .content{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+  }
+  .enter-btn{
+    margin-bottom: 50rpx;
+    height: 94rpx;
+    width: 360rpx;
+    line-height: 94rpx;
+    font-size: 36rpx;
+    color: #999;
+  }
+</style>
+
+<template>
+  <ivew class="container">
+    <ivew class="content" >
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" type="default">本科生入口</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" type="default">研究生入口</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" type="default">考研里手故事</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" type="default">使用帮助</button>
+    </ivew>
+    <ivew>考研里手——实名制考研百科全书</ivew>
+  </ivew>
+</template>
+
+
+
+<script>
+  import wepy from 'wepy'
+  // import {get, post} from '../utils/service'
+
+  export default class Enter extends wepy.page {
+    config = {
+      navigationBarTitleText: '入口'
+    }
+    components = {
+    }
+
+    mixins = []
+
+    data = {
+      icon20: '',
+      icon60: ''
+    }
+
+    methods = {
+      jump (index) {
+        const route = [
+          '/pages/graduateRegister',
+          '/pages/undergraduateRegister',
+          '/pages/materials/story',
+          '/pages/materials/help'
+        ]
+        wepy.navigateTo({
+          url: route[index]
+        }).then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+        // switch (Number(index)) {
+        //   case 1:
+        //     wepy.navigate({
+        //       url: '/pages/index'
+        //     }).then((d) => {
+        //       console.log(d)
+        //     }).catch(err => {
+        //       console.log(err)
+        //     })
+        //     break
+        //   case 2:
+        //     wepy.navigate({
+        //       url: '/pages/index2'
+        //     })
+        //     break
+        //   case 3:
+        //     wepy.navigate({
+        //       url: '/pages/story'
+        //     })
+        //     break
+        //   case 4:
+        //     wepy.navigate({
+        //       url: '/pages/help'
+        //     })
+        //     break
+        //   default:
+        //     break
+        // }
+      }
+    }
+
+    onLoad () {
+    }
+  }
+</script>

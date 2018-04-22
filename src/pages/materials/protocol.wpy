@@ -1,0 +1,56 @@
+<style>
+  .container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;/*垂直居中*/
+    justify-content: center;/*水平居中*/
+  }
+  .content{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+  }
+  .enter-btn{
+    margin-bottom: 50rpx;
+    height: 94rpx;
+    width: 360rpx;
+    line-height: 94rpx;
+    font-size: 36rpx;
+    color: #999;
+  }
+</style>
+
+<template>
+  <ivew>
+    <ivew>协议</ivew>
+  </ivew>
+</template>
+
+
+
+<script>
+  import wepy from 'wepy'
+  // import {get, post} from '../utils/service'
+
+  export default class protocol extends wepy.page {
+    config = {
+      navigationBarTitleText: '帮助'
+    }
+    components = {
+    }
+
+    mixins = []
+
+    data = {
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+    }
+  }
+</script>

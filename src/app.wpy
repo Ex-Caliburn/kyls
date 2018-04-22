@@ -50,14 +50,12 @@
 <script>
   import wepy from 'wepy'
   import 'wepy-async-function'
-  import { get, post } from './utils/service'
-  import db from './utils/db'
   import { connect, setStore } from 'wepy-redux'
   import configStore from './store'
 
+  import { get, post } from './utils/service'
+  import db from './utils/db'
   import { TOKEN, USER_INFO } from './utils/constant'
-
-  console.log(post)
 
   const store = configStore()
   setStore(store)
@@ -77,42 +75,54 @@
   export default class extends wepy.app {
     config = {
       pages: [
+        'pages/enter',
         'pages/index',
-        'pages/register',
-        'pages/info',
+        'pages/home',
+        'pages/test',
+        'pages/graduateRegister',
+        'pages/undergraduateRegister',
         'pages/searchbar',
+        'pages/answer',
+        'pages/question',
+        // 我的
+        'pages/info',
+
+        // 静态页面
+        'pages/materials/protocol',
+        'pages/materials/help',
+        'pages/materials/story'
          // 表单
-        'example/index',
-        'example/button',
-        'example/list',
-        'example/input',
-        'example/slider',
-        'example/uploader',
-        // 表单
-        'example/article',
-        'example/badge',
-        'example/flex',
-        'example/footer',
-        'example/gallery',
-        'example/grid',
-        'example/icons',
-        'example/loadmore',
-        'example/panel',
-        'example/preview',
-        'example/progress',
-        // 表单
-        'example/actionsheet',
-        'example/dialog',
-        'example/msg',
-        'example/msg_fail',
-        'example/msg_success',
-        'example/picker',
-        'example/toast',
-        // 表单
-        'example/navbar',
-        'example/tabbar',
-        // 表单
-        'example/searchbar'
+        // 'example/index',
+        // 'example/button',
+        // 'example/list',
+        // 'example/input',
+        // 'example/slider',
+        // 'example/uploader',
+        // // 表单
+        // 'example/article',
+        // 'example/badge',
+        // 'example/flex',
+        // 'example/footer',
+        // 'example/gallery',
+        // 'example/grid',
+        // 'example/icons',
+        // 'example/loadmore',
+        // 'example/panel',
+        // 'example/preview',
+        // 'example/progress',
+        // // 表单
+        // 'example/actionsheet',
+        // 'example/dialog',
+        // 'example/msg',
+        // 'example/msg_fail',
+        // 'example/msg_success',
+        // 'example/picker',
+        // 'example/toast',
+        // // 表单
+        // 'example/navbar',
+        // 'example/tabbar',
+        // // 表单
+        // 'example/searchbar'
       ],
       window: {
         navigationBarBackgroundColor: '#ffffff',
@@ -120,30 +130,15 @@
         navigationBarTitleText: 'kyls',
         backgroundColor: '#dddddd'
       }
-      // tabBar: {
-      //   selectedColor: '#f06292',
-      //   color: '#707070',
-      //   list: [{
-      //     pagePath: 'pages/index',
-      //     text: '首页',
-      //     iconPath: 'icon/home.png',
-      //     selectedIconPath: 'icon/home@select.png'
-      //   },
-      //   {
-      //     pagePath: 'pages/info',
-      //     text: '个人中心',
-      //     iconPath: 'icon/user.png',
-      //     selectedIconPath: 'icon/user@select.png'
-      //   }
-      //   ]
-      // }
     }
 
+    // FF7878 粉色
     globalData = {
       userInfo: null,
       token: '',
       tabbar: {
         color: '#707070',
+        isPostgraduate: true,  // true 研究生 false本科生
         selectedColor: '#f06292',
         backgroundColor: '#ffffff',
         borderStyle: '#eee',
@@ -151,14 +146,35 @@
         list: [
           {
             pagePath: '/pages/index',
-            text: '首页',
+            // text: '首页',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',
             selected: true
           },
           {
+            pagePath: '/pages/answer',
+            // text: '答',
+            iconPath: '/icon/answer.png',
+            selectedIconPath: '/icon/answer@select.png',
+            selected: false
+          },
+          {
+            pagePath: '/pages/question',
+            // text: '问',
+            iconPath: '/icon/question.png',
+            selectedIconPath: '/icon/question@select.png',
+            selected: false
+          },
+          {
             pagePath: '/pages/info',
-            text: '个人中心',
+            // text: '消息',
+            iconPath: '/icon/message.png',
+            selectedIconPath: '/icon/message@select.png',
+            selected: false
+          },
+          {
+            pagePath: '/pages/info',
+            // text: '我的',
             iconPath: '/icon/user.png',
             selectedIconPath: '/icon/user@select.png',
             selected: false
@@ -289,19 +305,6 @@
 
     async _getUserInfo () {
       this._getScienceInfoByType()
-      // let res = await wepy.getUserInfo({withCredentials: true})
-      // console.log(res)
-      // this.globalData.userInfo = res.userInfo
-      // let thirdReturn = await post({
-      //   apiName: 'login',
-      //   data: {
-      //     code: this.globalData.code,
-      //     iv: res.iv,
-      //     encryptedData: res.encryptedData,
-      //     decrypt_type: 'user'
-      //   }
-      // })
-      // console.log(thirdReturn)
     }
 
     // 微信登录

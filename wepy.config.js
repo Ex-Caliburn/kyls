@@ -15,7 +15,14 @@ module.exports = {
   resolve: {
     alias: {
       counter: path.join(__dirname, 'src/components/counter'),
-      '@': path.join(__dirname, 'src')
+      '@': path.join(__dirname, 'src'),
+      'components': path.join(__dirname, 'src/components'),
+      'mixins': path.join(__dirname, 'src/mixins'),
+      'utils': path.join(__dirname, 'src/utils'),
+      'config': path.join(__dirname, 'src/config'),
+      'less': path.join(__dirname, 'src/less'),
+      'icon': path.join(__dirname, 'src/icon'),
+      'plugins': path.join(__dirname, 'src/plugins')
     },
     aliasFields: ['wepy'],
     modules: ['node_modules']

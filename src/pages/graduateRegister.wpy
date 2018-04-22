@@ -1,0 +1,157 @@
+<style lang="less">
+</style>
+<template>
+  <!--真实姓名：-->
+  <!--邮箱*：-->
+  <!--本科院校*：           此项为选择项（用本科高校汇总）（加搜索）-->
+  <!--本科专业*：           此项为选择项（用本科专业汇总）（加搜索）-->
+  <!--是否应届*：-->
+  <!--意向院校：-->
+  <!--意向专业：-->
+  <!--我已阅读并同意考研里手相关协议-->
+
+  <view class="page">
+    <view class="weui-cells__title">请填写必要信息完成注册</view>
+
+    <view class="page__bd">
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">错误提示</view>
+
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">真实姓名</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入真实姓名" value="{{userName}}"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">邮箱*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入邮箱" value="{{email}}"/>
+          </view>
+        </view>
+
+        <navigator url="/pages/searchbar" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">本科院校*</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <view class="weui-cell weui-cell_switch">
+          <view class="weui-cell__bd">是否应届*</view>
+          <view class="weui-cell__ft">
+            <switch checked="{{prepareGraduate}}"></switch>
+          </view>
+        </view>
+
+      </view>
+
+      <checkbox-group @change="bindAgreeChange">
+        <label class="weui-agree" for="weuiAgree">
+          <view class="weui-agree__text">
+            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}"/>
+            <view class="weui-agree__checkbox-icon">
+              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9"
+                    wx:if="{{isAgree}}"></icon>
+            </view>
+            阅读并同意
+            <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+          </view>
+        </label>
+      </checkbox-group>
+
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  // import Toast from 'wepy-com-toast'
+  import toast from '../mixins/toast'
+  import Tabbar from '@/components/tabbar' // alias example
+  import { post } from '../utils/service'
+
+  export default class graduateRegister extends wepy.page {
+    config = {
+      navigationBarTitleText: '信息录入'
+    }
+    components = {
+      tabbar: Tabbar
+    }
+
+    mixins = [toast]
+
+    data = {
+      tipsFlag: false,
+      prepareGraduate: true,
+      userName: '',
+      email: '',
+      isAgree: false,
+      countries: ['中国', '美国', '英国'],
+      countryIndex: 0,
+      inputValue: ''
+    }
+
+    computed = {
+    }
+
+    methods = {
+      bindAgreeChange(e) {
+        this.isAgree = !!e.detail.value.length
+      },
+      bindCountryChange (e) {
+        this.countryIndex = e.detail.value
+      },
+      showTopTips() {
+        this.tipsFlag = true
+        setTimeout(() => {
+          this.tipsFlag = false
+          this.$apply()
+        }, 3000)
+      },
+      toast () {
+        let promise = this.$invoke('toast', 'show', {
+          title: '自定义标题',
+          img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+        })
+
+        promise.then((d) => {
+          console.log('toast done')
+        })
+      }
+    }
+
+    events = {}
+
+    onShow () {
+      let userId = this.$parent.globalData.userInfo.userId
+      let {email, userName, prepareGraduate} = this
+      post({
+        apiName: 'undergraduateRegister',
+        data: {
+          userId,
+          userName,
+          email,
+          isfreshGraduate: prepareGraduate, // 是否应届
+          undergraduateSchoolId: 1,
+          undergraduateMajorId: 1,
+          volunteerSchool: '123', // 志愿学校
+          volunteerMajor: '123' // 志愿专业
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(res => {
+        console.log(res)
+      })
+    }
+
+    onLoad (params) {
+      this.ShowToast('123123')
+    }
+  }
+</script>

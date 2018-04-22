@@ -1,0 +1,81 @@
+<style>
+  .container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;/*垂直居中*/
+    justify-content: center;/*水平居中*/
+  }
+  .content{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+  }
+  .enter-btn{
+    margin-bottom: 50rpx;
+    height: 94rpx;
+    width: 360rpx;
+    line-height: 94rpx;
+    font-size: 36rpx;
+    color: #999;
+  }
+</style>
+
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-article">
+        <view class="weui-article__h1">故事</view>
+        <view class="weui-article__section">
+          <view class="weui-article__section">
+            <view class="weui-article__p">
+              林恩丞和晨曦打在大学期间是很要好的朋友，他们一起上课，一起打球。大三那年准备考研的，他们选择了同一所院校，一起为梦想奋斗的日子在彼此的鼓励声中度过。12月的初试，预想之中的没有让人失望。而年后的复试，却由于复习方法和经验不足导致结果出人意料，两人最终都没有考上心仪的院校。手足情不亚于感情，分隔两地的他们，埋怨过对方也思念过对方，一直想着如果当时有平台能够解决他们的疑问，结果会不会不同。
+            </view>
+            <view class="weui-article__p">
+              李升志在国内一家著名考研机构做咨询师，一个偶然的机会，与同济大学研究生鲁凡相遇。他们谈及当初在考不考研这个问题上的选择， 那时候的苦闷，大概也只有经历过的人能懂了。他们现在的人生也是当初选择的结果，到底要不要考研，这个问题对于每个人都会有不同的答案。
+            </view>
+            <view class="weui-article__p">
+              2018年4月初，四人相遇在岳麓书院，猛然发现都是校友。谈及考研，大家不约而同地提出了现存的一个大问题，那就是考研咨询平台的缺乏。因为都经历过这方面的挣扎，对问题的看法也更有感触，都表示不希望后来人掉进坑里。
+            </view>
+            <view class="weui-article__p">
+              他们同时发现，目前存在的一些平台提供的知识不是缺乏专业性，就是仅凭一己之见不做深入解读；而那些好不容易联系到的目标大学的学长学姐也没有几个愿意花费时间来帮助考研者面临的疑问；甚至还有一提到考研就拉别人报班或者买资料……
+            </view>
+            <view class="weui-article__p">
+              再看国内市场，考研（硕士）人数已经实现连续五年增长，并且近三年增长了近80万，增长的人数已经超过了每年录取的人数60万，2018考研达到238万人，目前全国考研录取率只有百分之二十五。如果能有一个平台，为这些考研学子提供有力的帮助，那对于中国整个教育事业的发展也是一股不可小觑的力量。
+            </view>
+            <view class="weui-article__p">
+              于是创建一个实名制考研百科求助平台的想法不谋而合，经过一番讨论，四人决定一起创建一个名为“考研里手”的平台。考虑到专业性，平台采用实名制，各大学校研究生在线提供咨询。</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+</template>
+
+
+
+<script>
+  import wepy from 'wepy'
+  // import {get, post} from '../utils/service'
+
+  export default class Story extends wepy.page {
+    config = {
+      navigationBarTitleText: '故事'
+    }
+    components = {
+    }
+
+    mixins = []
+
+    data = {
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+    }
+  }
+</script>

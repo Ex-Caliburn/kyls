@@ -99,7 +99,7 @@
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class Index extends wepy.page {
+  export default class Question extends wepy.page {
     config = {
       navigationBarTitleText: 'test'
     }

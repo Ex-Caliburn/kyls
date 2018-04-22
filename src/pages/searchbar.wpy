@@ -62,6 +62,9 @@
   import wepy from 'wepy'
 
   export default class Searchbar extends wepy.page {
+    config = {
+      navigationBarTitleText: '信息录入'
+    }
     data = {
       inputShowed: false,
       inputVal: ''

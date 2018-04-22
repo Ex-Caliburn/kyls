@@ -1,4 +1,6 @@
 import wepy from 'wepy'
+// import { IS_POSTGRADUATE } from 'utils/constant'
+// import db from 'utils/db'
 
 export default class tabbar extends wepy.mixin {
   data = {
@@ -8,6 +10,12 @@ export default class tabbar extends wepy.mixin {
   onShow() {
     console.log('updateTabBar onShow')
     this.updateTabBar()
+  }
+
+  onLoad() {
+    console.log('updateTabBar onLoad')
+  }
+  methods = {
   }
 
   updateTabBar () {
@@ -26,5 +34,4 @@ export default class tabbar extends wepy.mixin {
     this.$parent.globalData.tabbar = tabbar
     this.$apply()
   }
-
 }
