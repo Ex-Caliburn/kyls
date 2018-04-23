@@ -55,7 +55,7 @@
 
   import { get, post } from './utils/service'
   import db from './utils/db'
-  import { TOKEN, USER_INFO } from './utils/constant'
+  import {TOKEN, USER_INFO, SYSTEM_INFO} from './utils/constant'
 
   const store = configStore()
   setStore(store)
@@ -84,18 +84,17 @@
         'pages/searchbar',
         'pages/answer',
         'pages/question',
+        'pages/searchList',
         // 研究生
         // 本科生
-        '/pages/chooseInterest',
-
+        'pages/chooseInterest',
         // 我的
         'pages/info',
-
         // 静态页面
         'pages/materials/protocol',
         'pages/materials/help',
         'pages/materials/story'
-         // 表单
+        // 表单
         // 'example/index',
         // 'example/button',
         // 'example/list',
@@ -257,6 +256,9 @@
     }
 
     onLaunch () {
+      // 存储系统信息
+      let systemInfo = wepy.getSystemInfoSync()
+      db.set(SYSTEM_INFO, systemInfo)
       this.getToken()
 
       // try {

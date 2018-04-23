@@ -16,7 +16,7 @@
   .enter-btn{
     margin-bottom: 50rpx;
     height: 94rpx;
-    width: 360rpx;
+    width: 500rpx;
     line-height: 94rpx;
     font-size: 36rpx;
     color: #999;
@@ -52,8 +52,6 @@
     mixins = []
 
     data = {
-      icon20: '',
-      icon60: ''
     }
 
     methods = {
@@ -62,7 +60,7 @@
           '/pages/graduateRegister',
           '/pages/undergraduateRegister',
           '/pages/materials/story',
-          '/pages/materials/help'
+          '/pages/searchList'
         ]
         wepy.navigateTo({
           url: route[index]

@@ -29,8 +29,8 @@ const api = {
   getScienceInfoByType: school + '/getScienceInfoByType',
   getPostgraduateSchool: school + '/getPostgraduateSchool',
   getPostgraduateMajor: school + '/getPostgraduateMajor',
-  getUndergraduateSchool: school + '/getUndergraduateSchool',
-  getUndergraduateMajor: school + '/getUndergraduateMajor'
+  getUndergraduateSchool: school + '/getUndergraduateSchool?u_school_name=中国',
+  getUndergraduateMajor: school + '/getUndergraduateMajor?u_major_name=中国'
 }
 
 export default api

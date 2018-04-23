@@ -29,12 +29,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "首页",
-					"pathName": "pages/index",
+					"name": "searchList",
+					"pathName": "pages/searchList",
 					"query": ""
 				},
 				{
