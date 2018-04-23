@@ -26,12 +26,13 @@
 <template>
   <ivew class="container">
     <ivew class="content" >
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" type="default">本科生入口</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" type="default">研究生入口</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" type="default">考研里手故事</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" type="default">使用帮助</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('0')"  disabled type="default">考研四大选择题与考研规划问题</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('1')"  disabled type="default">十三大类学科咨询</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('2')"  disabled type="default">院校及专业咨询</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"   type="default">公共科目及联考综合类</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">专业科目类</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">复试科目类问题咨询</button>
     </ivew>
-    <ivew>考研里手——实名制考研百科全书</ivew>
   </ivew>
 </template>
 
@@ -41,7 +42,7 @@
   import wepy from 'wepy'
   // import {get, post} from '../utils/service'
 
-  export default class Enter extends wepy.page {
+  export default class chooseInterest extends wepy.page {
     config = {
       navigationBarTitleText: '入口'
     }
@@ -51,12 +52,14 @@
     mixins = []
 
     data = {
+      icon20: '',
+      icon60: ''
     }
 
     methods = {
       jump (index) {
         const route = [
-          '/pages/chooseInterest',
+          '/pages/graduateRegister',
           '/pages/undergraduateRegister',
           '/pages/materials/story',
           '/pages/materials/help'

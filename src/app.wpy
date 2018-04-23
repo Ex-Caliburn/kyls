@@ -84,6 +84,10 @@
         'pages/searchbar',
         'pages/answer',
         'pages/question',
+        // 研究生
+        // 本科生
+        '/pages/chooseInterest',
+
         // 我的
         'pages/info',
 
