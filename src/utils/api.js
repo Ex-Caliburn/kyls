@@ -25,7 +25,10 @@ const api = {
   * */
   graduateRegister: '/user/postgraduateRegister',
   undergraduateRegister: '/user/undergraduateRegister',
-
+  /*
+  * 上传
+  * */
+  upload: '/upload/image',
   getScienceInfoByType: school + 'getScienceInfoByType',
   getPostgraduateSchool: school + 'getPostgraduateSchool',
   getPostgraduateMajor: school + 'getPostgraduateMajor',

@@ -263,6 +263,7 @@
         this.getChildCate()
       },
       choose (id) {
+        this.rootList[this.index].selected = true
         switch (Number(this.index)) {
           case 0:
             this.undergraduateSchoolId = id
@@ -271,14 +272,8 @@
             this.undergraduateMajorId = id
             break
           case 2:
-            wepy.navigate({
-              url: '/pages/index2'
-            })
             break
           case 3:
-            wepy.navigate({
-              url: '/pages/story'
-            })
             break
           default:
             break
