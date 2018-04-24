@@ -6,7 +6,7 @@
 // /school/getPostgraduateSchool?p_school_name=中国
 
     // 研究生专业
-// /school/getPostgraduateMajor?p_major_name=水
+// /school/getPostgraduateMajor?p_major_name=中国
 
       // 本科生学校
 // localhost:20018/school/getUndergraduateSchool?u_school_name=中国
@@ -14,7 +14,7 @@
 //   本科生专业
 // localhost:20018/school/getUndergraduateMajor?u_major_name=中国
 
-const school = 'school'
+const school = 'school/'
 const api = {
   /*
   * 登录相关
@@ -26,11 +26,11 @@ const api = {
   graduateRegister: '/user/postgraduateRegister',
   undergraduateRegister: '/user/undergraduateRegister',
 
-  getScienceInfoByType: school + '/getScienceInfoByType',
-  getPostgraduateSchool: school + '/getPostgraduateSchool',
-  getPostgraduateMajor: school + '/getPostgraduateMajor',
-  getUndergraduateSchool: school + '/getUndergraduateSchool?u_school_name=中国',
-  getUndergraduateMajor: school + '/getUndergraduateMajor?u_major_name=中国'
+  getScienceInfoByType: school + 'getScienceInfoByType',
+  getPostgraduateSchool: school + 'getPostgraduateSchool',
+  getPostgraduateMajor: school + 'getPostgraduateMajor',
+  getUndergraduateSchool: school + 'getUndergraduateSchool',
+  getUndergraduateMajor: school + 'getUndergraduateMajor'
 }
 
 export default api

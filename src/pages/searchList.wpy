@@ -21,7 +21,7 @@
     position: relative;
 
     .classify_catetory {
-      width: 200rpx;
+      width: 250rpx;
       position: relative;
       z-index: 1;
 
@@ -34,9 +34,12 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        border-left: 6rpx solid #F8F8F8;
+        box-sizing: border-box;
       }
 
       .active {
+        padding-left: 0;
         border-left: 6rpx solid #ff6a3c;
         background: #fff;
         color: #ff6a3c;
@@ -78,7 +81,7 @@
       .children_item {
         height: 40rpx;
         width: 100%;
-        text-align: center;
+        /*text-align: center;*/
       }
     }
   }
@@ -91,7 +94,7 @@
           <view class="weui-search-bar__box">
             <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
             <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}"
-                   focus="{{inputShowed}}" bindinput="inputTyping"/>
+                   focus="{{inputShowed}}" @input="inputTyping"/>
             <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
               <icon type="clear" size="14"></icon>
             </view>
@@ -101,27 +104,26 @@
             <view class="weui-search-bar__text">搜索</view>
           </label>
         </view>
-        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="inputSearch">搜索</view>
       </view>
 
       <!--content-->
       <view class="classify" style="height:{{windowHeight-topHeight}}px">
         <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true"
                      style="height:{{windowHeight-topHeight}}px">
-          <view class="name {{item.active? 'active':''}}" wx:for="{{rootcateList}}" wx:key="item" @tap="changeCate"
-                data-code="{{item.code}}">{{item.name}}
+          <view class="name {{item.active? 'active':''}}" wx:for="{{rootList}}" wx:key="item.id" @tap="changeCate"
+                data-id="{{item.id}}">{{item.name}}
           </view>
         </scroll-view>
         <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-topHeight}}px">
           <view class="children">
-            <view hover-class="none" class="children_item" wx:for="{{childcateList}}" wx:for-item="item"
-                       wx:key="index">
-              <view class="child_name">{{item.school_name}}</view>
+            <view class="children_item" wx:for="{{childList}}" wx:for-item="item" wx:key="item.id" @tap="choose({{item.id}})">
+              <view class="child_name" hidden="{{!item.school_name}}">{{item.school_name}}</view>
+              <view class="child_name" hidden="{{!item.major_name}}">{{item.major_name}}</view>
             </view>
           </view>
         </scroll-view>
       </view>
-
 
     </view>
   </view>
@@ -130,9 +132,8 @@
 <script>
   import wepy from 'wepy'
   import tip from 'utils/tip'
-  import {SYSTEM_INFO} from 'utils/constant'
+  import { SYSTEM_INFO } from 'utils/constant'
   import { get } from 'utils/service'
-
 
   export default class searchList extends wepy.page {
     config = {
@@ -142,51 +143,67 @@
     components = {}
 
     data = {
+      undergraduateSchoolId: 0,
+      undergraduateMajorId: 0,
+      volunteerSchool: '', // 志愿学校
+      volunteerMajor: '', // 志愿专业
       topHeight: 60,
       inputShowed: false,
       inputVal: '',
       scrollTop: 100,
       windowHeight: 0,
+      index: 0,
       list: {},
       // 一级分类数据
-      rootcateList: [
+      rootList: [
         {
-          code:	'0',
+          id: '0',
           name: '本科院校*',
-          active: true
+          active: true,
+          selected: false
         },
         {
-          code:	'1',
+          id: '1',
           name: '本科专业*',
-          active: false
+          active: false,
+          selected: false
         },
         {
-          code:	'2',
-          name: '意向院校',
-          active: false
+          id: '2',
+          name: '意向院校*',
+          active: false,
+          selected: false
         },
         {
-          code:	'3',
+          id: '3',
           name: '意向专业',
-          active: false
+          active: false,
+          selected: false
         }
       ],
       // 二级三级分类数据
-      childcateList: []
+      childList: []
     }
 
-    async getChildCate(code) {
-      const apiArr = ['getUndergraduateSchool', 'getUndergraduateMajor']
-      let apiName = apiArr[code]
+    async getChildCate(id) {
+      let i = id || this.index
+      console.log(id, this.index)
+      const apiArr = ['getUndergraduateSchool', 'getUndergraduateMajor', 'getPostgraduateSchool', 'getPostgraduateMajor']
+      const paramsArr = ['u_school_name', 'u_major_name', 'p_school_name', 'p_major_name']
+      let params = paramsArr[i]
+      let apiName = apiArr[i]
       get({
         apiName,
+        data: {
+          [params]: this.inputVal
+        }
       }).then(res => {
         console.log(res)
-        this.childcateList = res.data
+        this.childList = res.data
         this.$apply()
       }).catch(res => {
         console.log(res)
-        tip.error(json.data.msg)
+        tip.error(res.data)
       })
     }
     //
@@ -194,22 +211,22 @@
     //   const json = await api.rootCtegoryList({
     //     query: {}
     //   })
-    //   if (json.data.code == 0) {
-    //     this.rootcateList = json.data.list
-    //     if (this.rootcateList.length > 0) {
-    //       var selRottCateCode = this.rootcateList[0].code
-    //       if (selCode.length == 0) {
-    //         this.rootcateList[0].active = true
+    //   if (json.data.id == 0) {
+    //     this.rootList = json.data.list
+    //     if (this.rootList.length > 0) {
+    //       var selRottCateid = this.rootList[0].id
+    //       if (selid.length == 0) {
+    //         this.rootList[0].active = true
     //       } else {
-    //         for (var i = 0 ; i < this.rootcateList.length ; i++) {
-    //           if (selCode == this.rootcateList[i].code) {
-    //             selRottCateCode = this.rootcateList[i].code
-    //             this.rootcateList[i].active = true
+    //         for (var i = 0 ; i < this.rootList.length ; i++) {
+    //           if (selCode == this.rootList[i].id) {
+    //             selRottCateid = this.rootList[i].id
+    //             this.rootList[i].active = true
     //           }
     //         }
     //       }
     //
-    //       this.getChildCate(selRottCateCode)
+    //       this.getChildCate(selRottCateid)
     //     }
     //   } else {
     //     tip.error(json.data.msg)
@@ -218,13 +235,13 @@
     // }
 
     onLoad() {
-      let systemInfo = wx.getStorageSync(SYSTEM_INFO)
+      let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
       this.windowHeight = systemInfo.windowHeight
       this.$apply()
     }
 
     onShow() {
-      this.getChildCate(0)
+      this.getChildCate()
     }
 
     computed = {}
@@ -242,24 +259,52 @@
       inputTyping(e) {
         this.inputVal = e.detail.value
       },
+      inputSearch () {
+        this.getChildCate()
+      },
+      choose (id) {
+        switch (Number(this.index)) {
+          case 0:
+            this.undergraduateSchoolId = id
+            break
+          case 1:
+            this.undergraduateMajorId = id
+            break
+          case 2:
+            wepy.navigate({
+              url: '/pages/index2'
+            })
+            break
+          case 3:
+            wepy.navigate({
+              url: '/pages/story'
+            })
+            break
+          default:
+            break
+        }
+      },
       changeCate(e) {
         console.log('changecate....')
-        let code = e.currentTarget.dataset.code
-        this.getChildCate(code)
-        //设置一级分类的选中状态
-        for (var i = 0; i < this.rootcateList.length; i++) {
-          var rootCate = this.rootcateList[i]
-          rootCate.active = false
-          if (rootCate.code === code) {
-            rootCate.active = true
+        let id = e.currentTarget.dataset.id
+        // 设置一级分类的选中状态
+        for (var i = 0; i < this.rootList.length; i++) {
+          var root = this.rootList[i]
+          root.active = false
+          if (root.id === id) {
+            root.active = true
+            this.index = root.id
           }
         }
+        this.$apply()
+        this.getChildCate(id)
       },
       onShareAppMessage: function(res) {
         if (res.from === 'button') {
           // 来自页面内转发按钮
           console.log(res.target)
         }
+        console.log(this)
         return {
           title: this.detail.name,
           path: '/pages/classify',
