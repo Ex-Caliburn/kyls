@@ -26,6 +26,7 @@
       z-index: 1;
 
       .name {
+        position: relative;
         text-align: center;
         height: 100rpx;
         line-height: 100rpx;
@@ -36,6 +37,12 @@
         text-overflow: ellipsis;
         border-left: 6rpx solid #F8F8F8;
         box-sizing: border-box;
+
+        .icon-success{
+          position: absolute;
+          top: 5px;
+          right: 0px;
+        }
       }
 
       .active {
@@ -113,6 +120,7 @@
                      style="height:{{windowHeight-topHeight}}px">
           <view class="name {{item.active? 'active':''}}" wx:for="{{rootList}}" wx:key="item.id" @tap="changeCate"
                 data-id="{{item.id}}">{{item.name}}
+            <icon hidden="{{!item.selected}}" class="icon-success" type="success" size="12"></icon>
           </view>
         </scroll-view>
         <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-topHeight}}px">
