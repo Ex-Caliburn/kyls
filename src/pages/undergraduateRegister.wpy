@@ -1,85 +1,90 @@
 <style lang="less">
 </style>
 <template>
+  <!--真实姓名：-->
+  <!--邮箱*：-->
+  <!--是否应届*：-->
+  <!--本科院校*：           此项为选择项（用本科高校汇总）（加搜索）-->
+  <!--本科专业*：           此项为选择项（用本科专业汇总）（加搜索）-->
+  <!--意向院校：-->
+  <!--意向专业：-->
+  <!--我已阅读并同意考研里手相关协议-->
 
-  <view class="register">
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">用户名</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入邮箱" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">qq</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">qq</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">qq</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">qq</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">qq</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入qq" value="{{qq}}"/>
-        </view>
-      </view>
-      <view class="weui-cells__title">选择</view>
+  <view class="page">
+    <view class="weui-cells__title">请填写必要信息完成注册</view>
+
+    <view class="page__bd">
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">错误提示</view>
+
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_select">
-          <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">国家/地区</view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">真实姓名</view>
           </view>
           <view class="weui-cell__bd">
-            <picker @change="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-              <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
-            </picker>
+            <input class="weui-input" placeholder="请输入真实姓名" value="{{userName}}"/>
           </view>
         </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">邮箱*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入邮箱" value="{{email}}"/>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">志愿学校*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="志愿学校" value="{{volunteerSchool}}"/>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">志愿专业*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="志愿专业" value="{{volunteerMajor}}"/>
+          </view>
+        </view>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">院校信息*</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <view class="weui-cell weui-cell_switch">
+          <view class="weui-cell__bd">是否应届*</view>
+          <view class="weui-cell__ft">
+            <switch checked="{{prepareGraduate}}"></switch>
+          </view>
+        </view>
+
+      </view>
+
+      <checkbox-group @change="bindAgreeChange">
+        <label class="weui-agree" for="weuiAgree">
+          <view class="weui-agree__text">
+            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}"/>
+            <view class="weui-agree__checkbox-icon">
+              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9"
+                    wx:if="{{isAgree}}"></icon>
+            </view>
+            阅读并同意
+            <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+          </view>
+        </label>
+      </checkbox-group>
+
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
       </view>
     </view>
-
-    <view class="weui-cells__title">带跳转的列表项</view>
-    <view class="weui-cells weui-cells_after-title">
-      <navigator url="/pages/searchbar" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">cell standard</view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-      </navigator>
-      <navigator url="/pages/searchbar" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">cell standard</view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-      </navigator>
-    </view>
   </view>
-
 </template>
 
 <script>
@@ -87,7 +92,6 @@
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
-
   import { post } from '../utils/service'
 
   export default class undergraduateRegister extends wepy.page {
@@ -100,22 +104,35 @@
 
     mixins = [toast]
 
+    // https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc
     data = {
-      qq: '123123',
+      tipsFlag: false,
+      prepareGraduate: true,
+      userName: '',
+      email: '',
+      isAgree: false,
       countries: ['中国', '美国', '英国'],
       countryIndex: 0,
       inputValue: ''
     }
 
     computed = {
-      now () {
-        return +new Date()
-      }
     }
 
     methods = {
+      bindAgreeChange(e) {
+        this.isAgree = !!e.detail.value.length
+      },
       bindCountryChange (e) {
         this.countryIndex = e.detail.value
+      },
+      showTopTips() {
+        this.submit()
+        this.tipsFlag = true
+        setTimeout(() => {
+          this.tipsFlag = false
+          this.$apply()
+        }, 3000)
       },
       toast () {
         let promise = this.$invoke('toast', 'show', {
@@ -131,54 +148,29 @@
 
     events = {}
 
-    onShow () {
-      console.log(this.$parent)
+    submit () {
       let userId = this.$parent.globalData.userInfo.userId
+      let {email, userName, prepareGraduate} = this
       post({
-        apiName: 'graduateRegister',
+        apiName: 'undergraduateRegister',
         data: {
           userId,
-          userName: '123',
-          email: '123',
-          idNumber: '123',
+          userName,
+          email,
+          isfreshGraduate: prepareGraduate, // 是否应届
           undergraduateSchoolId: 1,
           undergraduateMajorId: 1,
-          postgraduateSchoolId: 1,
-          postgraduateMajorTypeId: 1, // 专业大类
-          postgraduateMajorId: 1,
-          postgraduateNumber: '1',
-          degreeNature: 1, //  学位性质 1学术型、2专业型
-          studyMode: 1, // 就读学习方式 1:全日制、2:非全日制
-          grade: 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
-          publicSubjectFirst: '1', // 初试公共科目
-          professionalSubjectFirst: '1', // 初试专业科目，逗号分割
-          answerWill: '1', //  回答意愿
-          educationPicture: '1' // 学历证明图片 这个时参数
+          volunteerSchool: '123', // 志愿学校
+          volunteerMajor: '123' // 志愿专业
         }
       }).then(res => {
         console.log(res)
       }).catch(res => {
         console.log(res)
       })
-
-      // post({
-      //   apiName: 'undergraduateRegister',
-      //   data: {
-      //     userId: 1,
-      //     userName: '123',
-      //     email: '123',
-      //     undergraduateSchoolId: 1,
-      //     undergraduateMajorId: 1,
-      //     isfreshGraduate: true, // 是否应届
-      //     volunteerSchool: '123', // 志愿学校
-      //     volunteerMajor: '123' // 志愿专业
-      //   }
-      // }).then(res => {
-      //   console.log(res)
-      // }).catch(res => {
-      //   console.log(res)
-      // })
     }
+
+    onShow () {}
 
     onLoad (params) {
       this.ShowToast('123123')

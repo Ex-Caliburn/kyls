@@ -137,6 +137,8 @@
 
     // FF7878 粉色
     globalData = {
+      undergraduateSchoolId: 0,
+      undergraduateMajorId: 0,
       userInfo: null,
       token: '',
       tabbar: {
@@ -290,6 +292,7 @@
     async _login () {
       let res = await wepy.login({ timeout: 30000 })
       this.globalData.code = res.code
+      console.log('code', res.code)
       // code用户登录凭证（有效期五分钟）
       let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
       console.log(wxUserInfo)

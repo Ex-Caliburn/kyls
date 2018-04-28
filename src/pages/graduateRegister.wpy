@@ -131,18 +131,18 @@
 
     onShow () {
       let userId = this.$parent.globalData.userInfo.userId
-      let {email, userName, prepareGraduate} = this
+      let {email, userName, prepareGraduate, undergraduateSchoolId, undergraduateMajorId, volunteerSchool, volunteerMajor} = this
       post({
         apiName: 'undergraduateRegister',
         data: {
           userId,
           userName,
           email,
-          isfreshGraduate: prepareGraduate, // 是否应届
-          undergraduateSchoolId: 1,
-          undergraduateMajorId: 1,
-          volunteerSchool: '123', // 志愿学校
-          volunteerMajor: '123' // 志愿专业
+          undergraduateSchoolId,
+          undergraduateMajorId,
+          volunteerSchool, // 志愿学校
+          volunteerMajor,  // 志愿专业
+          isfreshGraduate: prepareGraduate // 是否应届
         }
       }).then(res => {
         console.log(res)

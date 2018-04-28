@@ -26,6 +26,7 @@ function request(options, onComplete) {
         if (res.header[SESSION_ID]) {
           wepy.$instance.globalData.token = res.header[SESSION_ID]
           db.set(TOKEN, res.header[SESSION_ID])
+          console.log(res.header[SESSION_ID])
         }
         resolve(res.data)
       } else {
