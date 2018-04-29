@@ -1,32 +1,21 @@
 <style>
-  .container{
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;/*垂直居中*/
-    justify-content: center;/*水平居中*/
-  }
-  .content{
-    display:flex;
-    flex-direction:column;
-    justify-content: space-between;
-  }
-  .enter-btn{
-    margin-bottom: 50rpx;
-    height: 94rpx;
-    width: 360rpx;
-    line-height: 94rpx;
-    font-size: 36rpx;
-    color: #999;
-  }
 </style>
 
 <template>
-  <ivew>
-    <ivew>帮助</ivew>
-  </ivew>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">本科生使用帮助</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">研究生使用帮助</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+      </view>
+    </view>
+  </view>
 </template>
 
 

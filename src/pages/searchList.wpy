@@ -175,19 +175,19 @@
           name: '本科专业*',
           active: false,
           selected: false
-        },
-        {
-          id: '2',
-          name: '意向院校*',
-          active: false,
-          selected: false
-        },
-        {
-          id: '3',
-          name: '意向专业',
-          active: false,
-          selected: false
         }
+        // {
+        //   id: '2',
+        //   name: '意向院校*',
+        //   active: false,
+        //   selected: false
+        // },
+        // {
+        //   id: '3',
+        //   name: '意向专业',
+        //   active: false,
+        //   selected: false
+        // }
       ],
       // 二级三级分类数据
       childList: []

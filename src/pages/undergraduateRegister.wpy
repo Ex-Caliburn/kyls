@@ -14,7 +14,7 @@
     <view class="weui-cells__title">请填写必要信息完成注册</view>
 
     <view class="page__bd">
-      <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">错误提示</view>
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">{{errMsg}}</view>
 
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
@@ -64,6 +64,14 @@
           </view>
         </view>
 
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">推荐人邀请码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请推荐人邀请码" value="{{InvitationCode}}"/>
+          </view>
+        </view>
       </view>
 
       <checkbox-group @change="bindAgreeChange">
@@ -75,7 +83,7 @@
                     wx:if="{{isAgree}}"></icon>
             </view>
             阅读并同意
-            <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+            <navigator url="" class="weui-agree__link">《考研里手相关协议》</navigator>
           </view>
         </label>
       </checkbox-group>
@@ -110,31 +118,26 @@
       prepareGraduate: true,
       userName: '',
       email: '',
+      errMsg: '',
       isAgree: false,
       countries: ['中国', '美国', '英国'],
       countryIndex: 0,
       inputValue: ''
     }
 
-    computed = {
-    }
+    computed = {}
 
     methods = {
       bindAgreeChange(e) {
         this.isAgree = !!e.detail.value.length
       },
-      bindCountryChange (e) {
+      bindCountryChange(e) {
         this.countryIndex = e.detail.value
       },
       showTopTips() {
         this.submit()
-        this.tipsFlag = true
-        setTimeout(() => {
-          this.tipsFlag = false
-          this.$apply()
-        }, 3000)
       },
-      toast () {
+      toast() {
         let promise = this.$invoke('toast', 'show', {
           title: '自定义标题',
           img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
@@ -148,9 +151,31 @@
 
     events = {}
 
-    submit () {
+    check() {
+
+    }
+
+    submit() {
       let userId = this.$parent.globalData.userInfo.userId
-      let {email, userName, prepareGraduate} = this
+      let { email, userName, prepareGraduate, undergraduateSchoolId, undergraduateMajorId, isAgree } = this
+      if (email && userName && undergraduateSchoolId && undergraduateMajorId && isAgree) {
+        this.tipsFlag = true
+      } else {
+        // errMsg = '请输入志愿学校'
+        // errMsg = '请输入志愿专业'
+        this.tipsFlag = true
+        if (!userName) {
+          this.errMsg = '请输入正确名字'
+        } else if (!email) {
+          this.errMsg = '请输入正确的邮箱'
+        } else if (!undergraduateSchoolId) {
+          this.errMsg = '请选择毕业院校'
+        } else if (!undergraduateMajorId) {
+          this.errMsg = '请选择毕业专业'
+        } else {
+          this.errMsg = '请阅读并同意协议'
+        }
+      }
       post({
         apiName: 'undergraduateRegister',
         data: {
@@ -168,11 +193,43 @@
       }).catch(res => {
         console.log(res)
       })
+      // post({
+      //   apiName: 'graduateRegister',
+      //   data: {
+      //     userId,
+      //     userName: '123',
+      //     email: '123',
+      //     idNumber: '123',
+      //     undergraduateSchoolId: 1,
+      //     undergraduateMajorId: 1,
+      //     postgraduateSchoolId: 1,
+      //     postgraduateMajorTypeId: 1, // 专业大类
+      //     postgraduateMajorId: 1,
+      //     postgraduateNumber: '1',
+      //     degreeNature: 1, //  学位性质 1学术型、2专业型
+      //     studyMode: 1, // 就读学习方式 1:全日制、2:非全日制
+      //     grade: 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
+      //     publicSubjectFirst: '1', // 初试公共科目
+      //     professionalSubjectFirst: '1', // 初试专业科目，逗号分割
+      //     answerWill: '1', //  回答意愿
+      //     educationPicture: '1' // 学历证明图片 这个时参数
+      //   }
+      // }).then(res => {
+      //   console.log(res)
+      // }).catch(res => {
+      //   console.log(res)
+      // })
     }
 
-    onShow () {}
+    onShow(params) {
+      this.undergraduateSchoolId = wepy.$instance.globalData.undergraduateSchoolId
+      this.undergraduateMajorId = wepy.$instance.globalData.undergraduateMajorId
+      wepy.$instance.globalData.undergraduateSchoolId = ''
+      wepy.$instance.globalData.undergraduateMajorId = ''
+      console.log(params)
+    }
 
-    onLoad (params) {
+    onLoad(params) {
       this.ShowToast('123123')
     }
   }

@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
@@ -38,15 +38,9 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "首页",
-					"pathName": "pages/test",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "undergraduateRegister",
-					"pathName": "pages/undergraduateRegister",
+					"id": 2,
+					"name": "graduateRegister",
+					"pathName": "pages/graduateRegister",
 					"query": ""
 				}
 			]
