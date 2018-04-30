@@ -53,9 +53,9 @@
   import { connect, setStore } from 'wepy-redux'
   import configStore from './store'
 
-  import { get, post } from './utils/service'
+  import { get, login } from './utils/service'
   import db from './utils/db'
-  import {TOKEN, USER_INFO, SYSTEM_INFO} from './utils/constant'
+  import { SYSTEM_INFO, TOKEN } from './utils/constant'
 
   const store = configStore()
   setStore(store)
@@ -79,14 +79,19 @@
         'pages/index',
         'pages/home',
         'pages/test',
-        'pages/graduateRegister',
-        'pages/undergraduateRegister',
         'pages/searchbar',
         'pages/answer',
         'pages/question',
         'pages/searchList',
+        'pages/serviceList',
+        'pages/questionFrom',
         // 研究生
+        'pages/graduateRegister',
+        'pages/graduateList',
+        'pages/probation',
+        'pages/graduateDetail',
         // 本科生
+        'pages/undergraduateRegister',
         'pages/chooseInterest',
         // 我的
         'pages/info',
@@ -94,43 +99,13 @@
         'pages/materials/protocol',
         'pages/materials/help',
         'pages/materials/story'
-        // 表单
-        // 'example/index',
-        // 'example/button',
-        // 'example/list',
-        // 'example/input',
-        // 'example/slider',
-        // 'example/uploader',
-        // // 表单
-        // 'example/article',
-        // 'example/badge',
-        // 'example/flex',
-        // 'example/footer',
-        // 'example/gallery',
-        // 'example/grid',
-        // 'example/icons',
-        // 'example/loadmore',
-        // 'example/panel',
-        // 'example/preview',
-        // 'example/progress',
-        // // 表单
-        // 'example/actionsheet',
-        // 'example/dialog',
-        // 'example/msg',
-        // 'example/msg_fail',
-        // 'example/msg_success',
-        // 'example/picker',
-        // 'example/toast',
-        // // 表单
-        // 'example/navbar',
-        // 'example/tabbar',
-        // // 表单
-        // 'example/searchbar'
       ],
       window: {
         navigationBarBackgroundColor: '#ffffff',
         navigationBarTextStyle: 'black',
         navigationBarTitleText: 'kyls',
+        enablePullDownRefresh: true,
+        enableOnReachBottom: true,
         backgroundColor: '#dddddd'
       }
     }
@@ -151,35 +126,35 @@
         list: [
           {
             pagePath: '/pages/index',
-            // text: '首页',
+            text: '里手',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',
             selected: true
           },
           {
             pagePath: '/pages/answer',
-            // text: '答',
+            text: '悬赏速答',
             iconPath: '/icon/answer.png',
             selectedIconPath: '/icon/answer@select.png',
             selected: false
           },
           {
             pagePath: '/pages/question',
-            // text: '问',
+            text: '悬赏速问',
             iconPath: '/icon/question.png',
             selectedIconPath: '/icon/question@select.png',
             selected: false
           },
           {
             pagePath: '/pages/info',
-            // text: '消息',
+            text: '消息',
             iconPath: '/icon/message.png',
             selectedIconPath: '/icon/message@select.png',
             selected: false
           },
           {
             pagePath: '/pages/info',
-            // text: '我的',
+            text: '我的',
             iconPath: '/icon/user.png',
             selectedIconPath: '/icon/user@select.png',
             selected: false
@@ -262,21 +237,7 @@
       let systemInfo = wepy.getSystemInfoSync()
       db.set(SYSTEM_INFO, systemInfo)
       this.getToken()
-
-      // try {
-      //   wepy.getSetting()
-      //     .then(res => {
-      //       if (!res.authSetting['scope.userInfo']) {
-      //         wepy.authorize({ scope: 'scope.userInfo' })
-      //       }
-      //     }, err => {
-      //       console.log(2, err)
-      //     }).catch(err => {
-      //       console.log(3, err)
-      //     })
-      // } catch (err) {
-      //   console.log(4, err)
-      // }
+      this._getScienceInfoByType()
     }
 
     async _getScienceInfoByType () {
@@ -289,53 +250,27 @@
       console.log(getScienceInfoByType)
     }
 
-    async _login () {
-      let res = await wepy.login({ timeout: 30000 })
-      this.globalData.code = res.code
-      console.log('code', res.code)
-      // code用户登录凭证（有效期五分钟）
-      let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
-      console.log(wxUserInfo)
-      db.set(USER_INFO, wxUserInfo.userInfo)
-      this.globalData.userInfo = wxUserInfo.userInfo
-      let thirdReturn = await post({
-        apiName: 'login',
-        data: {
-          code: res.code,
-          iv: wxUserInfo.iv,
-          encryptedData: wxUserInfo.encryptedData,
-          decrypt_type: 'user'
-        }
-      })
-      // console.log(thirdReturn.data)
-      this.globalData.userInfo = thirdReturn.data
-      this._getScienceInfoByType()
-    }
-
     async _getUserInfo () {
-      this._getScienceInfoByType()
     }
 
     // 微信登录
     async getToken () {
       let token = db.get(TOKEN)
       if (!token) {
-        console.log(1)
-        this._login()
+        login()
       } else {
         wepy.checkSession()
           .then(res => {
             this.globalData.token = token
-            this._getUserInfo()
           }, err => {
             console.log('checkSession err', err)
             console.log(2)
-            this._login()
+            login()
           })
           .catch(err => {
             console.log('checkSession err', err)
             console.log(3)
-            this._login()
+            login()
           })
       }
     }

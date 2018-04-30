@@ -53,8 +53,25 @@
     data = {
     }
 
+    authorize () {
+      wepy.getSetting()
+        .then(res => {
+          console.log(res)
+          if (!res.authSetting['scope.userInfo']) {
+            wepy.authorize({scope: 'scope.userInfo'})
+          }
+        }, err => {
+          wepy.openSetting()
+          console.log(2, err)
+        }).catch(err => {
+          wepy.openSetting()
+          console.log(3, err)
+        })
+    }
+
     methods = {
       jump (index) {
+        this.authorize()
         const route = [
           '/pages/chooseInterest',
           '/pages/undergraduateRegister',

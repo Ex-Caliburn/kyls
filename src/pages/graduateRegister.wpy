@@ -28,7 +28,7 @@
             <view class="weui-label">身份证号*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入身份证号" value="{{idNumber}}"/>
+            <input class="weui-input" type="idcard" placeholder="请输入身份证号" value="{{idNumber}}"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -55,7 +55,7 @@
             <view class="weui-label">硕士阶段学号*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入硕士阶段学号(准研究生填0)" value="{{postgraduateNumber}}"/>
+            <input class="weui-input"  type="number" placeholder="请输入硕士阶段学号(准研究生填0)" value="{{postgraduateNumber}}"/>
           </view>
         </view>
 

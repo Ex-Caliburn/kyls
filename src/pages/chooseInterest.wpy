@@ -29,11 +29,11 @@
       <button class="weui-btn mini-btn enter-btn" @tap="jump('0')"  disabled type="default">考研四大选择题与考研规划问题</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('1')"  disabled type="default">十三大类学科咨询</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('2')"  disabled type="default">院校及专业咨询</button>
-      <picker class="weui-btn mini-btn enter-btn" @change="bindMajorChange" value="{{majorIndex}}" range="{{majorTypes}}">
+      <picker class="weui-btn mini-btn enter-btn" @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}">
         <button class="weui-btn mini-btn enter-btn"  type="default">公共科目及联考综合类</button>
       </picker>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">专业科目类</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">复试科目类问题咨询</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled type="default">复试科目类问题咨询</button>
     </ivew>
   </ivew>
 </template>
@@ -54,9 +54,21 @@
     mixins = []
 
     data = {
+      publicTypes: ['政治', '英语一', '英语二', '数学一', '数学二', '数学三', '管理类联考', '西医综合', '公共日语'],
+      publicIndex: ''
     }
 
     methods = {
+      bindPublicChange(e) {
+        this.publicIndex = e.detail.value
+        wepy.navigateTo({
+          url: '/pages/graduateList'
+        }).then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       jump (index) {
         const route = [
           '/pages/graduateRegister',

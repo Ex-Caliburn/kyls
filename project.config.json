@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 6,
 			"list": [
 				{
 					"id": 0,
@@ -46,7 +46,32 @@
 				{
 					"id": -1,
 					"name": "chooseInterest",
-					"pathName": "pages/chooseInterest"
+					"pathName": "pages/chooseInterest",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "graduateList",
+					"pathName": "pages/graduateList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "probation",
+					"pathName": "pages/probation",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "serviceList",
+					"pathName": "pages/serviceList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "questionFrom",
+					"pathName": "pages/questionFrom",
+					"query": ""
 				}
 			]
 		}

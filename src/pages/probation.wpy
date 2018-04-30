@@ -1,0 +1,103 @@
+<style>
+  .container{
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+  }
+  .content{
+    height: 500rpx;
+  }
+  .operation{
+    position: absolute;
+    bottom: 100rpx;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+</style>
+
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-article">
+        <view class="weui-article__section">
+          <view class="weui-article__section" hidden="{{!showGuide}}">
+            <view class="weui-article__h3 bold" >研究生个人介绍及考研指导意见</view>
+            <view class="weui-article__p">
+              回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
+            </view>
+          </view>
+          <view class="weui-article__section" hidden="{{!showAnswer}}">
+            <view class="weui-article__h3 bold" >TA猜你想问</view>
+            <view class="weui-article__p">
+              回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="operation">
+    <button @tap="showGuide" class="weui-btn fz30" type="primary" >研究生个人介绍及考研指导意见(免费阅读)</button>
+    <button @tap="showAnswer" class="weui-btn type_yellow fz30" >TA猜你想问(免费阅读，每人初始只有一次机会)</button>
+    <button @tap="goService" class="weui-btn mini-btn" type="primary fz26" size="mini">阅读完成</button>
+  </view>
+  <tabbar :tabbar.sync='tabbar'></tabbar>
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+  import Tabbar from '@/components/tabbar' // alias example
+  import Toast from 'wepy-com-toast'
+  // import toast from '../mixins/toast'
+  import tabbar from '../mixins/tabbar'
+  // import {get, post} from '../utils/service'
+  // import db from 'utils/db'
+  // import { IS_POSTGRADUATE } from 'utils/constant'
+
+  export default class probation extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    components = {
+      tabbar: Tabbar,
+      toast: Toast
+    }
+
+    mixins = [tabbar]
+
+    data = {
+      showGuide: false,
+      showAnswer: false,
+      id: '',
+      icon20: '',
+      icon60: '',
+      dataList: []
+    }
+
+    methods = {
+      goService () {
+        wepy.navigateTo({
+          url: '/pages/serviceList?id=' + this.id
+        }).then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      showGuide () {
+        this.showGuide = !this.showGuide
+      },
+      showAnswer () {
+        this.showAnswer = !this.showAnswer
+      }
+    }
+
+    onLoad (params) {
+      console.log(params.id)
+      this.id = params.id
+      this.$apply()
+    }
+  }
+</script>

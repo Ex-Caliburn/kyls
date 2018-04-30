@@ -28,9 +28,9 @@ const videoPosterMap = {
 }
 
 // 图片资源主机
-const hybridPicturePrefix = {
-  dev: 'https://jdk3t-qiye.oss-cn-shanghai.aliyuncs.com/backend_pic/dst/poster/',
-  production: 'https://cdn-qiye.jingdaka.com/backend_pic/dst/poster/'
+const picturePrefix = {
+  dev: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com',
+  production: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com'
 }
 
 // 音频资源主机
@@ -59,10 +59,9 @@ module.exports = {
   env,
   version,
   HOST: hostMap[env],
+  picturePrefix: picturePrefix[env],
   // 视频封面
   videoPosterBase: videoPosterMap[env],
-  // 图片
-  hybridPicturePrefix: hybridPicturePrefix[env],
   // 音频
   hybridVoicePrefix: hybridVoicePrefix[env],
   // 音频

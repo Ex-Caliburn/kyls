@@ -2,7 +2,26 @@ import wepy from 'wepy'
 import config from './config'
 import api from './api'
 import db from './db'
-import {TOKEN, SESSION_ID} from './constant'
+import { SESSION_ID, TOKEN, USER_INFO } from './constant'
+
+async function login () {
+  let res = await wepy.login({ timeout: 30000 })
+  console.log('code', res.code)
+  // code用户登录凭证（有效期五分钟）
+  let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
+  console.log(wxUserInfo)
+  db.set(USER_INFO, wxUserInfo.userInfo)
+  let thirdReturn = await post({
+    apiName: 'login',
+    data: {
+      code: res.code,
+      iv: wxUserInfo.iv,
+      encryptedData: wxUserInfo.encryptedData,
+      decrypt_type: 'user'
+    }
+  })
+  wepy.$instance.globalData.userInfo = thirdReturn.data
+}
 
 function request(options, onComplete) {
   console.log(wepy.$instance && wepy.$instance.globalData)
@@ -29,6 +48,8 @@ function request(options, onComplete) {
           console.log(res.header[SESSION_ID])
         }
         resolve(res.data)
+      } else if (res.data.code === 101) {
+        login()
       } else {
         wepy.showToast({
           title: res.statusCode + ':  ' + res.data.data,
@@ -52,6 +73,7 @@ function post (options, onComplete) {
 }
 
 export {
+  login,
   post,
   request as get
 }
