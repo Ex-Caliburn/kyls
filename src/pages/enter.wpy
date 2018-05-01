@@ -1,19 +1,21 @@
 <style>
-  .container{
+  .container {
     position: fixed;
     height: 100%;
     width: 100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;/*垂直居中*/
-    justify-content: center;/*水平居中*/
+    display: flex;
+    flex-direction: column;
+    align-items: center; /*垂直居中*/
+    justify-content: center; /*水平居中*/
   }
-  .content{
-    display:flex;
-    flex-direction:column;
+
+  .content {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
   }
-  .enter-btn{
+
+  .enter-btn {
     margin-bottom: 50rpx;
     height: 94rpx;
     width: 360rpx;
@@ -21,21 +23,23 @@
     font-size: 36rpx;
     color: #999;
   }
+  .des{
+    position: absolute;
+    bottom: 100rpx;
+  }
 </style>
 
 <template>
   <ivew class="container">
-    <ivew class="content" >
+    <ivew class="content">
       <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" type="default">本科生入口</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" type="default">研究生入口</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" type="default">考研里手故事</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" type="default">使用帮助</button>
     </ivew>
-    <ivew>考研里手——实名制考研百科全书</ivew>
+    <ivew class="des">考研里手——实名制考研百科全书</ivew>
   </ivew>
 </template>
-
-
 
 <script>
   import wepy from 'wepy'
@@ -45,8 +49,7 @@
     config = {
       navigationBarTitleText: '入口'
     }
-    components = {
-    }
+    components = {}
 
     mixins = []
 

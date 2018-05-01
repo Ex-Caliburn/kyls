@@ -16,6 +16,7 @@
 //   /upload/image post  file
 
 const school = 'school/'
+const user = 'user/'
 const api = {
   /*
   * 登录相关
@@ -24,12 +25,24 @@ const api = {
   /*
   * 信息录入
   * */
-  graduateRegister: '/user/postgraduateRegister',
-  undergraduateRegister: '/user/undergraduateRegister',
+  graduateRegister: user + 'postgraduateRegister',
+  undergraduateRegister: user + 'undergraduateRegister',
+  /*
+  * 研究生列表信息 根据询问问题类型
+  * */
+  getPostgraduateInfo: user + 'getPostgraduateInfo',
   /*
   * 上传
   * */
   upload: '/upload/image',
+  sendMessage: user + 'sendMessage',
+  /*
+  * 问答
+  * */
+  questionSubmit: 'question/submit',
+  /*
+  * 学校相关数据
+  * */
   getScienceInfoByType: school + 'getScienceInfoByType',
   getPostgraduateSchool: school + 'getPostgraduateSchool',
   getPostgraduateMajor: school + 'getPostgraduateMajor',

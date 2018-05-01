@@ -4,17 +4,17 @@
 <template>
   <view class="weui-panel">
     <view class="weui-panel__bd">
-      <repeat for="{{dataList}}" key="index" index="index" item="item">
-        <navigator  url="/pages/probation?id={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+      <repeat for="{{dataList}}" key="item.id" index="index" item="item">
+        <navigator  url="/pages/probation?id={{item.userId}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image class="weui-media-box__thumb" src="{{item.avatar}}"/>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-            <view class="weui-media-box__title">{{item.rank + ' ' + item.nickname }}</view>
-            <view class="weui-media-box__desc">{{item.school + ',' + item.major + ',' + item.grade}}</view>
+            <view class="weui-media-box__title">{{(index + 1) + ' ' + item.nickname }}</view>
+            <view class="weui-media-box__desc">{{item.schoolName + ',' + item.majorName + ',' + item.grade}}</view>
             <view class="weui-media-box__desc">所需研贝: {{item.cost}}</view>
-            <view class="weui-media-box__desc">信誉分: {{item.credit}}</view>
-            <view class="weui-media-box__desc">平均回复时间: {{item.replyTime}}</view>
+            <view class="weui-media-box__desc">信誉分: {{item.creditScore}}</view>
+            <view class="weui-media-box__desc">平均回复时间: {{item.avgAnswerTime}}</view>
           </view>
         </navigator>
       </repeat>
@@ -30,13 +30,22 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
-  // import {get, post} from '../utils/service'
+  // import {post} from '../utils/service'
+  // import {formatDuration} from 'utils/common'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class graduateList extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '研究生列表',
+      window: {
+        navigationBarBackgroundColor: '#ffffff',
+        navigationBarTextStyle: 'black',
+        navigationBarTitleText: 'kyls',
+        // enablePullDownRefresh: true,
+        enableOnReachBottom: true,
+        backgroundColor: '#dddddd'
+      }
     }
     components = {
       tabbar: Tabbar,
@@ -46,10 +55,10 @@
     mixins = [tabbar]
 
     data = {
-      icon20: '',
-      icon60: '',
       index: 0,
-      dataList: []
+      dataList: [],
+      pageSize: 10,
+      pageNum: 1
     }
 
     fetchDate () {
@@ -60,9 +69,8 @@
       for (let i = 0; i < 10; i++) {
         let obj = {
           rank: i,
-          id: 'i' + 123123,
           nickname: '李先生' + i,
-          avatar: this.icon60,
+          avatar: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
           school: '哈尔冰理工大学',
           major: '艺设计和景区规划',
           grade: '一年级',
@@ -73,17 +81,37 @@
         this.dataList.push(obj)
         this.$apply()
       }
+      // let {scienceId, pageSize, pageNum} = this
+      // post({
+      //   apiName: 'getPostgraduateInfo',
+      //   data: {scienceId, pageSize, pageNum}
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     this.dataList.push(res.data)
+      //     res.data.forEach((item) => {
+      //       item.avgAnswerTime = formatDuration(item.avgAnswerTime).minutes + 'm'
+      //     })
+      //
+      //     this.$apply()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
     }
 
-    onLoad () {
-      let base64 = require('../images/base64')
+    onShow () {
+    }
 
-      this.icon20 = base64.icon20
-      this.icon60 = base64.icon60
+    onLoad (params) {
+      console.log(params.id)
+      this.scienceId = params.id || 1
+      this.$apply()
       this.fetchDate()
     }
 
     onReachBottom () {
+      this.pageNum += 10
+      this.$apply()
       this.fetchDate()
     }
   }

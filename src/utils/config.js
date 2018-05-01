@@ -29,8 +29,8 @@ const videoPosterMap = {
 
 // 图片资源主机
 const picturePrefix = {
-  dev: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com',
-  production: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com'
+  dev: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/',
+  production: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/'
 }
 
 // 音频资源主机

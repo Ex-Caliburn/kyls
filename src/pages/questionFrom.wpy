@@ -1,6 +1,7 @@
 <style>
   page{
-    background-color: #FFFFFF;
+    /* 底部tabbar*/
+    margin-bottom: 150rpx;
   }
   .content-box{
     padding: 10px 15px;
@@ -10,6 +11,14 @@
   }
   .type_yellow{
     width: 200rpx;
+  }
+  .icon-cancel{
+    position: absolute;
+    top: -2rpx;
+    right: -5rpx;
+  }
+  .weui-uploader__file{
+    position: relative;
   }
 </style>
 
@@ -33,8 +42,9 @@
               </view>
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
-                  <block wx:for="{{files}}" wx:key="*this">
+                  <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
                     <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
                       <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
                     </view>
                   </block>
@@ -66,8 +76,10 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import {post} from 'utils/service'
-  import {HOST, picturePrefix} from 'utils/config'
+  import navigate from 'mixins/navigate'
+  import { post } from 'utils/service'
+  import { HOST, picturePrefix } from 'utils/config'
+  // import { diff } from 'utils/common'
   import db from 'utils/db'
   import { TOKEN } from 'utils/constant'
 
@@ -80,7 +92,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
       content: '',
@@ -88,6 +100,8 @@
       userId: '',
       answerUserId: '',
       questionType: 1,
+      imgCount: 8,
+      successFlag: false,
       files: [], // pic
       filesTask: [], // pic
       failTask: []
@@ -102,38 +116,41 @@
     methods = {
       async submitQuestion () {
         let {userId, answerUserId, content, pictures} = this
-        let res = await post({
-          apiName: 'login',
+        userId = 1
+        answerUserId = 1
+        post({
+          apiName: 'questionSubmit',
           data: {
             userId,
             answerUserId,
             content,
-            pictures,
-            questionType: 1
-          }
-        })
-        console.log(res)
-        // int userId;
-        // int answerUserId;
-        // String content;
-        // String pictures;
-        // int questionType; //1.聊天类型，2：电话，3面聊
+            pictures: pictures.join(','),
+            questionType: 1 // 1.聊天类型，2：电话，3面聊
+          }})
+          .then((res) => {
+            console.log(res)
+            this.navigate('/pages/my/info')
+          }).catch(err => {
+            console.log(err)
+          })
+      },
+      deleteImage (i) {
+        console.log(i)
+        this.files.splice(i, 1)
+        this.$apply()
       },
       questionInput (e) {
         this.content = e.detail.value
       },
       async chooseImage(e) {
         let res = await wepy.chooseImage({
+          count: this.imgCount - this.files.length,
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
         })
         if (res.tempFilePaths) {
-          this.filesTask = this.filesTask.concat(res.tempFilePaths)
-          console.log(this.filesTask)
-          this.$apply()
-          for (let i = 0; i < res.tempFilePaths.length; i++) {
-            this.uploadPics(res.tempFilePaths[i])
-          }
+          console.log(res)
+          this.dealImage(res.tempFilePaths)
         }
       },
       previewImage(e) {
@@ -143,29 +160,65 @@
         })
       }
     }
-    async uploadPics (data) {
-      let res = await wepy.uploadFile({
-        url: HOST + 'upload/image',
-        filePath: data,
-        header: {
-          'session-id': db.get(TOKEN) || ''
-        },
-        name: 'file',
-        formData: {
-          file: data
-        }
-      })
-      let resData = res.data && JSON.parse(res.data)
-      if (res.statusCode === 200 && resData.code === 0) {
-        this.files.push(picturePrefix + resData.data)
-      } else {
-        this.failTask.push(resData.data)
-      }
+    dealImage (images) {
+      // let task = diff(images, this.filesTask)
+      var that = this
+      let filesTask = this.filesTask.concat(images)
+      this.filesTask = filesTask
+      console.log(this.filesTask)
       this.$apply()
+      function success (imgUrl) {
+        for (var i = 0; i < that.filesTask.length; i++) {
+          if (that.filesTask[i] === imgUrl) {
+            that.filesTask.slice(i)
+          }
+        }
+        that.files.push(picturePrefix + imgUrl)
+        that.$apply()
+      }
+      function fail (imgUrl) {
+        that.failTask.push(imgUrl)
+        console.log(this.failTask)
+        that.$apply()
+      }
+      for (let i = 0; i < images.length; i++) {
+        this.uploadPics(images[i], success, fail)
+      }
     }
 
-    onLoad () {
-      console.log(this)
+    async uploadPics (data, success, fail) {
+      try {
+        let res = await wepy.uploadFile({
+          url: HOST + 'upload/image',
+          filePath: data,
+          header: {
+            'session-id': db.get(TOKEN) || ''
+          },
+          name: 'file',
+          formData: {
+            file: data
+          }
+        })
+        try {
+          let resData = res.data && JSON.parse(res.data)
+          if (res.statusCode === 200 && resData.code === 0) {
+            success && success(resData.data)
+          } else {
+            fail && fail(resData.data)
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    onLoad (params) {
+      this.answerUserId = params.answerUserId
+      this.userId = params.answerUserId
+      console.log(params.answerUserId)
+      this.$apply()
     }
   }
 </script>

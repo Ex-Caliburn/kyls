@@ -14,13 +14,13 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class zzz extends wepy.page {
+  export default class helpMe extends wepy.page {
     config = {
       navigationBarTitleText: 'test'
     }
@@ -44,12 +44,11 @@
       goService () {
         wepy.navigateTo({
           url: '/pages/serviceList?id=' + this.id
+        }).then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
         })
-          .then((res) => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
       },
       showGuide () {
         this.showGuide = !this.showGuide

@@ -21,20 +21,46 @@
     font-size: 36rpx;
     color: #999;
   }
+  .swiper_container {
+    height: 55rpx;
+    width: 750rpx;
+    position: absolute;
+    top: 20rpx;
+  }
+
+  .swiper_item {
+    font-size: 25rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 2px;
+    color: #ea4a3a ;
+    text-align: center;
+  }
 </style>
 
 <template>
   <ivew class="container">
+    <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
+      <block wx:for="{{msgList}}" wx:key="index">
+        <swiper-item>
+          <view class="swiper_item">{{item.title}}</view>
+        </swiper-item>
+      </block>
+    </swiper>
     <ivew class="content" >
       <button class="weui-btn mini-btn enter-btn" @tap="jump('0')"  disabled type="default">考研四大选择题与考研规划问题</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('1')"  disabled type="default">十三大类学科咨询</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('2')"  disabled type="default">院校及专业咨询</button>
-      <picker class="weui-btn mini-btn enter-btn" @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}">
+      <picker class="weui-btn mini-btn enter-btn" @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
         <button class="weui-btn mini-btn enter-btn"  type="default">公共科目及联考综合类</button>
       </picker>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">专业科目类</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled type="default">复试科目类问题咨询</button>
     </ivew>
+    <view class="fz24">
+      温馨信息：具体答复内容可在“我－我的提问”中查看。
+    </view>
   </ivew>
 </template>
 
@@ -42,7 +68,7 @@
 
 <script>
   import wepy from 'wepy'
-  // import {get, post} from '../utils/service'
+  import {get} from '../utils/service'
 
   export default class chooseInterest extends wepy.page {
     config = {
@@ -52,17 +78,21 @@
     }
 
     mixins = []
-
     data = {
-      publicTypes: ['政治', '英语一', '英语二', '数学一', '数学二', '数学三', '管理类联考', '西医综合', '公共日语'],
+      msgList: [
+        {url: 'url', title: '公告：多地首套房贷利率上浮 热点城市渐迎零折扣时代'},
+        {url: 'url', title: '公告：悦如公寓三周年生日趴邀你免费吃喝欢唱'},
+        {url: 'url', title: '公告：你想和一群有志青年一起过生日嘛？'}],
+      publicTypes: [],
       publicIndex: ''
     }
 
     methods = {
       bindPublicChange(e) {
-        this.publicIndex = e.detail.value
+        console.log(e.detail.value)
+        let id = this.publicTypes[e.detail.value].id
         wepy.navigateTo({
-          url: '/pages/graduateList'
+          url: '/pages/graduateList?id=' + id
         }).then((res) => {
           console.log(res)
         }).catch(err => {
@@ -83,38 +113,25 @@
         }).catch(err => {
           console.log(err)
         })
-        // switch (Number(index)) {
-        //   case 1:
-        //     wepy.navigate({
-        //       url: '/pages/index'
-        //     }).then((d) => {
-        //       console.log(d)
-        //     }).catch(err => {
-        //       console.log(err)
-        //     })
-        //     break
-        //   case 2:
-        //     wepy.navigate({
-        //       url: '/pages/index2'
-        //     })
-        //     break
-        //   case 3:
-        //     wepy.navigate({
-        //       url: '/pages/story'
-        //     })
-        //     break
-        //   case 4:
-        //     wepy.navigate({
-        //       url: '/pages/help'
-        //     })
-        //     break
-        //   default:
-        //     break
-        // }
       }
     }
 
+    async getScienceInfoByType () {
+      let res = await get({
+        apiName: 'getScienceInfoByType',
+        data: {
+          science_type: 1
+        }
+      })
+      if (res.data) {
+        this.publicTypes = res.data
+        this.$apply()
+      }
+      console.log(res.data)
+    }
+
     onLoad () {
+      this.getScienceInfoByType()
     }
   }
 </script>
