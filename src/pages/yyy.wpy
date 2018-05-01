@@ -10,9 +10,9 @@
     <view class="content">
       <view class="text">{{post.text}}</view>
       <image wx:if="{{post.original_pic}}"
-             class="image" 
-             src="{{post.original_pic}}" 
-             mode="widthFix" 
+             class="image"
+             src="{{post.original_pic}}"
+             mode="widthFix"
              lazy-load="true"
              @tap.stop="previewImage"></image>
     </view>
@@ -20,7 +20,7 @@
       <view class="tool tool-border flex-rest-width" @tap.stop="navToComment({{post}})">
         <view class="iconfont icon-comment"></view>
         <view class="text">{{post.comment_count ? post.comment_count : 'Comment'}}</view>
-      </view>  
+      </view>
       <view class="tool flex-rest-width" @tap.stop="toggleLike">
         <view class="iconfont icon-like"></view>
         <view class="text">{{post.like_count ? post.like_count : 'Like'}}</view>
@@ -80,7 +80,7 @@
     &.bottom {
       position: fixed;
       bottom: 0;
-      width: 100%;  
+      width: 100%;
       .tool {
         line-height: 44px;
         height: 44px;
@@ -90,7 +90,7 @@
         .text {
           font-size: 15px;
         }
-      }    
+      }
     }
     .tool {
       line-height: 35px;
@@ -119,6 +119,26 @@
     }
   }
 }
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-rest-height {
+  flex: 1;
+  height: initial;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-rest-width {
+  flex: 1;
+  width: initial;
+}
+
 </style>
 
 <script>
