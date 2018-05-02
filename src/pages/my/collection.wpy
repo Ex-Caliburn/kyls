@@ -35,8 +35,6 @@
       showGuide: false,
       showAnswer: false,
       id: '',
-      icon20: '',
-      icon60: '',
       dataList: []
     }
 

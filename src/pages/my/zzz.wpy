@@ -1,9 +1,4 @@
 <style>
-  .header {
-    /*background: #ff6a3c;*/
-    height: 260rpx;
-    width: 100%;
-  }
 </style>
 
 <template>
@@ -37,11 +32,7 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
       id: '',
-      icon20: '',
-      icon60: '',
       dataList: []
     }
 
@@ -57,13 +48,12 @@
       },
       showGuide () {
         this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
       }
     }
 
     onLoad (params) {
+      this.invitationCode = this.$parent.globalData.invitationCode
+      this.$apply()
       console.log(params.id)
       this.id = params.id
       this.$apply()

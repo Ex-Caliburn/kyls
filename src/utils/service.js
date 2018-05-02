@@ -1,8 +1,15 @@
 import wepy from 'wepy'
-import config from './config'
+import {HOST, version} from './config'
 import api from './api'
 import db from './db'
 import { SESSION_ID, TOKEN, USER_INFO } from './constant'
+
+export {
+  uploadPics,
+  login,
+  post,
+  request as get
+}
 
 async function login () {
   let res = await wepy.login({ timeout: 30000 })
@@ -23,17 +30,45 @@ async function login () {
   wepy.$instance.globalData.userInfo = thirdReturn.data
 }
 
+async function uploadPics (data, success, fail) {
+  try {
+    let res = await wepy.uploadFile({
+      url: HOST + 'upload/image',
+      filePath: data,
+      header: {
+        'session-id': db.get(TOKEN) || ''
+      },
+      name: 'file',
+      formData: {
+        file: data
+      }
+    })
+    try {
+      let resData = res.data && JSON.parse(res.data)
+      if (res.statusCode === 200 && resData.code === 0) {
+        success && success(resData.data)
+      } else {
+        fail && fail(resData.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 function request(options, onComplete) {
   console.log(wepy.$instance && wepy.$instance.globalData)
   const header = {
     'content-type': 'application/json',
     ...options.header,
     'session-id': db.get(TOKEN) || '',
-    version: config.version
+    version
   }
   return new Promise((resolve, reject) => {
     wepy.request({
-      url: config.HOST + api[options.apiName],
+      url: HOST + api[options.apiName],
       data: options.data || {},
       header: header,
       method: options.method || 'GET',
@@ -70,10 +105,4 @@ function request(options, onComplete) {
 function post (options, onComplete) {
   options.method = 'POST'
   return request(options, onComplete)
-}
-
-export {
-  login,
-  post,
-  request as get
 }

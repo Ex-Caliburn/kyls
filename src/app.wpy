@@ -75,7 +75,11 @@
         'pages/undergraduateRegister',
         'pages/chooseInterest',
         // 我的
+        // 'pages/cropper/cropper',
+        'pages/my/cropper',
         'pages/my/info',
+        'pages/my/avatar',
+        'pages/my/avatarEdit',
         'pages/my/contact',
         'pages/my/about',
         'pages/my/medal',
@@ -117,8 +121,11 @@
       undergraduateSchoolId: 0,
       undergraduateMajorId: 0,
       isPostgraduate: false, // true 研究生 false本科生
-      userInfo: null,
+      userInfo: {
+        avatarUrl: ''
+      },
       token: '',
+      invitationCode: '2sdf12sdfsdf231213sdfsdfsf',
       tabbar: {
         color: '#707070',
         isPostgraduate: true,  // true 研究生 false本科生

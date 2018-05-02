@@ -1,67 +1,366 @@
-<style>
+<style lang="less">
 </style>
 
 <template>
   <view class="page">
+    <view class="weui-cells__title">请填写必要信息完成注册</view>
+
     <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">真实姓名*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入真实姓名" value="{{userName}}"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">身份证号*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="idcard" placeholder="请输入身份证号" value="{{idNumber}}"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">邮箱*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入邮箱" value="{{email}}"/>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">初试专业科目*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入初试专业科目" value="{{volunteerMajor}}"/>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">硕士阶段学号*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input"  type="number" placeholder="请输入硕士阶段学号(准研究生填0)" value="{{postgraduateNumber}}"/>
+          </view>
+        </view>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">院校信息*</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">学位性质*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindDegreeChange" value="{{degreeIndex}}" range="{{degrees}}">
+              <view class="weui-select weui-select_in-select-after">{{degrees[degreeIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">年级*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindGradeChange" value="{{gradeIndex}}" range="{{grades}}">
+              <view class="weui-select weui-select_in-select-after">{{grades[gradeIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">学习方式*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindStudyModeChange" value="{{studyModeIndex}}" range="{{studyModes}}">
+              <view class="weui-select weui-select_in-select-after">{{studyModes[studyModeIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">硕士专业大类*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindMajorChange" value="{{majorIndex}}" range="{{majorTypes}}">
+              <view class="weui-select weui-select_in-select-after">{{majorTypes[majorIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_switch">
+          <view class="weui-cell__bd">回答意愿*</view>
+          <view class="weui-cell__ft">
+            <switch @change="switchChange" checked="{{answerWill}}"></switch>
+          </view>
+        </view>
+
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">请上传您的学历证明*</view>
+                <view class="weui-uploader__info">{{files.length}}/2</view>
+              </view>
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title fz22">
+                  在读研究生需上传学信网高等教育信息(本科与硕士)截图，准研究生需上传学信网高等教育信息本科截图和拟录取证明图片(拟录取名单截图或复试结果通知单照片)
+                </view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{files}}" wx:key="*this">
+                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                    </view>
+                  </block>
+                  <!--<view class="weui-uploader__file weui-uploader__file_status">-->
+                  <!--<image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill"/>-->
+                  <!--<view class="weui-uploader__file-content">-->
+                  <!--<icon type="warn" size="23" color="#F43530"></icon>-->
+                  <!--</view>-->
+                  <!--</view>-->
+                  <!--<view class="weui-uploader__file weui-uploader__file_status">-->
+                  <!--<image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill"/>-->
+                  <!--<view class="weui-uploader__file-content">50%</view>-->
+                  <!--</view>-->
+                </view>
+                <view class="weui-uploader__input-box">
+                  <view class="weui-uploader__input" @tap="chooseImage"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">推荐人邀请码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入推荐人邀请码" value="{{InvitationCode}}"/>
+          </view>
+        </view>
+
+      </view>
+
+      <checkbox-group @change="bindAgreeChange">
+        <label class="weui-agree" for="weuiAgree">
+          <view class="weui-agree__text">
+            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}"/>
+            <view class="weui-agree__checkbox-icon">
+              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9"
+                    wx:if="{{isAgree}}"></icon>
+            </view>
+            阅读并同意
+            <view @tap="openFile" class="weui-agree__link fz30">《考研里手相关协议》</view>
+          </view>
+        </label>
+      </checkbox-group>
+
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
+      </view>
     </view>
   </view>
-  <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
-
 
 <script>
   import wepy from 'wepy'
+  import tip from 'utils/tip'
+  // import Toast from 'wepy-com-toast'
+  import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
-  import tabbar from 'mixins/tabbar'
-  // import {get, post} from '../utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import { post } from '../utils/service'
 
-  export default class infoEdit extends wepy.page {
+  export default class graduateRegister extends wepy.page {
     config = {
       navigationBarTitleText: '个人信息'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar]
+    mixins = [toast]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      files: [], // pic
+      errMsg: '',
+      userName: '',
+      email: '',
+      idNumber: '',
+      degrees: ['学术型', '专业型'],
+      degreeIndex: '',
+      studyModes: ['全日制', '非全日制'],
+      studyModeIndex: '',
+      grades: ['准研究生', '研一', '研二', '研三'],
+      gradeIndex: '',
+      majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
+        '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
+      majorIndex: '',
+      undergraduateSchoolId: '',
+      undergraduateMajorId: '',
+      postgraduateSchoolId: '',
+      postgraduateMajorId: '',
+      postgraduateNumber: '',
+      degreeNature: '', //  学位性质 1学术型、2专业型
+      studyMode: '', // 就读学习方式 1:全日制、2:非全日制
+      grade: '', // 年级 1.准研究生、2.研一、3.研二、4.研三
+      publicSubjectFirst: '', // 初试公共科目
+      professionalSubjectFirst: [], // 初试专业科目，逗号分割
+      answerWill: true, //  回答意愿
+      isAgree: false,
+      educationPicture: '' // 学历证明图片 这个时参数
     }
 
+    computed = {}
+
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
+      async openFile() {
+        let res = await wepy.downloadFile({
+          url: 'https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc'
+        })
+        if (res) {
+          var filePath = res.tempFilePath
+        }
+        wepy.openDocument({
+          filePath: filePath
+        }).then(res => {
           console.log(res)
         }).catch(err => {
           console.log(err)
         })
       },
-      showGuide () {
-        this.showGuide = !this.showGuide
+      async chooseImage(e) {
+        let res = await wepy.chooseImage({
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        })
+        this.files = this.files.concat(res.tempFilePaths)
+        this.$apply()
       },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      previewImage(e) {
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
+      },
+      bindAgreeChange(e) {
+        this.isAgree = !!e.detail.value.length
+      },
+      bindDegreeChange(e) {
+        this.degreeIndex = e.detail.value
+      },
+      bindGradeChange(e) {
+        this.gradeIndex = e.detail.value
+      },
+      bindStudyModeChange(e) {
+        this.studyModeIndex = e.detail.value
+      },
+      bindMajorChange(e) {
+        this.majorIndex = e.detail.value
+      },
+      switchChange: function(e) {
+        this.answerWill = e.detail.value
+      },
+      showTopTips() {
+        this.submit()
+      },
+      toast() {
+        let promise = this.$invoke('toast', 'show', {
+          title: '自定义标题',
+          img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+        })
+
+        promise.then((d) => {
+          console.log('toast done')
+        })
       }
     }
 
-    onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
+    events = {}
+
+    check() {
+
+    }
+
+    submit() {
+      let userId = this.$parent.globalData.userInfo.userId
+      let {
+        email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
+        isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
+        postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, answerWill,
+        publicSubjectFirst, professionalSubjectFirst, educationPicture
+      } = this
+      answerWill = answerWill ? '1' : '0'
+      if (email && userName && idNumber && undergraduateSchoolId && undergraduateMajorId &&
+        postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') &&
+        (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') && professionalSubjectFirst.length > 0 && isAgree && answerWill) {
+        console.log('验证通过')
+      } else {
+        if (!userName) {
+          this.errMsg = '请输入正确名字'
+        } else if (!email) {
+          this.errMsg = '请输入正确的邮箱'
+        } else if (!undergraduateSchoolId) {
+          this.errMsg = '请选择毕业院校'
+        } else if (!undergraduateMajorId) {
+          this.errMsg = '请选择毕业专业'
+        } else {
+          this.errMsg = '请阅读并同意协议'
+        }
+        tip.error(this.errMsg)
+      }
+      post({
+        apiName: 'graduateRegister',
+        data: {
+          userId,
+          userName,
+          email,
+          idNumber,
+          undergraduateSchoolId,
+          undergraduateMajorId,
+          postgraduateSchoolId,
+          postgraduateMajorTypeId: majorIndex + 1, // 专业大类
+          postgraduateMajorId,
+          postgraduateNumber,
+          degreeNature: degreeIndex + 1, //  学位性质 1学术型、2专业型
+          studyMode: studyModeIndex + 1, // 就读学习方式 1:全日制、2:非全日制
+          grade: gradeIndex + 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
+          publicSubjectFirst, // 初试公共科目
+          professionalSubjectFirst: professionalSubjectFirst.join(','), // 初试专业科目，逗号分割
+          answerWill: Number(answerWill) + '', //  回答意愿
+          educationPicture // 学历证明图片 这个时参数
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(res => {
+        console.log(res)
+      })
+    }
+
+    onShow(params) {
+      this.undergraduateSchoolId = wepy.$instance.globalData.undergraduateSchoolId
+      this.undergraduateMajorId = wepy.$instance.globalData.undergraduateMajorId
+      wepy.$instance.globalData.undergraduateSchoolId = ''
+      wepy.$instance.globalData.undergraduateMajorId = ''
+      console.log(params)
+    }
+
+    onLoad(params) {
+      // this.ShowToast('123123')
     }
   }
 </script>

@@ -4,6 +4,7 @@
 <template>
   <view class="page">
     <view class="page__bd">
+      <view>{{invitationCode}}</view>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -13,54 +14,30 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from '../utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class invitationCode extends wepy.page {
     config = {
       navigationBarTitleText: '邀请码'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      invitationCode: ''
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
-      }
+    }
+
+    onShow () {
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
+      this.invitationCode = this.$parent.globalData.invitationCode
       this.$apply()
     }
   }

@@ -1,10 +1,20 @@
 <style>
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+  }
 </style>
 
 <template>
-  <view class="page">
-    <view class="page__bd">
-    </view>
+  <view class="userinfo" @tap="handleViewTap">
+    <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -20,9 +30,9 @@
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class zzz extends wepy.page {
+  export default class avatarEdit extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '头像'
     }
     components = {
       tabbar: Tabbar,
@@ -32,20 +42,18 @@
     mixins = [tabbar]
 
     data = {
-      id: '',
-      dataList: []
+      avatarUrl: ''
     }
 
     methods = {
       goService () {
         wepy.navigateTo({
           url: '/pages/serviceList?id=' + this.id
+        }).then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
         })
-          .then((res) => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
       },
       showGuide () {
         this.showGuide = !this.showGuide
@@ -53,8 +61,7 @@
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
+      this.invitationCode = this.$parent.globalData.invitationCode
       this.$apply()
     }
   }
