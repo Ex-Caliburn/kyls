@@ -22,7 +22,7 @@
 
   export default class recharge extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '充值'
     }
     components = {
       tabbar: Tabbar,

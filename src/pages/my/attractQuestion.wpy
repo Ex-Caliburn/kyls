@@ -22,7 +22,7 @@ attract
 
   export default class attractQuestion extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '吸睛设问'
     }
     components = {
       tabbar: Tabbar,

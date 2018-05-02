@@ -37,7 +37,7 @@
 
   export default class protocol extends wepy.page {
     config = {
-      navigationBarTitleText: '帮助'
+      navigationBarTitleText: '协议'
     }
     components = {
     }

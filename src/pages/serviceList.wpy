@@ -68,7 +68,7 @@
 
   export default class serviceList extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '服务列表'
     }
     components = {
       tabbar: Tabbar,

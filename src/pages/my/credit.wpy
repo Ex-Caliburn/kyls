@@ -27,7 +27,7 @@
 
   export default class credit extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的信誉'
     }
     components = {
       tabbar: Tabbar,

@@ -22,7 +22,7 @@
 
   export default class collection extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的收藏'
     }
     components = {
       tabbar: Tabbar,

@@ -27,7 +27,7 @@
 
   export default class questionHistory extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的里手'
     }
     components = {
       tabbar: Tabbar,

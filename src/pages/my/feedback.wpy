@@ -22,7 +22,7 @@
 
   export default class feedback extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '反馈'
     }
     components = {
       tabbar: Tabbar,

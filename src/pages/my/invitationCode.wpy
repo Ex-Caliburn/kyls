@@ -22,7 +22,7 @@
 
   export default class invitationCode extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '邀请码'
     }
     components = {
       tabbar: Tabbar,

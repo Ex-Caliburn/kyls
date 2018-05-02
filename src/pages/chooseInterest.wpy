@@ -72,7 +72,7 @@
 
   export default class chooseInterest extends wepy.page {
     config = {
-      navigationBarTitleText: '入口'
+      navigationBarTitleText: '选择兴趣'
     }
     components = {
     }

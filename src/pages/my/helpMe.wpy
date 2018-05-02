@@ -22,7 +22,7 @@
 
   export default class helpMe extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的提问'
     }
     components = {
       tabbar: Tabbar,

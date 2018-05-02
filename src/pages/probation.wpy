@@ -58,7 +58,7 @@
 
   export default class probation extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '试读'
     }
     components = {
       tabbar: Tabbar,

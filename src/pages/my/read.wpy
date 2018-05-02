@@ -22,7 +22,7 @@
 
   export default class read extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我看过的'
     }
     components = {
       tabbar: Tabbar,

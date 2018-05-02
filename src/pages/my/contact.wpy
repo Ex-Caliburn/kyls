@@ -22,7 +22,7 @@
 
   export default class contact extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '联系CEO'
     }
     components = {
       tabbar: Tabbar,

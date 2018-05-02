@@ -22,7 +22,7 @@
 
   export default class diary extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的里手'
     }
     components = {
       tabbar: Tabbar,

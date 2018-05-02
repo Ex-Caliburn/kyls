@@ -22,7 +22,7 @@
 
   export default class money extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '我的勋章'
     }
     components = {
       tabbar: Tabbar,

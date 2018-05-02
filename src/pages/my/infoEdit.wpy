@@ -22,7 +22,7 @@
 
   export default class infoEdit extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '个人信息'
     }
     components = {
       tabbar: Tabbar,

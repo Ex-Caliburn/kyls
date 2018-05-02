@@ -22,7 +22,7 @@
 
   export default class about extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '关于我们'
     }
     components = {
       tabbar: Tabbar,

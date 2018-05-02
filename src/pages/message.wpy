@@ -22,7 +22,7 @@
 
   export default class message extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '消息'
     }
     components = {
       tabbar: Tabbar,

@@ -22,7 +22,7 @@
 
   export default class zzz extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '提现'
     }
     components = {
       tabbar: Tabbar,
