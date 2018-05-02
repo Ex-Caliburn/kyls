@@ -32,10 +32,13 @@
 <template>
   <ivew class="container">
     <ivew class="content">
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" type="default">本科生入口</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" type="default">研究生入口</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" type="default">考研里手故事</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" type="default">使用帮助</button>
+      <form report-submit="ture" @submit="getFormId">
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" formType="submit" type="default">本科生入口</button>
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" formType="submit" type="default">研究生入口</button>
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" formType="submit" type="default">考研里手故事</button>
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" formType="submit" type="default">使用帮助</button>
+        <button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>
+      </form>
     </ivew>
     <ivew class="des">考研里手——实名制考研百科全书</ivew>
   </ivew>
@@ -43,7 +46,7 @@
 
 <script>
   import wepy from 'wepy'
-  // import {get, post} from '../utils/service'
+  import {submitFormId} from '../utils/service'
 
   export default class Enter extends wepy.page {
     config = {
@@ -53,15 +56,19 @@
 
     mixins = []
 
-    data = {
+    data = {}
+
+    getPhoneNumber(e) {
+      console.log(e.detail)
+      // const { encryptedData, iv }
     }
 
-    authorize () {
+    authorize() {
       wepy.getSetting()
         .then(res => {
           console.log(res)
           if (!res.authSetting['scope.userInfo']) {
-            wepy.authorize({scope: 'scope.userInfo'})
+            wepy.authorize({ scope: 'scope.userInfo' })
           }
         }, err => {
           wepy.openSetting()
@@ -73,7 +80,10 @@
     }
 
     methods = {
-      jump (index) {
+      getFormId (e) {
+        submitFormId(e.detail.formId)
+      },
+      jump(index) {
         this.authorize()
         const route = [
           '/pages/chooseInterest',
@@ -88,38 +98,10 @@
         }).catch(err => {
           console.log(err)
         })
-        // switch (Number(index)) {
-        //   case 1:
-        //     wepy.navigate({
-        //       url: '/pages/index'
-        //     }).then((d) => {
-        //       console.log(d)
-        //     }).catch(err => {
-        //       console.log(err)
-        //     })
-        //     break
-        //   case 2:
-        //     wepy.navigate({
-        //       url: '/pages/index2'
-        //     })
-        //     break
-        //   case 3:
-        //     wepy.navigate({
-        //       url: '/pages/story'
-        //     })
-        //     break
-        //   case 4:
-        //     wepy.navigate({
-        //       url: '/pages/help'
-        //     })
-        //     break
-        //   default:
-        //     break
-        // }
       }
     }
 
-    onLoad () {
+    onLoad() {
     }
   }
 </script>

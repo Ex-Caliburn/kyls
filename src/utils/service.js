@@ -5,6 +5,7 @@ import db from './db'
 import { SESSION_ID, TOKEN, USER_INFO } from './constant'
 
 export {
+  submitFormId,
   uploadPics,
   login,
   post,
@@ -56,6 +57,20 @@ async function uploadPics (data, success, fail) {
   } catch (err) {
     console.log(err)
   }
+}
+
+/*
+ * @:title:收集formid 用于发送模板消息
+ */
+function submitFormId(formId) {
+  console.log('formId:' + formId)
+  if (!formId || formId.indexOf('mock') > -1) {
+    return
+  }
+  post({
+    apiName: 'submitFormId',
+    form_id: formId
+  })
 }
 
 function request(options, onComplete) {
