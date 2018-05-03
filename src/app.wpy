@@ -72,6 +72,7 @@
         'pages/graduateList',
         'pages/probation',
         'pages/graduateDetail',
+        'pages/answerEdit',
         // 本科生
         'pages/undergraduateRegister',
         'pages/chooseInterest',
@@ -119,6 +120,7 @@
 
     // FF7878 粉色
     globalData = {
+      group: 0, // 身份
       undergraduateSchoolId: 0,
       undergraduateMajorId: 0,
       isPostgraduate: false, // true 研究生 false本科生

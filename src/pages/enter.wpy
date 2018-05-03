@@ -37,7 +37,7 @@
         <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" formType="submit" type="default">研究生入口</button>
         <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" formType="submit" type="default">考研里手故事</button>
         <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" formType="submit" type="default">使用帮助</button>
-        <button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>
+        <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
     </ivew>
     <ivew class="des">考研里手——实名制考研百科全书</ivew>
@@ -46,7 +46,8 @@
 
 <script>
   import wepy from 'wepy'
-  import {submitFormId} from '../utils/service'
+  import { addFormId } from '../utils/service'
+  import navigate from 'mixins/navigate'
 
   export default class Enter extends wepy.page {
     config = {
@@ -54,7 +55,7 @@
     }
     components = {}
 
-    mixins = []
+    mixins = [navigate]
 
     data = {}
 
@@ -81,27 +82,24 @@
 
     methods = {
       getFormId (e) {
-        submitFormId(e.detail.formId)
+        addFormId(e.detail.formId)
       },
       jump(index) {
         this.authorize()
         const route = [
-          '/pages/chooseInterest',
-          '/pages/undergraduateRegister',
-          '/pages/materials/story',
-          '/pages/materials/help'
+          'undergraduateRegister',
+          'graduateRegister',
+          'materials/story',
+          'materials/help'
         ]
-        wepy.navigateTo({
-          url: route[index]
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        this.navigate(route[index])
       }
     }
 
     onLoad() {
+      if (this.$parent.globalData.group) {
+        this.navigate('chooseInterest', 1)
+      }
     }
   }
 </script>

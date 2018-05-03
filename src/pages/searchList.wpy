@@ -16,14 +16,23 @@
     width: 100%;
   }
 
+  .confirm-btn{
+    z-index: 1000;
+    position: fixed;
+    bottom: 30rpx;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
   .classify {
     display: flex;
     position: relative;
 
     .classify_catetory {
-      width: 250rpx;
+      width: 150rpx;
       position: relative;
       z-index: 1;
+      flex-shrink: 0;
 
       .name {
         position: relative;
@@ -58,7 +67,7 @@
       z-index: 999;
     // margin-left: - 15 rpx;
       background: #fff;
-      padding: 15px 10px 10px 30px;
+      padding: 15px 10px 40px 30px;
 
       .classify_item {
       }
@@ -76,7 +85,7 @@
       }
 
       .child_name {
-        font-size: 26rpx;
+        font-size: 30rpx;
         line-height: 40rpx;
         color: #666;
         white-space: nowrap;
@@ -86,7 +95,7 @@
       }
 
       .children_item {
-        height: 40rpx;
+        height: 60rpx;
         width: 100%;
         /*text-align: center;*/
       }
@@ -123,15 +132,20 @@
             <icon hidden="{{!item.selected}}" class="icon-success" type="success" size="12"></icon>
           </view>
         </scroll-view>
-        <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-topHeight}}px">
+        <scroll-view class="classify_detail" scroll-y scroll-with-animation="true"
+                     style="height:{{windowHeight-topHeight}}px">
           <view class="children">
-            <view class="children_item" wx:for="{{childList}}" wx:for-item="item" wx:key="item.id" @tap="choose({{item.id}})">
+            <view class="children_item" wx:for="{{childList}}" wx:for-item="item" wx:key="item.id"
+                  @tap="choose({{item.id}}, {{item.major_name || item.school_name}})">
               <view class="child_name" hidden="{{!item.school_name}}">{{item.school_name}}</view>
               <view class="child_name" hidden="{{!item.major_name}}">{{item.major_name}}</view>
             </view>
           </view>
         </scroll-view>
       </view>
+
+      <button class="weui-btn mini-btn confirm-btn" size="mini" @tap="confirm()" formType="submit" type="primary">确认</button>
+
 
     </view>
   </view>
@@ -142,17 +156,22 @@
   import tip from 'utils/tip'
   import { SYSTEM_INFO } from 'utils/constant'
   import { get } from 'utils/service'
+  import navigate from 'mixins/navigate'
 
   export default class searchList extends wepy.page {
     config = {
       navigationBarTitleText: '院校选择'
     }
 
+    mixins = [navigate]
+
     components = {}
 
     data = {
       undergraduateSchoolId: 0,
+      undergraduateSchoolName: 0,
       undergraduateMajorId: 0,
+      undergraduateMajorName: 0,
       volunteerSchool: '', // 志愿学校
       volunteerMajor: '', // 志愿专业
       topHeight: 60,
@@ -203,7 +222,7 @@
       get({
         apiName,
         data: {
-          [params]: this.inputVal
+          [params]: this.inputVal.trim()
         }
       }).then(res => {
         console.log(res)
@@ -214,6 +233,7 @@
         tip.error(res.data)
       })
     }
+
     //
     // async getRootCateTopLevel() {
     //   const json = await api.rootCtegoryList({
@@ -249,9 +269,20 @@
     }
 
     onShow() {
-      this.undergraduateSchoolId = wepy.$instance.globalData.undergraduateSchoolId
-      this.undergraduateMajorId = wepy.$instance.globalData.undergraduateMajorId
-      this.getChildCate()
+      let gd = wepy.$instance.globalData
+      this.undergraduateSchoolId = gd.undergraduateSchoolId
+      this.undergraduateMajorId = gd.undergraduateMajorId
+      this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.undergraduateMajorName = gd.undergraduateMajorName
+      console.log(gd.undergraduateMajorId)
+      if (gd.undergraduateSchoolId) {
+        this.rootList[0].selected = true
+      }
+      if (gd.undergraduateMajorId) {
+        this.rootList[1].selected = true
+        console.log(this.rootList[1].selected)
+      }
+      this.$apply()
     }
 
     computed = {}
@@ -269,17 +300,20 @@
       inputTyping(e) {
         this.inputVal = e.detail.value
       },
-      inputSearch () {
+      inputSearch() {
         this.getChildCate()
       },
-      choose (id) {
+      choose(id, name) {
+        console.log(name)
         this.rootList[this.index].selected = true
         switch (Number(this.index)) {
           case 0:
             this.undergraduateSchoolId = id
+            this.undergraduateSchoolName = name
             break
           case 1:
             this.undergraduateMajorId = id
+            this.undergraduateMajorName = name
             break
           case 2:
             break
@@ -287,24 +321,6 @@
             break
           default:
             break
-        }
-        // 所有选完跳回填写页面
-        let flag = true
-        for (let i = 0; i < this.rootList.length; i++) {
-          if (this.rootList[i].selected) {
-            flag = false
-            return
-          }
-        }
-        if (flag) {
-          this.rootList.forEach(item => {})
-          wepy.navigateTo({
-            url: 'page/undergraduateRegister'
-          }).then((res) => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
         }
       },
       changeCate(e) {
@@ -322,23 +338,33 @@
         this.$apply()
         this.getChildCate(id)
       },
-      onShareAppMessage: function(res) {
-        if (res.from === 'button') {
-          // 来自页面内转发按钮
-          console.log(res.target)
-        }
-        console.log(this)
-        return {
-          title: this.detail.name,
-          path: '/pages/classify',
-          success: function(res) {
-            // 转发成功
-          },
-          fail: function(res) {
-            // 转发失败
+      confirm() {
+        let flag = true
+        for (let i = 0; i < this.rootList.length; i++) {
+          if (!this.rootList[i].selected) {
+            flag = false
+            tip.confirm('你还有院校信息未选择,确认离开当前页面么')
+              .then(res => {
+                this.beforeLeave()
+              }).catch(err => {
+                console.log(err)
+              })
+            return
           }
         }
+        if (flag) {
+          this.beforeLeave()
+        }
       }
+    }
+    beforeLeave () {
+      let gd = wepy.$instance.globalData
+      gd.undergraduateSchoolId = this.undergraduateSchoolId
+      gd.undergraduateMajorId = this.undergraduateMajorId
+      gd.undergraduateSchoolName = this.undergraduateSchoolName
+      gd.undergraduateMajorName = this.undergraduateMajorName
+      this.$apply()
+      this.navigate('', 2)
     }
   }
 </script>

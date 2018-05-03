@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 13,
 			"list": [
 				{
 					"id": 0,
@@ -100,7 +100,19 @@
 				{
 					"id": -1,
 					"name": "questionHistory",
-					"pathName": "pages/my/questionHistory"
+					"pathName": "pages/my/questionHistory",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "chat",
+					"pathName": "pages/chat",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "undergraduateRegister",
+					"pathName": "pages/undergraduateRegister"
 				}
 			]
 		}

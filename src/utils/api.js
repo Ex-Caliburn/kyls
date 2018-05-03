@@ -17,6 +17,7 @@
 
 const school = 'school/'
 const user = 'user/'
+const diary = 'diary/'
 const api = {
   /*
   * 登录相关
@@ -33,10 +34,18 @@ const api = {
   * */
   getPostgraduateInfo: user + 'getPostgraduateInfo',
   /*
-  * 上传
+  * 操作类上传
   * */
   upload: '/upload/image',
+  addFormId: user + 'addFormId',
   sendMessage: user + 'sendMessage',
+  /*
+  * 日记
+  * */
+// { "code": 0, "error": "", "data": [ { "diaryId": 2, "userId": 2, "title": "1123121", "content": "dsajkgdashgkas", "diaryPictures": "我喜欢问问题", "status": 1, "updatedAt": 1525179840480, "createdAt": 1525179840000 } ] }
+  getDiaryList: diary + 'diaryList',
+    addDiary: diary + 'addDiary',
+  editDiary: diary + 'editDiary',
   /*
   * 问答
   * */

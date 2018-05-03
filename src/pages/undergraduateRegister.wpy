@@ -1,28 +1,17 @@
 <style lang="less">
 </style>
 <template>
-  <!--真实姓名：-->
-  <!--邮箱*：-->
-  <!--是否应届*：-->
-  <!--本科院校*：           此项为选择项（用本科高校汇总）（加搜索）-->
-  <!--本科专业*：           此项为选择项（用本科专业汇总）（加搜索）-->
-  <!--意向院校：-->
-  <!--意向专业：-->
-  <!--我已阅读并同意考研里手相关协议-->
-
   <view class="page">
     <view class="weui-cells__title">请填写必要信息完成注册</view>
 
     <view class="page__bd">
-      <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">{{errMsg}}</view>
-
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
             <view class="weui-label">真实姓名</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入真实姓名" value="{{userName}}"/>
+            <input class="weui-input" placeholder="请输入真实姓名" @change="nameInp" value="{{userName}}"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -30,30 +19,50 @@
             <view class="weui-label">邮箱*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入邮箱" value="{{email}}"/>
+            <input class="weui-input" placeholder="请输入邮箱" @change="emailInp" value="{{email}}"/>
           </view>
         </view>
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-            <view class="weui-label">志愿学校*</view>
+            <view class="weui-label">意向院校*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="志愿学校" value="{{volunteerSchool}}"/>
+            <input class="weui-input" placeholder="意向院校" @change="volunteerSchoolInp" value="{{volunteerSchool}}"/>
           </view>
         </view>
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-            <view class="weui-label">志愿专业*</view>
+            <view class="weui-label">意向专业*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="志愿专业" value="{{volunteerMajor}}"/>
+            <input class="weui-input" placeholder="意向专业" @change="volunteerMajorInp" value="{{volunteerMajor}}"/>
           </view>
         </view>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">院校信息*</view>
+        <!--<navigator hidden="{{undergraduateSchoolId && undergraduateMajorId}}" url="/pages/searchList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">-->
+          <!--<view class="weui-cell__bd">院校信息*</view>-->
+          <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
+        <!--</navigator>-->
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">本科院校*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择本科院校" disabled value="{{undergraduateSchoolName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">本科专业*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择本科专业" disabled value="{{undergraduateMajorName}}"/>
+          </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
@@ -114,7 +123,12 @@
 
     // https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc
     data = {
-      tipsFlag: false,
+      undergraduateSchoolId: '',
+      undergraduateSchoolName: '',
+      undergraduateMajorId: '',
+      undergraduateMajorName: '',
+      volunteerSchool: '',
+      volunteerMajor: '',
       prepareGraduate: true,
       userName: '',
       email: '',
@@ -128,6 +142,18 @@
     computed = {}
 
     methods = {
+      volunteerMajorInp (e) {
+        this.volunteerMajor = e.detail.value
+      },
+      volunteerSchoolInp (e) {
+        this.volunteerSchool = e.detail.value
+      },
+      nameInp (e) {
+        this.userName = e.detail.value
+      },
+      emailInp (e) {
+        this.email = e.detail.value
+      },
       bindAgreeChange(e) {
         this.isAgree = !!e.detail.value.length
       },
@@ -157,13 +183,12 @@
 
     submit() {
       let userId = this.$parent.globalData.userInfo.userId
-      let { email, userName, prepareGraduate, undergraduateSchoolId, undergraduateMajorId, isAgree } = this
+      let { email, userName, prepareGraduate, undergraduateSchoolId,
+        undergraduateMajorId, isAgree, volunteerSchool, volunteerMajor} = this
       if (email && userName && undergraduateSchoolId && undergraduateMajorId && isAgree) {
-        this.tipsFlag = true
       } else {
         // errMsg = '请输入志愿学校'
         // errMsg = '请输入志愿专业'
-        this.tipsFlag = true
         if (!userName) {
           this.errMsg = '请输入正确名字'
         } else if (!email) {
@@ -183,10 +208,10 @@
           userName,
           email,
           isfreshGraduate: prepareGraduate, // 是否应届
-          undergraduateSchoolId: 1,
-          undergraduateMajorId: 1,
-          volunteerSchool: '123', // 志愿学校
-          volunteerMajor: '123' // 志愿专业
+          undergraduateSchoolId,
+          undergraduateMajorId,
+          volunteerSchool, // 志愿学校
+          volunteerMajor // 志愿专业
         }
       }).then(res => {
         console.log(res)
@@ -221,16 +246,16 @@
       // })
     }
 
-    onShow(params) {
-      this.undergraduateSchoolId = wepy.$instance.globalData.undergraduateSchoolId
-      this.undergraduateMajorId = wepy.$instance.globalData.undergraduateMajorId
-      wepy.$instance.globalData.undergraduateSchoolId = ''
-      wepy.$instance.globalData.undergraduateMajorId = ''
-      console.log(params)
+    onShow() {
+      let gd = wepy.$instance.globalData
+      this.undergraduateSchoolId = gd.undergraduateSchoolId
+      this.undergraduateMajorId = gd.undergraduateMajorId
+      this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.undergraduateMajorName = gd.undergraduateMajorName
+      this.$apply()
     }
 
     onLoad(params) {
-      this.ShowToast('123123')
     }
   }
 </script>

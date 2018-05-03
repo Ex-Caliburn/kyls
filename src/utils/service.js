@@ -6,7 +6,7 @@ import { SESSION_ID, TOKEN, USER_INFO } from './constant'
 
 export {
   createPayOrder,
-  submitFormId,
+  addFormId,
   uploadPics,
   login,
   post,
@@ -63,13 +63,13 @@ async function uploadPics (data, success, fail) {
 /*
  * @:title:收集formid 用于发送模板消息
  */
-function submitFormId (formId) {
+function addFormId (formId) {
   console.log('formId:' + formId)
   if (!formId || formId.indexOf('mock') > -1) {
     return
   }
   post({
-    apiName: 'submitFormId',
+    apiName: 'addFormId',
     form_id: formId
   })
 }

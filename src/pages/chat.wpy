@@ -1,22 +1,79 @@
-<style>
+<style lang="less">
+  page {
+    background: #f5f5f5;
+    margin-bottom: 100rpx;
+  }
+  .pic{
+    display: inline-block;
+    width: 79px;
+    height: 79px;
+    margin-right:4px;
+  }
+  .pic-wrap{
+    /*width: 348px;*/
+    /*margin: 0 auto;*/
+  }
+  .question,.answer{
+    background-color: #fff;
+    padding: 10rpx 20rpx 20rpx;
+    margin-bottom: 20rpx;
+    .title{
+      margin-bottom: 20rpx;
+    }
+    .content{
+      margin-bottom: 20rpx;
+      text-align:justify;
+    }
+    .time{
+      margin-top: 10rpx;
+      text-align: right;
+    }
+  }
+
+  .answer{
+  }
+
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
-      <view>
-        <view>关注</view>
-        <view>由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
-
-        <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-          <view class="flex">
-            <img src="{{img}}" alt="">
-            <img src="{{img}}" alt="">
-            <img src="{{img}}" alt="">
-            <img src="{{img}}" alt="">
-          </view>
-        </block>
+      <view class="question">
+        <view class="title fz30 flex flex-between">
+          <view class="bold">提问人</view>
+          <view class="bold">￥{{cost}}</view>
+        </view>
+        <view class="content fz32">由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
+        <view class="pic-wrap flex flex-wrap">
+          <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+            <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
+          </block>
+        </view>
+        <view class="time fz24">{{time}}</view>
       </view>
+
+      <view class="answer">
+        <view class="title fz30 flex flex-between">
+          <view class="bold">答题人</view>
+          <navigator hidden="{{!isPostgraduate}}" url="/pages/answerEdit?questionId={{item.questionId}}" hover-class="weui-cell_active">
+            编辑
+          </navigator>
+          <view hidden="{{isPostgraduate}}" class="flex">
+            <navigator url="/pages/questionFrom?id={{item.userId}}" hover-class="weui-cell_active">
+              提问
+            </navigator>
+            <view @tap="focus()" style="margin-left: 20rpx">关注</view>
+          </view>
+        </view>
+        <view class="content fz32">由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
+        <view class="pic-wrap flex flex-wrap">
+          <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+            <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
+          </block>
+        </view>
+        <view class="time fz24">{{time}}</view>
+      </view>
+
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -29,28 +86,51 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
+  let img = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
 
   export default class chat extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '问与答'
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
+      time: new Date(),
       id: '',
-      img: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
-      dataList: []
+      questionId: '',
+      cost: 10,
+      userId: '',
+      isPostgraduate: true,
+      img,
+      pics: [
+        img,
+        img,
+        img,
+        img
+      ]
     }
 
     methods = {
+      focus () {
+      },
+      continueAsk () {
+        this.navigate()
+      },
+      previewImage(img) {
+        wepy.previewImage({
+          current: img, // 当前显示图片的http链接
+          urls: this.pics // 需要预览的图片http链接列表
+        })
+      },
       goService () {
         wepy.navigateTo({
           url: '/pages/serviceList?id=' + this.id
@@ -60,15 +140,13 @@
           }).catch(err => {
             console.log(err)
           })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
       }
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      console.log(params.questionId)
+      this.questionId = params.questionId
       this.$apply()
     }
   }
