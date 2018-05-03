@@ -4,8 +4,27 @@
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="weui-cells__title">复选列表项</view>
+      <view class="weui-cells weui-cells_after-title">
+        <checkbox-group @change="checkboxChange">
+          <label class="weui-cell weui-check__label" wx:for="{{checkboxItems}}" wx:key="value">
+            <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+
+            <view class="weui-cell__hd weui-check__hd_in-checkbox">
+              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+            </view>
+            <view class="weui-cell__bd">{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
     </view>
   </view>
+  <radio-group class="radio-group" bindchange="radioChange">
+    <label class="radio" wx:for="{{items}}">
+      <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+    </label>
+  </radio-group>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -32,15 +51,20 @@ attract
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      items: [
+        {name: 'USA', value: '美国'},
+        {name: 'CHN', value: '中国', checked: 'true'},
+        {name: 'BRA', value: '巴西'},
+        {name: 'JPN', value: '日本'},
+        {name: 'ENG', value: '英国'},
+        {name: 'TUR', value: '法国'}
+      ]
     }
 
     methods = {
+      radioChange: function(e) {
+        console.log('radio发生change事件，携带value值为：', e.detail.value)
+      },
       goService () {
         wepy.navigateTo({
           url: '/pages/serviceList?id=' + this.id
