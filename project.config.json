@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 11,
 			"list": [
 				{
 					"id": 0,
@@ -96,6 +96,11 @@
 					"name": "cropper",
 					"pathName": "pages/my/cropper",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "questionHistory",
+					"pathName": "pages/my/questionHistory"
 				}
 			]
 		}

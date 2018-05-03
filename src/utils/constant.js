@@ -1,24 +1,25 @@
 /**
- * 用户code 换取 session_key
- * @type {String}
+ * 常量
  */
-export const USER_SPECICAL_INFO = 'userSpecialInfo'
-export const TOKEN = 'token'
-export const SESSION_ID = 'session-id'
-export const IS_POSTGRADUATE = 'isPostgraduate'
+const TOKEN = 'token'
+const SESSION_ID = 'session-id'
 
-/**
- * 用户信息
- * @type {String}
- */
-export const USER_INFO = 'userInfo'
+const IS_POSTGRADUATE = 'isPostgraduate'
+const USER_INFO = 'userInfo'
 
-/**
- * 系统信息
- * @type {String}
- */
-export const SYSTEM_INFO = 'systemInfo'
+const PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
+const CODE_RULE = /^\d{6}$/
+const NUM_RULE = /^\d+$/
 
-export const ADDRESS_ID = 'addressId'
+const SYSTEM_INFO = 'systemInfo'
 
-export const SEL_CLASS_CODE = 'selClassCode'
+export {
+  TOKEN,
+  SESSION_ID,
+  IS_POSTGRADUATE,
+  USER_INFO,
+  SYSTEM_INFO,
+  PHONE_RULE,
+  CODE_RULE,
+  NUM_RULE
+}

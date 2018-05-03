@@ -1,0 +1,75 @@
+<style>
+</style>
+
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view>
+        <view>关注</view>
+        <view>由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
+
+        <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+          <view class="flex">
+            <img src="{{img}}" alt="">
+            <img src="{{img}}" alt="">
+            <img src="{{img}}" alt="">
+            <img src="{{img}}" alt="">
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+  <tabbar :tabbar.sync='tabbar'></tabbar>
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+  import Tabbar from '@/components/tabbar' // alias example
+  import Toast from 'wepy-com-toast'
+  // import toast from 'mixins/toast'
+  import tabbar from 'mixins/tabbar'
+  // import {get, post} from 'utils/service'
+  // import db from 'utils/db'
+  // import { IS_POSTGRADUATE } from 'utils/constant'
+
+  export default class chat extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    components = {
+      tabbar: Tabbar,
+      toast: Toast
+    }
+
+    mixins = [tabbar]
+
+    data = {
+      id: '',
+      img: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+      dataList: []
+    }
+
+    methods = {
+      goService () {
+        wepy.navigateTo({
+          url: '/pages/serviceList?id=' + this.id
+        })
+          .then((res) => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+      },
+      showGuide () {
+        this.showGuide = !this.showGuide
+      }
+    }
+
+    onLoad (params) {
+      console.log(params.id)
+      this.id = params.id
+      this.$apply()
+    }
+  }
+</script>

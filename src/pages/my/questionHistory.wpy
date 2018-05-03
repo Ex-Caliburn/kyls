@@ -1,4 +1,13 @@
 <style>
+  .ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .isAnswer{
+    background-color:  oldlace;
+  }
 </style>
 
 <template>
@@ -6,14 +15,15 @@
     <view class="page__bd">
       <view class="weui-panel">
         <view class="weui-panel__bd">
-          <view class="weui-media-box weui-media-box_text">
-            <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-            <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-            <view class="weui-media-box__info">
-              <view class="weui-media-box__info__meta">时间</view>
-              <!--<view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>-->
-            </view>
-          </view>
+          <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+            <navigator url="/pages/chat?id={{id}}" class="weui-media-box weui-media-box_text" hover-class="weui-cell_active">
+              <view class="weui-media-box__title weui-media-box__title_in-text">{{item.nickname}}</view>
+              <view class="weui-media-box__desc ellipsis">{{item.questionContent}}</view>
+              <view class="weui-media-box__info">
+                <view class="weui-media-box__info__meta">{{item.askTime}}</view>
+              </view>
+            </navigator>
+          </block>
         </view>
       </view>
     </view>
@@ -27,8 +37,9 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  // import {get} from 'utils/service'
   // import db from 'utils/db'
+  import {formatDate} from 'utils/common'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class questionHistory extends wepy.page {
@@ -43,11 +54,6 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
       dataList: []
     }
 
@@ -60,13 +66,37 @@
         }).catch(err => {
           console.log(err)
         })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
       }
+    }
+
+    getQuestionHistory () {
+      for (let i = 0; i < 10; i++) {
+        let obj = {
+          userId: i,
+          nickname: '李先生' + i,
+          questionContent: '由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体',
+          askTime: formatDate(new Date())
+        }
+        this.dataList.push(obj)
+      }
+      this.$apply()
+      // get({
+      //   apiName: 'getPostgraduateInfo',
+      //   data: {}
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     res.data.forEach((item) => {
+      //       item.askTime = formatDate(Date.now())
+      //     })
+      //     this.dataList.push(res.data)
+      //     this.$apply()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+    }
+    onShow () {
+      this.getQuestionHistory()
     }
 
     onLoad (params) {

@@ -66,6 +66,7 @@
         'pages/searchList',
         'pages/serviceList',
         'pages/questionFrom',
+        'pages/chat',
         // 研究生
         'pages/graduateRegister',
         'pages/graduateList',

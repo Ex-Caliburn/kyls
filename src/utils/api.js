@@ -23,10 +23,11 @@ const api = {
   * */
   'login': 'wx/login',
   /*
-  * 信息录入
+  * 信息录入更新
   * */
   graduateRegister: user + 'postgraduateRegister',
   undergraduateRegister: user + 'undergraduateRegister',
+  updateUserInfo: user + 'updateUserInfo',
   /*
   * 研究生列表信息 根据询问问题类型
   * */

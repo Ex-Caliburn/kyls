@@ -58,6 +58,9 @@
       }
     }
 
+    pay (data, onSuccess, fail) {
+    }
+
     onLoad (params) {
       console.log(params.id)
       this.id = params.id

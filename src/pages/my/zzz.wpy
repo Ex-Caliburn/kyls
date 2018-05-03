@@ -57,6 +57,38 @@
       }
     }
 
+    getQuestionHistory () {
+      for (let i = 0; i < 10; i++) {
+        let obj = {
+          rank: i,
+          nickname: '李先生' + i,
+          avatar: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+          school: '哈尔冰理工大学',
+          major: '艺设计和景区规划',
+          grade: '一年级',
+          credit: 100,
+          cost: '50花呗',
+          replyTime: '20m'
+        }
+        this.dataList.push(obj)
+        this.$apply()
+      }
+      // get({
+      //   apiName: 'getPostgraduateInfo',
+      //   data: {}
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     res.data.forEach((item) => {
+      //       item.askTime = formatDate(Date.now())
+      //     })
+      //     this.dataList.push(res.data)
+      //     this.$apply()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+    }
+
     onLoad (params) {
       this.invitationCode = this.$parent.globalData.invitationCode
       this.$apply()
