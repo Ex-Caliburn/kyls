@@ -1,15 +1,6 @@
 <style lang="less">
 </style>
 <template>
-  <!--真实姓名：-->
-  <!--邮箱*：-->
-  <!--是否应届*：-->
-  <!--本科院校*：           此项为选择项（用本科高校汇总）（加搜索）-->
-  <!--本科专业*：           此项为选择项（用本科专业汇总）（加搜索）-->
-  <!--意向院校：-->
-  <!--意向专业：-->
-  <!--我已阅读并同意考研里手相关协议-->
-
   <view class="page">
     <view class="weui-cells__title">请填写必要信息完成注册</view>
 
@@ -20,7 +11,7 @@
             <view class="weui-label">真实姓名*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入真实姓名" value="{{userName}}"/>
+            <input class="weui-input" @change="nameInp" placeholder="请输入真实姓名" value="{{userName}}"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -28,7 +19,7 @@
             <view class="weui-label">身份证号*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" type="idcard" placeholder="请输入身份证号" value="{{idNumber}}"/>
+            <input class="weui-input" type="idcard" @change="idNumberInp" placeholder="请输入身份证号" value="{{idNumber}}"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -36,7 +27,7 @@
             <view class="weui-label">邮箱*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入邮箱" value="{{email}}"/>
+            <input class="weui-input" placeholder="请输入邮箱"  @change="emailInp" value="{{email}}"/>
           </view>
         </view>
 
@@ -46,7 +37,7 @@
             <view class="weui-label">初试专业科目*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入初试专业科目" value="{{volunteerMajor}}"/>
+            <input class="weui-input" placeholder="请输入初试专业科目" @change="publicSubjectFirstInp" value="{{publicSubjectFirst}}"/>
           </view>
         </view>
 
@@ -55,7 +46,7 @@
             <view class="weui-label">硕士阶段学号*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input"  type="number" placeholder="请输入硕士阶段学号(准研究生填0)" value="{{postgraduateNumber}}"/>
+            <input class="weui-input" type="number" @change="postgraduateNumberInp" placeholder="请输入硕士阶段学号(准研究生填0)" value="{{postgraduateNumber}}"/>
           </view>
         </view>
 
@@ -133,16 +124,6 @@
                       <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
                     </view>
                   </block>
-                  <!--<view class="weui-uploader__file weui-uploader__file_status">-->
-                  <!--<image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill"/>-->
-                  <!--<view class="weui-uploader__file-content">-->
-                  <!--<icon type="warn" size="23" color="#F43530"></icon>-->
-                  <!--</view>-->
-                  <!--</view>-->
-                  <!--<view class="weui-uploader__file weui-uploader__file_status">-->
-                  <!--<image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill"/>-->
-                  <!--<view class="weui-uploader__file-content">50%</view>-->
-                  <!--</view>-->
                 </view>
                 <view class="weui-uploader__input-box">
                   <view class="weui-uploader__input" @tap="chooseImage"></view>
@@ -158,7 +139,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入推荐人邀请码" value="{{InvitationCode}}"/>
+            <input class="weui-input" placeholder="请输入推荐人邀请码" @change="invitationCodeInp"  value="{{invitationCode}}"/>
           </view>
         </view>
 
@@ -187,11 +168,12 @@
 
 <script>
   import wepy from 'wepy'
-  import tip from 'utils/tip'
+  // import tip from 'utils/tip'
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
+  import { CN_RULE, EMAIL_RULE, ID_RULE } from '../utils/constant'
 
   export default class graduateRegister extends wepy.page {
     config = {
@@ -204,8 +186,8 @@
     mixins = [toast]
 
     data = {
+      invitationCode: '',
       files: [], // pic
-      errMsg: '',
       userName: '',
       email: '',
       idNumber: '',
@@ -228,7 +210,7 @@
       grade: '', // 年级 1.准研究生、2.研一、3.研二、4.研三
       publicSubjectFirst: '', // 初试公共科目
       professionalSubjectFirst: [], // 初试专业科目，逗号分割
-      answerWill: true, //  回答意愿
+      answerWill: false, //  回答意愿
       isAgree: false,
       educationPicture: '' // 学历证明图片 这个时参数
     }
@@ -236,7 +218,25 @@
     computed = {}
 
     methods = {
-      async openFile() {
+      invitationCodeInp (e) {
+        this.invitationCode = e.detail.value
+      },
+      publicSubjectFirstInp (e) {
+        this.publicSubjectFirst = e.detail.value
+      },
+      postgraduateNumberInp (e) {
+        this.postgraduateNumber = e.detail.value
+      },
+      nameInp (e) {
+        this.userName = e.detail.value
+      },
+      emailInp (e) {
+        this.email = e.detail.value
+      },
+      idNumberInp (e) {
+        this.idNumber = e.detail.value
+      },
+      async openFile () {
         let res = await wepy.downloadFile({
           url: 'https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc'
         })
@@ -251,7 +251,7 @@
           console.log(err)
         })
       },
-      async chooseImage(e) {
+      async chooseImage (e) {
         let res = await wepy.chooseImage({
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
@@ -259,77 +259,85 @@
         this.files = this.files.concat(res.tempFilePaths)
         this.$apply()
       },
-      previewImage(e) {
+      previewImage (e) {
         wepy.previewImage({
           current: e.currentTarget.id, // 当前显示图片的http链接
           urls: this.data.files // 需要预览的图片http链接列表
         })
       },
-      bindAgreeChange(e) {
+      bindAgreeChange (e) {
         this.isAgree = !!e.detail.value.length
       },
-      bindDegreeChange(e) {
+      bindDegreeChange (e) {
         this.degreeIndex = e.detail.value
       },
-      bindGradeChange(e) {
+      bindGradeChange (e) {
         this.gradeIndex = e.detail.value
       },
-      bindStudyModeChange(e) {
+      bindStudyModeChange (e) {
         this.studyModeIndex = e.detail.value
       },
-      bindMajorChange(e) {
+      bindMajorChange (e) {
         this.majorIndex = e.detail.value
       },
-      switchChange: function(e) {
+      switchChange: function (e) {
         this.answerWill = e.detail.value
       },
-      showTopTips() {
+      showTopTips () {
         this.submit()
-      },
-      toast() {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-
-        promise.then((d) => {
-          console.log('toast done')
-        })
       }
     }
 
     events = {}
 
-    check() {
+    check () {
 
     }
 
-    submit() {
+    submit () {
       let userId = this.$parent.globalData.userInfo.userId
       let {
         email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
         postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, answerWill,
-        publicSubjectFirst, professionalSubjectFirst, educationPicture
+        publicSubjectFirst, professionalSubjectFirst, educationPicture, invitationCode,
+        files
       } = this
       answerWill = answerWill ? '1' : '0'
       if (email && userName && idNumber && undergraduateSchoolId && undergraduateMajorId &&
         postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') &&
-        (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') && professionalSubjectFirst.length > 0 && isAgree && answerWill) {
-        console.log('验证通过')
+        (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
+        professionalSubjectFirst && isAgree && answerWill && files.length > 0) {
       } else {
-        if (!userName) {
-          this.errMsg = '请输入正确名字'
-        } else if (!email) {
-          this.errMsg = '请输入正确的邮箱'
-        } else if (!undergraduateSchoolId) {
-          this.errMsg = '请选择毕业院校'
-        } else if (!undergraduateMajorId) {
-          this.errMsg = '请选择毕业专业'
+        let errMsg
+        if (!userName || !CN_RULE.test(userName)) {
+          errMsg = '请输入正确名字'
+        } else if (!idNumber || !ID_RULE.test(idNumber)) {
+          errMsg = '请输入正确的身份证号'
+        } else if (!email || !EMAIL_RULE.test(email)) {
+          errMsg = '请输入正确的邮箱'
+        } else if (!professionalSubjectFirst) {
+          errMsg = '请输入初试专业科目'
+        } else if (!postgraduateNumber) {
+          errMsg = '请输入硕士阶段学号'
+        } else if (degreeIndex === '') {
+          errMsg = '请选择学位性质'
+        } else if (studyModeIndex === '') {
+          errMsg = '请选择就读学习方式'
+        } else if (gradeIndex === '') {
+          errMsg = '请选择年级'
+        } else if (majorIndex === '') {
+          errMsg = '请选择硕士就读专业大类'
+        } else if (!undergraduateSchoolId || !undergraduateMajorId || !postgraduateSchoolId || !postgraduateMajorId) {
+          errMsg = '请选择毕业院校以及专业'
+        } else if (files.length > 0) {
+          errMsg = '请选择毕业院校以及专业'
         } else {
-          this.errMsg = '请阅读并同意协议'
+          errMsg = '请阅读并同意协议'
         }
-        tip.error(this.errMsg)
+        console.log(errMsg)
+        this.ShowToast(errMsg)
+        return
       }
       post({
         apiName: 'graduateRegister',
@@ -338,6 +346,7 @@
           userName,
           email,
           idNumber,
+          invitationCode,
           undergraduateSchoolId,
           undergraduateMajorId,
           postgraduateSchoolId,
@@ -350,7 +359,7 @@
           publicSubjectFirst, // 初试公共科目
           professionalSubjectFirst: professionalSubjectFirst.join(','), // 初试专业科目，逗号分割
           answerWill: Number(answerWill) + '', //  回答意愿
-          educationPicture // 学历证明图片 这个时参数
+          educationPicture: files.join(',') // 学历证明图片 这个时参数
         }
       }).then(res => {
         console.log(res)
@@ -359,15 +368,20 @@
       })
     }
 
-    onShow(params) {
-      this.undergraduateSchoolId = wepy.$instance.globalData.undergraduateSchoolId
-      this.undergraduateMajorId = wepy.$instance.globalData.undergraduateMajorId
-      wepy.$instance.globalData.undergraduateSchoolId = ''
-      wepy.$instance.globalData.undergraduateMajorId = ''
-      console.log(params)
+    onShow () {
+      let gd = wepy.$instance.globalData
+      this.undergraduateSchoolId = gd.undergraduateSchoolId
+      this.undergraduateMajorId = gd.undergraduateMajorId
+      this.postgraduateSchoolId = gd.postgraduateSchoolId
+      this.postgraduateMajorId = gd.postgraduateMajorId
+      this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.undergraduateMajorName = gd.undergraduateMajorName
+      this.postgraduateSchoolName = gd.postgraduateSchoolName
+      this.postgraduateMajorName = gd.postgraduateMajorName
+      this.$apply()
     }
 
-    onLoad(params) {
+    onLoad (params) {
       // this.ShowToast('123123')
     }
   }

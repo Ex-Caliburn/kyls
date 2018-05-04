@@ -44,12 +44,15 @@ const api = {
   * */
 // { "code": 0, "error": "", "data": [ { "diaryId": 2, "userId": 2, "title": "1123121", "content": "dsajkgdashgkas", "diaryPictures": "我喜欢问问题", "status": 1, "updatedAt": 1525179840480, "createdAt": 1525179840000 } ] }
   getDiaryList: diary + 'diaryList',
-    addDiary: diary + 'addDiary',
+  addDiary: diary + 'addDiary',
   editDiary: diary + 'editDiary',
   /*
   * 问答
   * */
   questionSubmit: 'question/submit',
+  answerQuestion: 'answer/answerQuestion',
+  viewQuestion: 'question/viewQuestion', // 问题一览 （浏览悬赏问题）
+  getOfferQuestions: 'question/getOfferQuestions', // 获取悬赏问题列表并根据发布时间排序
   /*
   * 学校相关数据
   * */

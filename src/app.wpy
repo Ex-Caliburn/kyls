@@ -123,7 +123,7 @@
       group: 0, // 身份
       undergraduateSchoolId: 0,
       undergraduateMajorId: 0,
-      isPostgraduate: false, // true 研究生 false本科生
+      isPostgraduate: true, // true 研究生 false本科生
       userInfo: {
         avatarUrl: ''
       },

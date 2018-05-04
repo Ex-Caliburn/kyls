@@ -98,7 +98,7 @@
       content: '',
       pictures: [],
       userId: '',
-      answerUserId: '',
+      questionId: '',
       questionType: 1,
       imgCount: 8,
       successFlag: false,
@@ -115,14 +115,12 @@
 
     methods = {
       async submitQuestion () {
-        let {userId, answerUserId, content, pictures} = this
-        userId = 1
-        answerUserId = 1
+        let {userId, questionId, content, pictures} = this
         post({
-          apiName: 'questionSubmit',
+          apiName: 'answerQuestion',
           data: {
-            userId,
-            answerUserId,
+            anserUserId: userId,
+            questionId,
             content,
             pictures: pictures.join(','),
             questionType: 1 // 1.聊天类型，2：电话，3面聊

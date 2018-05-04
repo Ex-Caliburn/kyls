@@ -25,7 +25,7 @@
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-            <view class="weui-label">意向院校*</view>
+            <view class="weui-label">意向院校</view>
           </view>
           <view class="weui-cell__bd">
             <input class="weui-input" placeholder="意向院校" @change="volunteerSchoolInp" value="{{volunteerSchool}}"/>
@@ -34,7 +34,7 @@
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-            <view class="weui-label">意向专业*</view>
+            <view class="weui-label">意向专业</view>
           </view>
           <view class="weui-cell__bd">
             <input class="weui-input" placeholder="意向专业" @change="volunteerMajorInp" value="{{volunteerMajor}}"/>
@@ -69,7 +69,7 @@
         <view class="weui-cell weui-cell_switch">
           <view class="weui-cell__bd">是否应届*</view>
           <view class="weui-cell__ft">
-            <switch checked="{{prepareGraduate}}"></switch>
+            <switch @change="changePrepareGraduate" checked="{{prepareGraduate}}"></switch>
           </view>
         </view>
 
@@ -78,7 +78,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请推荐人邀请码" value="{{InvitationCode}}"/>
+            <input class="weui-input" placeholder="请推荐人邀请码" @change="invitationCodeInp()" value="{{InvitationCode}}"/>
           </view>
         </view>
       </view>
@@ -110,6 +110,7 @@
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
+  import { CN_RULE, EMAIL_RULE } from '../utils/constant'
 
   export default class undergraduateRegister extends wepy.page {
     config = {
@@ -129,19 +130,22 @@
       undergraduateMajorName: '',
       volunteerSchool: '',
       volunteerMajor: '',
-      prepareGraduate: true,
+      prepareGraduate: '',
       userName: '',
       email: '',
-      errMsg: '',
       isAgree: false,
-      countries: ['中国', '美国', '英国'],
-      countryIndex: 0,
-      inputValue: ''
+      invitationCode: ''
     }
 
     computed = {}
 
     methods = {
+      invitationCodeInp (e) {
+        this.invitationCode = e.detail.value
+      },
+      changePrepareGraduate (e) {
+        this.prepareGraduate = e.detail.value
+      },
       volunteerMajorInp (e) {
         this.volunteerMajor = e.detail.value
       },
@@ -157,21 +161,8 @@
       bindAgreeChange(e) {
         this.isAgree = !!e.detail.value.length
       },
-      bindCountryChange(e) {
-        this.countryIndex = e.detail.value
-      },
       showTopTips() {
         this.submit()
-      },
-      toast() {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https:// raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-
-        promise.then((d) => {
-          console.log('toast done')
-        })
       }
     }
 
@@ -184,22 +175,23 @@
     submit() {
       let userId = this.$parent.globalData.userInfo.userId
       let { email, userName, prepareGraduate, undergraduateSchoolId,
-        undergraduateMajorId, isAgree, volunteerSchool, volunteerMajor} = this
+        undergraduateMajorId, isAgree, volunteerSchool, volunteerMajor, invitationCode} = this
       if (email && userName && undergraduateSchoolId && undergraduateMajorId && isAgree) {
       } else {
-        // errMsg = '请输入志愿学校'
-        // errMsg = '请输入志愿专业'
-        if (!userName) {
-          this.errMsg = '请输入正确名字'
-        } else if (!email) {
-          this.errMsg = '请输入正确的邮箱'
+        let errMsg
+        if (!userName || !CN_RULE.test(userName)) {
+          errMsg = '请输入正确名字'
+        } else if (!email || !EMAIL_RULE.test(email)) {
+          errMsg = '请输入正确的邮箱'
         } else if (!undergraduateSchoolId) {
-          this.errMsg = '请选择毕业院校'
+          errMsg = '请选择毕业院校'
         } else if (!undergraduateMajorId) {
-          this.errMsg = '请选择毕业专业'
+          errMsg = '请选择毕业专业'
         } else {
-          this.errMsg = '请阅读并同意协议'
+          errMsg = '请阅读并同意协议'
         }
+        this.ShowToast(errMsg)
+        return
       }
       post({
         apiName: 'undergraduateRegister',
@@ -207,6 +199,7 @@
           userId,
           userName,
           email,
+          invitationCode,
           isfreshGraduate: prepareGraduate, // 是否应届
           undergraduateSchoolId,
           undergraduateMajorId,
@@ -218,32 +211,6 @@
       }).catch(res => {
         console.log(res)
       })
-      // post({
-      //   apiName: 'graduateRegister',
-      //   data: {
-      //     userId,
-      //     userName: '123',
-      //     email: '123',
-      //     idNumber: '123',
-      //     undergraduateSchoolId: 1,
-      //     undergraduateMajorId: 1,
-      //     postgraduateSchoolId: 1,
-      //     postgraduateMajorTypeId: 1, // 专业大类
-      //     postgraduateMajorId: 1,
-      //     postgraduateNumber: '1',
-      //     degreeNature: 1, //  学位性质 1学术型、2专业型
-      //     studyMode: 1, // 就读学习方式 1:全日制、2:非全日制
-      //     grade: 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
-      //     publicSubjectFirst: '1', // 初试公共科目
-      //     professionalSubjectFirst: '1', // 初试专业科目，逗号分割
-      //     answerWill: '1', //  回答意愿
-      //     educationPicture: '1' // 学历证明图片 这个时参数
-      //   }
-      // }).then(res => {
-      //   console.log(res)
-      // }).catch(res => {
-      //   console.log(res)
-      // })
     }
 
     onShow() {

@@ -26,11 +26,16 @@
     }
     .time{
       margin-top: 10rpx;
-      text-align: right;
+      /*text-align: right;*/
     }
   }
 
-  .answer{
+  .answer-btn{
+    font-weight: bold;
+    font-size: 30rpx;
+    /*color: red;*/
+    text-align: right;
+    margin: 0 auto;
   }
 
 </style>
@@ -50,6 +55,9 @@
           </block>
         </view>
         <view class="time fz24">{{time}}</view>
+        <navigator class="answer-btn fz24" url="/pages/answerEdit?questionId={{item.questionId}}" hover-class="weui-cell_active">
+          回答
+        </navigator>
       </view>
 
       <view class="answer">

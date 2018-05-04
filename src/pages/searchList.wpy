@@ -16,7 +16,7 @@
     width: 100%;
   }
 
-  .confirm-btn{
+  .confirm-btn {
     z-index: 1000;
     position: fixed;
     bottom: 30rpx;
@@ -47,7 +47,7 @@
         border-left: 6rpx solid #F8F8F8;
         box-sizing: border-box;
 
-        .icon-success{
+        .icon-success {
           position: absolute;
           top: 5px;
           right: 0px;
@@ -65,7 +65,7 @@
     .classify_detail {
       position: relative;
       z-index: 999;
-    // margin-left: - 15 rpx;
+      // margin-left: - 15 rpx;
       background: #fff;
       padding: 15px 10px 40px 30px;
 
@@ -144,7 +144,8 @@
         </scroll-view>
       </view>
 
-      <button class="weui-btn mini-btn confirm-btn" size="mini" @tap="confirm()" formType="submit" type="primary">确认</button>
+      <button class="weui-btn mini-btn confirm-btn" size="mini" @tap="confirm()" formType="submit" type="primary">确认
+      </button>
 
 
     </view>
@@ -169,18 +170,19 @@
 
     data = {
       undergraduateSchoolId: 0,
-      undergraduateSchoolName: 0,
       undergraduateMajorId: 0,
+      postgraduateSchoolId: 0,
+      postgraduateMajorId: 0,
+      undergraduateSchoolName: 0,
       undergraduateMajorName: 0,
-      volunteerSchool: '', // 志愿学校
-      volunteerMajor: '', // 志愿专业
+      postgraduateSchoolName: 0,
+      postgraduateMajorName: 0,
       topHeight: 60,
       inputShowed: false,
       inputVal: '',
       scrollTop: 100,
       windowHeight: 0,
       index: 0,
-      list: {},
       // 一级分类数据
       rootList: [
         {
@@ -195,24 +197,12 @@
           active: false,
           selected: false
         }
-        // {
-        //   id: '2',
-        //   name: '意向院校*',
-        //   active: false,
-        //   selected: false
-        // },
-        // {
-        //   id: '3',
-        //   name: '意向专业',
-        //   active: false,
-        //   selected: false
-        // }
       ],
       // 二级三级分类数据
       childList: []
     }
 
-    async getChildCate(id) {
+    async getChildCate (id) {
       let i = id || this.index
       console.log(id, this.index)
       const apiArr = ['getUndergraduateSchool', 'getUndergraduateMajor', 'getPostgraduateSchool', 'getPostgraduateMajor']
@@ -234,76 +224,70 @@
       })
     }
 
-    //
-    // async getRootCateTopLevel() {
-    //   const json = await api.rootCtegoryList({
-    //     query: {}
-    //   })
-    //   if (json.data.id == 0) {
-    //     this.rootList = json.data.list
-    //     if (this.rootList.length > 0) {
-    //       var selRottCateid = this.rootList[0].id
-    //       if (selid.length == 0) {
-    //         this.rootList[0].active = true
-    //       } else {
-    //         for (var i = 0 ; i < this.rootList.length ; i++) {
-    //           if (selCode == this.rootList[i].id) {
-    //             selRottCateid = this.rootList[i].id
-    //             this.rootList[i].active = true
-    //           }
-    //         }
-    //       }
-    //
-    //       this.getChildCate(selRottCateid)
-    //     }
-    //   } else {
-    //     tip.error(json.data.msg)
-    //   }
-    //   this.$apply()
-    // }
-
-    onLoad() {
+    onLoad () {
+      if (wepy.$instance.globalData.isPostgraduate) {
+        this.rootList.push({
+          id: '2',
+          name: '硕士院校*',
+          active: false,
+          selected: false
+        },
+          {
+            id: '3',
+            name: '硕士专业*',
+            active: false,
+            selected: false
+          })
+      }
       let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
       this.windowHeight = systemInfo.windowHeight
       this.$apply()
     }
 
-    onShow() {
+    onShow () {
       let gd = wepy.$instance.globalData
       this.undergraduateSchoolId = gd.undergraduateSchoolId
       this.undergraduateMajorId = gd.undergraduateMajorId
+      this.postgraduateSchoolId = gd.postgraduateSchoolId
+      this.postgraduateMajorId = gd.postgraduateMajorId
       this.undergraduateSchoolName = gd.undergraduateSchoolName
       this.undergraduateMajorName = gd.undergraduateMajorName
-      console.log(gd.undergraduateMajorId)
+      this.postgraduateSchoolName = gd.postgraduateSchoolName
+      this.postgraduateMajorName = gd.postgraduateMajorName
       if (gd.undergraduateSchoolId) {
         this.rootList[0].selected = true
       }
       if (gd.undergraduateMajorId) {
         this.rootList[1].selected = true
-        console.log(this.rootList[1].selected)
+      }
+      if (gd.postgraduateSchoolId) {
+        this.rootList[2].selected = true
+      }
+      if (gd.postgraduateMajorId) {
+        this.rootList[3].selected = true
       }
       this.$apply()
     }
 
     computed = {}
     methods = {
-      showInput() {
+      showInput () {
         this.inputShowed = true
       },
-      hideInput() {
+      hideInput () {
         this.inputVal = ''
         this.inputShowed = false
       },
-      clearInput() {
+      clearInput () {
         this.inputVal = ''
       },
-      inputTyping(e) {
+      inputTyping (e) {
         this.inputVal = e.detail.value
       },
-      inputSearch() {
+      inputSearch () {
         this.getChildCate()
       },
-      choose(id, name) {
+      choose (id, name) {
         console.log(name)
         this.rootList[this.index].selected = true
         switch (Number(this.index)) {
@@ -316,14 +300,18 @@
             this.undergraduateMajorName = name
             break
           case 2:
+            this.postgraduateSchoolId = id
+            this.postgraduateSchoolName = name
             break
           case 3:
+            this.postgraduateMajorId = id
+            this.postgraduateMajorName = name
             break
           default:
             break
         }
       },
-      changeCate(e) {
+      changeCate (e) {
         console.log('changecate....')
         let id = e.currentTarget.dataset.id
         // 设置一级分类的选中状态
@@ -338,9 +326,10 @@
         this.$apply()
         this.getChildCate(id)
       },
-      confirm() {
+      confirm () {
         let flag = true
         for (let i = 0; i < this.rootList.length; i++) {
+          console.log(this.rootList[i].selected)
           if (!this.rootList[i].selected) {
             flag = false
             tip.confirm('你还有院校信息未选择,确认离开当前页面么')
@@ -357,12 +346,17 @@
         }
       }
     }
+
     beforeLeave () {
       let gd = wepy.$instance.globalData
       gd.undergraduateSchoolId = this.undergraduateSchoolId
       gd.undergraduateMajorId = this.undergraduateMajorId
+      gd.postgraduateSchoolId = this.postgraduateSchoolId
+      gd.postgraduateMajorId = this.postgraduateMajorId
       gd.undergraduateSchoolName = this.undergraduateSchoolName
       gd.undergraduateMajorName = this.undergraduateMajorName
+      gd.postgraduateSchoolName = this.postgraduateSchoolName
+      gd.postgraduateMajorName = this.postgraduateMajorName
       this.$apply()
       this.navigate('', 2)
     }
