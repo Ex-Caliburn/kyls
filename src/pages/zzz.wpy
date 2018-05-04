@@ -53,6 +53,14 @@
     }
 
     onLoad (params) {
+      post({
+        apiName: 'addFormId',
+        data: { formId }
+      }).then((res) => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
       console.log(params.id)
       this.id = params.id
       this.$apply()

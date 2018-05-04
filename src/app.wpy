@@ -76,6 +76,7 @@
         // 本科生
         'pages/undergraduateRegister',
         'pages/chooseInterest',
+        'pages/rewardQuestion',
         // 我的
         // 'pages/cropper/cropper',
         'pages/my/cropper',

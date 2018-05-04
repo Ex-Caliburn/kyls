@@ -70,7 +70,11 @@ function addFormId (formId) {
   }
   post({
     apiName: 'addFormId',
-    form_id: formId
+    data: { formId }
+  }).then((res) => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
   })
 }
 

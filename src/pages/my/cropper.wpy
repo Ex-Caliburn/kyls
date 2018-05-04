@@ -306,6 +306,31 @@
           <view class="weui-cell__bd"></view>
           <view class="weui-cell__ft weui-cell__ft_in-access">修改</view>
         </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">邮箱*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入邮箱"  @change="emailInp" value="{{email}}"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">意向院校</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="意向院校" @change="volunteerSchoolInp" value="{{volunteerSchool}}"/>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">意向专业</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="意向专业" @change="volunteerMajorInp" value="{{volunteerMajor}}"/>
+          </view>
+        </view>
       </view>
     </view>
   </view>
@@ -374,11 +399,10 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import {uploadPics} from 'utils/service'
   import { picturePrefix } from 'utils/config'
-  // import {uploadPics, post} from 'utils/service'
+  import { post, uploadPics } from 'utils/service'
   import db from 'utils/db'
-  import { USER_INFO } from 'utils/constant'
+  import { USER_INFO, EMAIL_RULE } from 'utils/constant'
 
   // 手机的宽度
   var windowWRPX = 750
@@ -415,6 +439,9 @@
     mixins = [tabbar]
 
     data = {
+      volunteerMajor: '',
+      volunteerSchool: '',
+      email: '',
       avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
       imageSrc: '',
       returnImage: '',
@@ -444,6 +471,34 @@
     }
 
     methods = {
+      emailInp (e) {
+        this.email = e.detail.value
+      },
+      volunteerMajorInp (e) {
+        this.volunteerMajor = e.detail.value
+      },
+      volunteerSchoolInp (e) {
+        this.volunteerSchool = e.detail.value
+      }
+    }
+
+    updateInfo() {
+      let { volunteerMajor, volunteerSchool, email, avatarUrl } = this
+      if (!email || !EMAIL_RULE.test(email)) {
+        let errMsg = '请输入正确的邮箱'
+        this.ShowToast(errMsg)
+      }
+      post({
+        apiName: 'updateUserInfo',
+        data: { volunteerMajor, volunteerSchool, email, avatarUrl }
+      }).then((res) => {
+        let userInfo = this.$parent.globalData.userInfo
+        userInfo.avatarUrl = picturePrefix + avatarUrl
+        db.set(USER_INFO, userInfo)
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
 
     onLoad (params) {
@@ -583,12 +638,12 @@
 
     uploadPic (FilePath) {
       let that = this
-      let userInfo = this.$parent.globalData.userInfo
+      // let userInfo = this.$parent.globalData.userInfo
       function success (imgUrl) {
         that.avatarUrl = picturePrefix + imgUrl
         that.imageSrc = ''
-        userInfo.avatarUrl = picturePrefix + imgUrl
-        db.set(USER_INFO, userInfo)
+        // userInfo.avatarUrl = picturePrefix + imgUrl
+        // db.set(USER_INFO, userInfo)
           // todo 更新头像
         that.$apply()
       }
