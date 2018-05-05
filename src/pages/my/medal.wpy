@@ -1,9 +1,60 @@
 <style>
+  .radius{
+    position: absolute;
+    width: 75rpx;
+    height: 75rpx;
+    border-radius: 50rpx;
+    font-size: 20rpx;
+    text-align: center;
+    box-sizing: border-box;
+    top: 30rpx;
+  }
+
+  .personConfig{
+    right: 150rpx;
+    color: #FFFFFF;
+    padding: 9rpx;
+    margin: 0;
+    background-color: #ff6a3c;
+  }
+
+  .share{
+    right: 30rpx;
+    color: #FFFFFF;
+    line-height: 75rpx;
+    padding: 0;
+    margin: 0;
+    background-color: #ff6a3c;
+  }
+
+  .model{
+    padding: 40rpx;
+  }
+
+  .icon{
+    height: 180rpx;
+    width: 180rpx;
+    margin-right: 30rpx;
+  }
+  .title{
+    text-align: center;
+    margin-bottom: 50rpx;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <button class="radius share type_yellow" open-type="share">分享</button>
+      <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view @tap="choose({{index}})" class="{{index < 2 ? 'border model': 'model' }}">
+          <view class="title {{item.color}}">{{item.title}}</view>
+          <view class="flex flex-between">
+            <image class="icon" src="{{item.icon}}"/>
+            <view>{{item.content}}</view>
+          </view>
+        </view>
+      </block>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -16,9 +67,11 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {get, post} from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
+let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
 
   export default class medal extends wepy.page {
     config = {
@@ -29,39 +82,61 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      list: [
+        {
+          title: '升级勋章',
+          content: '若未获得该勋章，则显示：革命尚未成功，仍需努力',
+          color: 'red',
+          get: false,
+          icon
+        },
+        {
+          title: '乐享勋章',
+          content: '若未获得该勋章，则显示：革命尚未成功，仍需努力',
+          color: 'green',
+          get: false,
+          icon
+        },
+        {
+          title: '大型勋章',
+          content: '若未获得该勋章，则显示：革命尚未成功，仍需努力',
+          color: 'blue',
+          get: false,
+          icon
+        }
+      ]
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      choose (i) {
+        this.navigate('my/medalDetail?type=' + i)
       }
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
+    }
+    onShareAppMessage (res) {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        wepy.showShareMenu({
+          withShareTicket: true
+        })
+        console.log(res.target)
+      }
+      return {
+        title: '考研里手',
+        path: '/pages/my/medal',
+        success: function(res) {
+          // 转发成功
+          console.log(res)
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
     }
   }
 </script>

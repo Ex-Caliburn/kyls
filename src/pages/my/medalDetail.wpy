@@ -1,9 +1,37 @@
 <style>
+  .page__bd{
+    text-align: center;
+    padding-top: 80rpx;
+  }
+  .center{
+    padding-bottom: 50rpx;
+  }
+  .mini-btn{
+    display: block;
+    margin: 0 auto;
+  }
+
+  .icon{
+    height: 180rpx;
+    width: 180rpx;
+    display: block;
+    margin: 0 auto;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <view hidden="{{!isGet}}" class="red center">恭喜你获得新勋章</view>
+      <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
+      <view class="center">已有XXX人获得</view>
+      <image class="icon" src="{{icon}}"/>
+      <view class="center">勋章名称</view>
+      <view class="center">勋章界面话语</view>
+      <view class="center">勋章获得条件</view>
+      <view class="center">勋章获得奖励：XXXXX</view>
+      <button class="center" hidden="{{isGet}}" @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26" size="mini">领取奖励</button>
+      <view class="center">完成度：</view>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -20,6 +48,8 @@
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
+  let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
+
   export default class medalDetail extends wepy.page {
     config = {
       navigationBarTitleText: '我的勋章'
@@ -32,6 +62,8 @@
     mixins = [tabbar]
 
     data = {
+      icon: icon,
+      isGet: false,
       showGuide: false,
       showAnswer: false,
       id: '',

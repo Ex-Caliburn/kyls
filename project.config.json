@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 15,
 			"list": [
 				{
 					"id": 0,
@@ -107,6 +107,24 @@
 					"id": -1,
 					"name": "undergraduateRegister",
 					"pathName": "pages/undergraduateRegister",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "recharge",
+					"pathName": "pages/my/recharge",
+					"query": ""
+				},
+				{
+					"id": 14,
+					"name": "研贝余额",
+					"pathName": "pages/my/money",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "/medal",
+					"pathName": "pages/my/medal",
 					"query": ""
 				}
 			]

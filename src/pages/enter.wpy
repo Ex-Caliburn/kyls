@@ -90,6 +90,7 @@
           'undergraduateRegister',
           'graduateRegister',
           'materials/story',
+          'my/info',
           'materials/help'
         ]
         this.navigate(route[index])

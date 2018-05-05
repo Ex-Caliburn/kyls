@@ -129,7 +129,7 @@
           }})
           .then((res) => {
             console.log(res)
-            this.navigate('/pages/my/info')
+            this.navigate('my/info')
           }).catch(err => {
             console.log(err)
           })

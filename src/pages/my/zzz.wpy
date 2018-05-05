@@ -22,6 +22,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
@@ -35,7 +36,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
       id: '',

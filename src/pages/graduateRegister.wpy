@@ -211,8 +211,7 @@
       publicSubjectFirst: '', // 初试公共科目
       professionalSubjectFirst: [], // 初试专业科目，逗号分割
       answerWill: false, //  回答意愿
-      isAgree: false,
-      educationPicture: '' // 学历证明图片 这个时参数
+      isAgree: false
     }
 
     computed = {}
@@ -300,7 +299,7 @@
         email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
         postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, answerWill,
-        publicSubjectFirst, professionalSubjectFirst, educationPicture, invitationCode,
+        publicSubjectFirst, professionalSubjectFirst, invitationCode,
         files
       } = this
       answerWill = answerWill ? '1' : '0'
@@ -331,7 +330,7 @@
         } else if (!undergraduateSchoolId || !undergraduateMajorId || !postgraduateSchoolId || !postgraduateMajorId) {
           errMsg = '请选择毕业院校以及专业'
         } else if (files.length > 0) {
-          errMsg = '请选择毕业院校以及专业'
+          errMsg = '请上传学历证明图片'
         } else {
           errMsg = '请阅读并同意协议'
         }

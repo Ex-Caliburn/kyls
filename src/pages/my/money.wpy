@@ -4,6 +4,18 @@
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd flex">
+            <view>研贝余额</view>
+            <view style="margin-left: 20rpx" class="income">{{money}}</view>
+          </view>
+        </view>
+        <navigator url="/pages/my/recharge" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">研贝充值</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+      </view>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -22,7 +34,7 @@
 
   export default class money extends wepy.page {
     config = {
-      navigationBarTitleText: '我的勋章'
+      navigationBarTitleText: '我的研贝'
     }
     components = {
       tabbar: Tabbar,
@@ -32,12 +44,8 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
       id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      money: 13123
     }
 
     methods = {
@@ -52,13 +60,44 @@
       },
       showGuide () {
         this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
       }
     }
 
+    getQuestionHistory () {
+      for (let i = 0; i < 10; i++) {
+        let obj = {
+          rank: i,
+          nickname: '李先生' + i,
+          avatar: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+          school: '哈尔冰理工大学',
+          major: '艺设计和景区规划',
+          grade: '一年级',
+          credit: 100,
+          cost: '50花呗',
+          replyTime: '20m'
+        }
+        this.dataList.push(obj)
+        this.$apply()
+      }
+      // get({
+      //   apiName: 'getPostgraduateInfo',
+      //   data: {}
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     res.data.forEach((item) => {
+      //       item.askTime = formatDate(Date.now())
+      //     })
+      //     this.dataList.push(res.data)
+      //     this.$apply()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+    }
+
     onLoad (params) {
+      this.invitationCode = this.$parent.globalData.invitationCode
+      this.$apply()
       console.log(params.id)
       this.id = params.id
       this.$apply()

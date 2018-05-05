@@ -59,8 +59,6 @@
         'pages/index',
         'pages/home',
         'pages/message',
-        'pages/test',
-        'pages/searchbar',
         'pages/answer',
         'pages/question',
         'pages/searchList',
@@ -94,7 +92,7 @@
         'pages/my/credit',
         'pages/my/recharge',
         'pages/my/withdraw',
-        'pages/my/infoEdit',
+        // 'pages/my/infoEdit',
         // 本科生我的
         'pages/my/questionHistory',
         'pages/my/thousandQuestion',

@@ -1,9 +1,62 @@
-<style>
+<style lang="less">
+  .page__bd{
+    padding-top: 100rpx;
+  }
+  .money{
+    line-height: 70rpx;
+    border-radius: 10rpx;
+    width: 150rpx;
+    text-align: center;
+    border: 1px solid #09bb07;
+    color: #09bb07;
+    background-color: #fff;
+  }
+
+  .recharge{
+    border-top:1px solid #ddd ;
+    border-bottom:1px solid #ddd ;
+    margin: 100rpx 0;
+    background-color: #fff;
+  }
+  .recharge-item{
+    font-size: 36rpx;
+    line-height: 200rpx;
+    height: 200rpx;
+  }
+  .tip{
+    padding: 0 20rpx;
+    background-color: #fff;
+    border-radius: 10rpx;
+    margin: 0 20rpx;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="flex flex-around">
+        <view class="money">166研贝</view>
+        <view class="money">666研贝</view>
+        <view class="money">1666研贝</view>
+      </view>
+
+      <view class="recharge flex flex-between">
+        <view class="recharge-item" style="font-size: 30px">￥</view>
+        <input class="recharge-item" type="text" placeholder="其它金额"/>
+        <view class="recharge-item">研贝</view>
+      </view>
+
+      <view class="fz26 tip">
+        <view >温馨信息：</view>
+        <view class="fz22">1、一元 = 一研贝；</view>
+        <view class="fz22">2、20研贝起充；</view>
+        <view class="fz22">3、充值166研贝您将获得免费查看166个问题的权力；</view>
+        <view class="fz22">4、充值666研贝您将获赠66研贝并同时获得免费查看166个问题的权力；</view>
+        <view class="fz22">5、充值1666研贝您将获赠166研贝及无限次免费查看问题的权力，同时获得最佳考研里手见面会入场券一张。</view>
+      </view>
+
+      <button @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26">立即支付</button>
+
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>

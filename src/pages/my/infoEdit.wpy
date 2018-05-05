@@ -185,7 +185,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
 
-  export default class graduateRegister extends wepy.page {
+  export default class infoEdit extends wepy.page {
     config = {
       navigationBarTitleText: '个人信息'
     }
