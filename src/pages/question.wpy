@@ -1,86 +1,139 @@
 <style>
-  page{
-    background-color: #FFFFFF;
+  .title{
+    text-align: center;
+    padding: 15rpx 0;
+    border-bottom: 1rpx dotted #eee;
+  }
+  .upload{
+    margin: 20rpx 30rpx;
+  }
+  /*.money{*/
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+  /*}*/
+  /*.money-list{*/
+    /*width: 170rpx;*/
+    /*height: 60rpx;*/
+  /*}*/
+  .money{
+    line-height: 70rpx;
+    height: 70rpx;
+    border-radius: 10rpx;
+    width: 150rpx;
+    text-align: center;
+    border: 1px solid #09bb07;
+    color: #09bb07;
+    background-color: #fff;
+  }
+
+  /*.money-num{*/
+    /*line-height: 70rpx;*/
+    /*border-radius: 10rpx;*/
+    /*width: 150rpx;*/
+    /*text-align: center;*/
+    /*border: 1px solid #09bb07;*/
+    /*color: #09bb07;*/
+    /*background-color: #fff;*/
+  /*}*/
+  .swiper_container {
+    height: 70rpx;
+  }
+
+  .swiper_item {
+    padding: 0 15rpx;
+    font-size: 25rpx;
+    letter-spacing: 2px;
+    color: #ea4a3a ;
+    text-align: left;
+  }
+  .icon-cancel{
+    position: absolute;
+    top: -2rpx;
+    right: -5rpx;
+  }
+  .weui-uploader__file{
+    position: relative;
+  }
+  .tip{
+    padding: 10px 15px;
   }
 </style>
 
 <template>
-  <view class="weui-panel">
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="title">悬赏速问</view>
+        <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
+          <block wx:for="{{msgList}}" wx:key="index">
+            <swiper-item>
+              <view class="swiper_item">{{item.title}}</view>
+            </swiper-item>
+          </block>
+        </swiper>
+
+        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">选择问题</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea @input="questionInput" class="textarea weui-textarea" maxlength="-1" placeholder="输入你的内容" value="{{content}}"/>
+            <view class="weui-textarea-counter">{{content.length}}</view>
+          </view>
         </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title bold">上传照片</view>
+                <view class="weui-uploader__info">{{files.length}}/8</view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
+                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                    </view>
+                  </block>
+                </view>
+                <view class="weui-uploader__input-box" hidden="{{files.length > 7}}">
+                  <view class="weui-uploader__input" @tap="chooseImage"></view>
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+
+        <view class="upload">
+          <text>请设置悬赏金额：</text>
+          <view class="flex flex-around" style="margin-bottom: 20rpx">
+            <view class="money">16研贝</view>
+            <view class="money">36研贝</view>
+            <view class="money">66研贝</view>
+          </view>
+          <view class="flex flex-around">
+            <view class="money">86研贝</view>
+            <view class="money">166研贝</view>
+            <input class="money" type="text" placeholder="其他" />
+          </view>
+          <!--<view class="money">-->
+            <!--<text class="money-num money-list" wx:for="{{money}}">{{item}}研贝</text>-->
+            <!--<input class="money-num money-list" type="text" placeholder="其他" />-->
+          <!--</view>-->
         </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+
+        <view class="fz26 tip">
+          <view >温馨信息：</view>
+          <view class="fz22">1、悬赏金额越高，您得到回复的速度越快且回复质量越高；</view>
+          <view class="fz22">2、其它金额下限为8；</view>
+          <view class="fz22">3、若半小时后您仍未得到回复，则研贝自动退还至您的余额。</view>
         </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
+
+        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">我要回答</button>
       </view>
     </view>
   </view>
@@ -88,33 +141,155 @@
 </template>
 
 
-
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
-  import tabbar from '../mixins/tabbar'
-  // import {get, post} from '../utils/service'
+  // import toast from 'mixins/toast'
+  import tabbar from 'mixins/tabbar'
+  import {get, post} from 'utils/service'
+  import navigate from 'mixins/navigate'
+  import { HOST, picturePrefix } from 'utils/config'
+  // import { diff } from 'utils/common'
+  import db from 'utils/db'
+  import { TOKEN } from 'utils/constant'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class Question extends wepy.page {
+  export default class zzz extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '速问'
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
+      content: '',
+      pictures: [],
+      userId: '',
+      questionId: '',
+      questionType: 1,
+      imgCount: 8,
+      successFlag: false,
+      files: [], // pic
+      filesTask: [], // pic
+      failTask: [],
+      msgList: [
+        {url: 'url', title: '李明喜（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
+        {url: 'url', title: '大法官（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'}],
+      id: '',
+      dataList: [],
+      array: [1, 2, 3],
+      money: [16, 36, 66, 86, 166]
     }
 
-    onLoad () {
-      console.log(this)
+    methods = {
+      submit () {
+        this.showGuide = !this.showGuide
+      },
+      getCode () {
+        this.showGuide = !this.showGuide
+      },
+      deleteImage (i) {
+        console.log(i)
+        this.files.splice(i, 1)
+        this.$apply()
+      },
+      questionInput (e) {
+        this.content = e.detail.value
+      },
+      async chooseImage(e) {
+        let res = await wepy.chooseImage({
+          count: this.imgCount - this.files.length,
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        })
+        if (res.tempFilePaths) {
+          console.log(res)
+          this.dealImage(res.tempFilePaths)
+        }
+      },
+      previewImage(e) {
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
+      }
+    }
+
+    dealImage (images) {
+      // let task = diff(images, this.filesTask)
+      var that = this
+      let filesTask = this.filesTask.concat(images)
+      this.filesTask = filesTask
+      console.log(this.filesTask)
+      this.$apply()
+      function success (imgUrl) {
+        for (var i = 0; i < that.filesTask.length; i++) {
+          if (that.filesTask[i] === imgUrl) {
+            that.filesTask.slice(i)
+          }
+        }
+        that.files.push(picturePrefix + imgUrl)
+        that.$apply()
+      }
+      function fail (imgUrl) {
+        that.failTask.push(imgUrl)
+        console.log(this.failTask)
+        that.$apply()
+      }
+      for (let i = 0; i < images.length; i++) {
+        this.uploadPics(images[i], success, fail)
+      }
+    }
+
+    async uploadPics (data, success, fail) {
+      try {
+        let res = await wepy.uploadFile({
+          url: HOST + 'upload/image',
+          filePath: data,
+          header: {
+            'session-id': db.get(TOKEN) || ''
+          },
+          name: 'file',
+          formData: {
+            file: data
+          }
+        })
+        try {
+          let resData = res.data && JSON.parse(res.data)
+          if (res.statusCode === 200 && resData.code === 0) {
+            success && success(resData.data)
+          } else {
+            fail && fail(resData.data)
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    onLoad (params) {
+      post({
+        apiName: 'addFormId',
+        data: {}
+      }).then((res) => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+      this.$apply()
+    }
+    bindPickerChange (e) {
+      this.setData({
+        index: e.detail.value
+      })
     }
   }
 </script>

@@ -1,7 +1,4 @@
 <style>
-  .content{
-    height: 500rpx;
-  }
 </style>
 
 <template>

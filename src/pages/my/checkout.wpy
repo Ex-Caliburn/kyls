@@ -1,30 +1,38 @@
 <style>
+  .page__bd{
+    padding:10rpx 0 0;
+  }
+  .radio-item{
+    margin-bottom: 20rpx;
+  }
+  .title{
+    margin-bottom: 10rpx;
+  }
+  .radio-group{
+    background-color: #fff;
+    margin-bottom: 2rpx;
+  }
 </style>
+
 
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="weui-cells__title">复选列表项</view>
-      <view class="weui-cells weui-cells_after-title">
-        <checkbox-group @change="checkboxChange">
-          <label class="weui-cell weui-check__label" wx:for="{{checkboxItems}}" wx:key="value">
-            <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-
-            <view class="weui-cell__hd weui-check__hd_in-checkbox">
-              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
-              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
-            </view>
-            <view class="weui-cell__bd">{{item.name}}</view>
-          </label>
-        </checkbox-group>
+      <view class="content">
+        <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+          <radio-group class="radio-group" bindchange="radioChange({{index}})">
+            <view class="title">{{(index + 1 ) + ". " + item.title}}</view>
+            <label class="radio" wx:for="{{item.question}}" wx:for-item="subitem" wx:key="id">
+              <view class="radio-item">
+                <radio value="{{subitem.name}}" checked="{{subitem.checked}}"/>{{subitem.value}}
+              </view>
+            </label>
+          </radio-group>
+        </block>
       </view>
+      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">确定</button>
     </view>
   </view>
-  <radio-group class="radio-group" bindchange="radioChange">
-    <label class="radio" wx:for="{{items}}">
-      <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
-    </label>
-  </radio-group>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -32,10 +40,10 @@ attract
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  // import Toast from 'wepy-com-toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import { post } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -44,48 +52,105 @@ attract
       navigationBarTitleText: '测试'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
-      items: [
-        {name: 'USA', value: '美国'},
-        {name: 'CHN', value: '中国', checked: 'true'},
-        {name: 'BRA', value: '巴西'},
-        {name: 'JPN', value: '日本'},
-        {name: 'ENG', value: '英国'},
-        {name: 'TUR', value: '法国'}
+      answer: [],
+      trueArr: [2, 0, 3, 2, 3, 3],
+      list: [
+        {
+          title: '以下哪个属于违规内容？',
+          question: [
+            {name: '0', value: 'A.完善好个人所有信息'},
+            {name: '1', value: 'B.通过邀请码引荐好友成为用户'},
+            {name: '2', value: 'C.回答问题时，发布与问题无关的内容，如电话号码等个人信息'},
+            {name: '3', value: 'D.认真填写自我介绍'}
+          ]
+        },
+        {
+          title: '以下什么行为在考研里手是不允许的？',
+          question: [
+            {name: '0', value: 'A.注册时使用不真实的信息或材料'},
+            {name: '1', value: 'B.经常活跃于小程序，以便于及时回答问题'},
+            {name: '2', value: 'C.通过高质量的回答提升自己的信誉分'},
+            {name: '3', value: 'D.以上都允许'}
+          ]
+        },
+        {
+          title: '信誉分高有什么优势？',
+          question: [
+            {name: '0', value: 'A.提升自己的“身价”'},
+            {name: '1', value: 'B.更容易被邀请回答问题'},
+            {name: '2', value: 'C.没有任何好处'},
+            {name: '3', value: 'D.A B都是'}
+          ]
+        },
+        {
+          title: '下列哪种行为会降低信誉分？',
+          question: [
+            {name: '0', value: 'A.尽快回复问题'},
+            {name: '1', value: 'B.遇到拿不准的问题，认真查找资料然后回答。'},
+            {name: '2', value: 'C.敷衍了事，拿钱万事大吉，不管回答质量。'},
+            {name: '3', value: 'D.综合自身能力慎重考虑是否抢答问题'}
+          ]
+        },
+        {
+          title: '近三年考研初试时间都在哪个月份？',
+          question: [
+            {name: '0', value: 'A.6月 '},
+            {name: '1', value: 'B.3月'},
+            {name: '2', value: 'C.10月'},
+            {name: '3', value: 'D.12月'}
+          ]
+        },
+        {
+          title: '回答问题时应注意?',
+          question: [
+            {name: '0', value: 'A.文明用语，注意逻辑清晰'},
+            {name: '1', value: 'B.竭尽所能，解决问题'},
+            {name: '2', value: 'C.不出现敏感词汇、个人信息'},
+            {name: '3', value: 'D.以上三项都是'}
+          ]
+        }
       ]
     }
-
     methods = {
-      radioChange: function(e) {
+      radioChange: function (i, e) {
+        this.answer[i] = e.detail.value
+        console.log(this.answer)
         console.log('radio发生change事件，携带value值为：', e.detail.value)
       },
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
+      submit () {
+        let {answer, trueArr} = this
+        // if (answer.length < 6) {
+        //   this.ShowToast('请继续答题')
+        //   return
+        // }
+        let flag = true
+        for (var i = 0; i < trueArr.length; i++) {
+          if (trueArr[i] !== Number(answer[i])) {
+            flag = false
+          }
+        }
+        if (!flag) {
+          this.ShowToast('答题有误,请认真审题')
+          return
+        }
+        post({
+          apiName: 'addDiary'
         })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+          .then((res) => {
+            this.navigate('', 2)
+          }).catch(err => {
+            console.log(err)
+          })
       }
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

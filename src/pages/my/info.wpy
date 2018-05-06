@@ -1,15 +1,5 @@
 <style lang="less">
-  .info {
-    /*margin-bottom: 100rpx;*/
-  }
-
-  .page {
-    /* 底部tabbar*/
-    margin-bottom: 150rpx;
-  }
-
   .header {
-    /*background: #ff6a3c;*/
     height: 350rpx;
     width: 100%;
   }
@@ -145,7 +135,7 @@
 
 <template>
   <view class="page">
-    <view class="info">
+    <scroll-view class="info" scroll-y>
       <view class="header">
         <view class="header_content">
           <image class="avatarUrl" src="{{avatarUrl}}"></image>
@@ -173,7 +163,7 @@
           </view>
         </view>
       </view>
-    </view>
+    </scroll-view>
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
         <repeat wx:if="{{!isPostgraduate}}" for="{{graduate}}" key="index" index="index" item="item">
@@ -271,7 +261,7 @@
       ],
       underGraduateRegister: [
         {
-          url: '/pages/my/thousandQuestion',
+          url: '/pages/my/attractQuestion',
           icon: 'eye.svg',
           title: '我的吸睛设问(必须编辑)'
         },

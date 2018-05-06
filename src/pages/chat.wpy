@@ -1,8 +1,4 @@
 <style lang="less">
-  page {
-    background: #f5f5f5;
-    margin-bottom: 100rpx;
-  }
   .pic{
     display: inline-block;
     width: 79px;

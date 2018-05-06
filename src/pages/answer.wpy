@@ -1,120 +1,118 @@
 <style>
-  page{
-    background-color: #FFFFFF;
+  .title {
+    text-align: center;
+    line-height: 80rpx;
+  }
+.list-container{
+  margin-bottom: 20rpx;
+}
+  .tip{
+    padding: 0 20rpx;
+    background-color: #fff;
+    border-radius: 10rpx;
+  }
+  .content{
+    position: relative;
+  }
+  .weui-cell__ft_in-access{
+    top: -16rpx;
   }
 </style>
 
 <template>
-  <view class="weui-panel">
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+  <view class="page">
+    <view class="page__bd">
+      <view class='title fz32'>悬赏问题一览</view>
+        <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+          <view @tap="goAnswer({{item.questionId}})" class="list-container">
+            <view class="flex flex-between">
+              <view>
+                <text style="margin-right:20rpx">{{item.time}}</text>
+                <text>{{item.uestionType}}</text>
+              </view>
+              <view style="width: 100rpx">
+                ￥{{item.rewardMoney}}
+              </view>
+            </view>
+            <view class="content flex flex-between">
+              <text>{{item.content}}</text>
+              <view class="arrow weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+          </view>
+        </block>
+
+        <view class="fz26 tip">
+          <view>温馨信息：</view>
+          <view class="fz22">1.点击“我要回答”后则代表抢答成功，请您务必于30分钟内提交问题回复，否则将失去部分赏金并对您的信誉造成较为严重的影响；</view>
+          <view class="fz22">2.请综合自身能力慎重选择是否抢答。</view>
         </view>
       </view>
     </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-panel__bd">
-      <view class="weui-media-box weui-media-box_text">
-        <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
-        <view class="weui-media-box__info">
-          <view class="weui-media-box__info__meta">文字来源</view>
-          <view class="weui-media-box__info__meta">时间</view>
-          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
-        </view>
-      </view>
-    </view>
-  </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
-
-
 
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
-  import tabbar from '../mixins/tabbar'
-  // import {get, post} from '../utils/service'
+  // import toast from 'mixins/toast'
+  import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
+  import { post } from 'utils/service'
+  import { formatDate } from 'utils/common'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class Answer extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '悬赏速答',
+      enableOnReachBottom: true
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
+      pageSize: 10,
+      pageNum: 1,
+      dataList: []
     }
 
-    onLoad () {
-      console.log(this)
+    methods = {
+      goAnswer (questionId) {
+        this.navigate('answerEdit?questionId=' + questionId)
+      }
+    }
+
+    onShow () {
+      this.getOfferQuestions()
+    }
+
+    getOfferQuestions () {
+      let {pageSize, pageNum} = this
+      post({
+        apiName: 'getOfferQuestions',
+        data: {pageSize, pageNum}
+      })
+        .then((res) => {
+          res.data.forEach((item) => {
+            item.time = formatDate(new Date(item.createdAt))
+          })
+          this.dataList = res.data
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    onReachBottom () {
+      this.pageNum += 10
+      this.$apply()
+      // this.fetchDate()
+    }
+    onLoad (params) {
     }
   }
 </script>

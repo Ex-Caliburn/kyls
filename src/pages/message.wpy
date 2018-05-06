@@ -1,6 +1,6 @@
 <style>
   .page {
-    margin: 1rpx 10rpx 100rpx;
+    margin: 1rpx 10rpx ;
   }
 
   .list-container {

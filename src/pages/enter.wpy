@@ -40,7 +40,7 @@
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
     </ivew>
-    <ivew class="des">考研里手——实名制考研百科全书</ivew>
+    <ivew class="des bold">考研里手——实名制考研百科全书</ivew>
   </ivew>
 </template>
 
@@ -91,7 +91,6 @@
           'chooseInterest',
           'graduateRegister',
           'materials/story',
-          'my/info',
           'materials/help'
         ]
         this.navigate(route[index])

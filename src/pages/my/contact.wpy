@@ -1,9 +1,23 @@
 <style>
+  .vc{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .avatarUrl{
+    width:400rpx;
+    /*height: 400rpx;*/
+    padding: 10rpx;
+    border: 1px solid #eee;
+    border-radius: 5rpx;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <image src="{{boss}}" class="vc avatarUrl"></image>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -18,7 +32,6 @@
   import tabbar from 'mixins/tabbar'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class contact extends wepy.page {
     config = {
@@ -32,36 +45,13 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      boss: '../../icon/my/boss.jpg'
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
-      }
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

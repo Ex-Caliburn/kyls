@@ -218,22 +218,22 @@
 
     methods = {
       invitationCodeInp (e) {
-        this.invitationCode = e.detail.value
+        this.invitationCode = e.detail.value.trim()
       },
       publicSubjectFirstInp (e) {
-        this.publicSubjectFirst = e.detail.value
+        this.publicSubjectFirst = e.detail.value.trim()
       },
       postgraduateNumberInp (e) {
-        this.postgraduateNumber = e.detail.value
+        this.postgraduateNumber = e.detail.value.trim()
       },
       nameInp (e) {
-        this.userName = e.detail.value
+        this.userName = e.detail.value.trim()
       },
       emailInp (e) {
-        this.email = e.detail.value
+        this.email = e.detail.value.trim()
       },
       idNumberInp (e) {
-        this.idNumber = e.detail.value
+        this.idNumber = e.detail.value.trim()
       },
       async openFile () {
         let res = await wepy.downloadFile({
@@ -331,6 +331,8 @@
           errMsg = '请选择毕业院校以及专业'
         } else if (files.length > 0) {
           errMsg = '请上传学历证明图片'
+        } else if (answerWill !== '1') {
+          errMsg = '请修改回答意愿为愿意'
         } else {
           errMsg = '请阅读并同意协议'
         }

@@ -1,8 +1,4 @@
 <style>
-  page{
-    /* 底部tabbar*/
-    margin-bottom: 150rpx;
-  }
   .content-box{
     padding: 10px 15px;
   }
@@ -32,7 +28,6 @@
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
-
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <view class="weui-uploader">
@@ -56,11 +51,6 @@
             </view>
           </view>
         </view>
-        <!--<view class="content-box">-->
-          <!--<view class="fz26 bold">温馨信息：</view>-->
-          <!--<view class="fz22">点击“填写完毕”后，问题内容不可修改</view>-->
-          <!--<view class="fz22">若在24小时后没有收到回复，所消耗研贝将退至研贝余额。</view>-->
-        <!--</view>-->
       </view>
     </view>
   </view>

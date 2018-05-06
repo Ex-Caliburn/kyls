@@ -1,12 +1,76 @@
 <style>
+  .margin{
+    padding: 20rpx 30rpx;
+    display: block;
+  }
+  .withdrawal{
+    display: flex;
+    flex-wrap: wrap;
+    height: 150rpx;
+
+  }
+  .input{
+    width: 520rpx;
+    height: 120rpx;
+    border-bottom: 1rpx solid #eee;
+    margin: 15rpx 20rpx;
+    font-size: 50rpx;
+  }
+  .withdrawal-text{
+    /*width: 50rpx;*/
+    line-height: 200rpx;
+  }
+  .bg_white{
+    background-color: #fff;
+    border-radius: 10rpx;
+    margin: 30rpx 30rpx;
+    padding-bottom: 1rpx;
+  }
+  .code{
+    padding: 20rpx 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .code-input{
+    width: 400rpx;
+    height: 80rpx;
+    border-bottom: 1rpx solid #eee;
+    margin: 0 20rpx;
+    padding: 0rpx 10rpx;
+    font-size: 35rpx;
+  }
+  .tip{
+    padding: 20rpx;
+  }
 </style>
 
 <template>
   <view class="page">
-    <view class="page__bd">
+    <view class="page__bd bg_white">
+      <view class="margin">
+        <text>提现金额(免服务费):</text>
+      </view>
+      <view class="withdrawal margin">
+        <input class="input" type="number"/>
+        <text class="withdrawal-text">研贝</text>
+      </view>
+      <view class="margin">
+        <text>请填写验证码：</text>
+      </view>
+      <view class="code">
+        <input class="code-input" type="number"/>
+        <button @tap="getCode" class="weui-btn mini-btn" type="primary" size="mini">获取验证码</button>
+      </view>
+
+      <view class="fz26 tip">
+        <view >温馨信息：</view>
+        <view class="fz22">1、大于等于50研贝才可发起提现；</view>
+        <view class="fz22">2、提现发起后24小时内提现至微信余额（一研贝=一元人民币）。</view>
+      </view>
+
+      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">确认提现</button>
     </view>
   </view>
-  <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
 
@@ -14,9 +78,9 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from '../utils/service'
+  // import {get, post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -32,36 +96,32 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
+      money: '',
+      code: '',
       dataList: []
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
+      submit () {
         this.showGuide = !this.showGuide
       },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      getCode () {
+        this.showGuide = !this.showGuide
       }
     }
 
     onLoad (params) {
+      /*post({
+        apiName: 'addFormId',
+        data: { formId }
+      }).then((res) => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
       console.log(params.id)
       this.id = params.id
-      this.$apply()
+      this.$apply()*/
     }
   }
 </script>

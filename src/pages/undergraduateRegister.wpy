@@ -141,22 +141,22 @@
 
     methods = {
       invitationCodeInp (e) {
-        this.invitationCode = e.detail.value
+        this.invitationCode = e.detail.value.trim()
       },
       changePrepareGraduate (e) {
         this.prepareGraduate = e.detail.value
       },
       volunteerMajorInp (e) {
-        this.volunteerMajor = e.detail.value
+        this.volunteerMajor = e.detail.value.trim()
       },
       volunteerSchoolInp (e) {
-        this.volunteerSchool = e.detail.value
+        this.volunteerSchool = e.detail.value.trim()
       },
       nameInp (e) {
-        this.userName = e.detail.value
+        this.userName = e.detail.value.trim()
       },
       emailInp (e) {
-        this.email = e.detail.value
+        this.email = e.detail.value.trim()
       },
       bindAgreeChange(e) {
         this.isAgree = !!e.detail.value.length
@@ -200,7 +200,7 @@
           userName,
           email,
           invitationCode,
-          isfreshGraduate: prepareGraduate, // 是否应届
+          isfreshGraduate: prepareGraduate ? 1 : 0, // 是否应届
           undergraduateSchoolId,
           undergraduateMajorId,
           volunteerSchool, // 志愿学校

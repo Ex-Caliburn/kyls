@@ -2,7 +2,7 @@ import wepy from 'wepy'
 import { HOST, version } from './config'
 import api from './api'
 import db from './db'
-import { SESSION_ID, TOKEN, USER_INFO } from './constant'
+import { SESSION_ID, TOKEN, USER_INFO, IS_POSTGRADUATE } from './constant'
 
 export {
   share,
@@ -32,6 +32,10 @@ async function login() {
   })
   if (thirdReturn.data) {
     db.set(USER_INFO, thirdReturn.data)
+    if (thirdReturn.data.userType > 1) {
+      wepy.$instance.globalData[IS_POSTGRADUATE] = true
+      db.set(IS_POSTGRADUATE, true)
+    }
   }
   wepy.$instance.globalData.userInfo = thirdReturn.data
 }
@@ -69,17 +73,17 @@ async function uploadPics(data, success, fail) {
  */
 function addFormId(formId) {
   console.log('formId:' + formId)
-  if (!formId || formId.indexOf('mock') > -1) {
-    return
-  }
+  // if (!formId || formId.indexOf('mock') > -1) {
+  //   return
+  // }
+  formId = '123123123'
   post({
     apiName: 'addFormId',
     data: {
-      formid: formId,
-      userId: wepy.$instance.globalData.userInfo.userId
+      formId: formId
     }
   }).then((res) => {
-    console.log('addFormId' + res)
+    console.log('addFormId' + res.data)
   }).catch(err => {
     console.log(err)
   })
@@ -158,7 +162,6 @@ function createPayOrder(courseID, onSuccess, onFail, onComplete) {
 }
 
 function request(options, onComplete) {
-  console.log(wepy.$instance && wepy.$instance.globalData)
   const header = {
     'content-type': 'application/json',
     ...options.header,
@@ -166,9 +169,13 @@ function request(options, onComplete) {
     version
   }
   return new Promise((resolve, reject) => {
+    let userId = wepy.$instance.globalData.userInfo.userId || db.get(USER_INFO) && db.get(USER_INFO).userId
+    if (options.data) {
+      options.data.userId = userId
+    }
     wepy.request({
       url: HOST + api[options.apiName],
-      data: options.data || {},
+      data: options.data || {userId},
       header: header,
       method: options.method || 'GET',
       dataType: options.dataType || 'json',
@@ -192,10 +199,9 @@ function request(options, onComplete) {
         })
       }
     }, err => {
-      console.log(err)
+      console.log(err, api[options.apiName])
       reject(err)
     }).catch(err => {
-      console.log(err)
       reject(err)
     })
   })

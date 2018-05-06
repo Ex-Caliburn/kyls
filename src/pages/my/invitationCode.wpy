@@ -1,11 +1,16 @@
 <style>
+  .invitation-code{
+    font-size: 40rpx;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
 </style>
 
 <template>
   <view class="page">
-    <view class="page__bd">
-      <view>{{invitationCode}}</view>
-    </view>
+    <view class="invitation-code">{{invitationCode}}</view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>

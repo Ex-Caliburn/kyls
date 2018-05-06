@@ -22,20 +22,21 @@
     color: #999;
   }
   .swiper_container {
-    height: 55rpx;
+    height: 70rpx;
     width: 750rpx;
     position: absolute;
     top: 20rpx;
   }
 
   .swiper_item {
+    padding: 0 20rpx;
     font-size: 25rpx;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
     letter-spacing: 2px;
     color: #ea4a3a ;
-    text-align: center;
+    text-align: left;
   }
 </style>
 
@@ -135,12 +136,13 @@
       console.log(res.data)
     }
     onShow () {
-      if (this.publicTypes.length === 0) {
-        this.getScienceInfoByType()
-      }
+      // if (this.publicTypes.length === 0) {
+      //   this.getScienceInfoByType()
+      // }
     }
 
     onLoad () {
+      this.getScienceInfoByType()
     }
   }
 </script>

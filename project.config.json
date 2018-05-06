@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 18,
+			"current": 21,
 			"list": [
 				{
 					"id": 0,
@@ -143,6 +143,48 @@
 					"id": -1,
 					"name": "attractQuestion",
 					"pathName": "pages/my/attractQuestion",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "diary",
+					"pathName": "pages/my/diary",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "checkout",
+					"pathName": "pages/my/checkout",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "answer",
+					"pathName": "pages/answer",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "withdraw",
+					"pathName": "pages/withdraw",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "withdraw",
+					"pathName": "pages/my/withdraw",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "question",
+					"pathName": "pages/question",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "feedback",
+					"pathName": "pages/my/feedback",
 					"query": ""
 				}
 			]

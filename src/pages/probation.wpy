@@ -1,12 +1,4 @@
 <style>
-  .container{
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-  }
-  .content{
-    height: 500rpx;
-  }
   .operation{
     position: absolute;
     bottom: 100rpx;

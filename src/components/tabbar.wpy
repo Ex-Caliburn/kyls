@@ -58,10 +58,6 @@
     }
 
     onShow () {
-      // console.log(this, 'isPostgraduate onShow')
-      // let isPostgraduate = db.get(IS_POSTGRADUATE)
-      // this.isPostgraduate = isPostgraduate || this.$root.globalData.tabbar.isPostgraduate
-      // this.$apply()
     }
 
     onLoad () {

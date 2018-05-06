@@ -1,6 +1,7 @@
 /**
  * 常量
  */
+const avatarUrl = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
 const TOKEN = 'token'
 const SESSION_ID = 'session-id'
 
@@ -18,6 +19,7 @@ const NAME_RULE = /^[a-zA-Z0-9_-]{4,16}$/ // 用户名正则
 const SYSTEM_INFO = 'systemInfo'
 
 export {
+  avatarUrl,
   TOKEN,
   SESSION_ID,
   IS_POSTGRADUATE,

@@ -1,7 +1,4 @@
 <style>
-  .page{
-    margin-bottom: 100rpx;
-  }
   .ellipsis {
     display: block;
     overflow: hidden;

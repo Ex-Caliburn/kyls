@@ -1,11 +1,63 @@
 <style>
+  .page {
+    margin: 1rpx 10rpx 0;
+  }
+
+  .list-container {
+    background-color: #fff;
+    border-radius: 5rpx;
+    margin-bottom: 5rpx;
+  }
+  .ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .icon-edit{
+    display: block;
+    vertical-align: middle;
+    width:80rpx;
+    height: 80rpx;
+    overflow: auto;
+  }
+  .radius{
+    width:100rpx;
+    height: 100rpx;
+    padding: 20rpx;
+    border-radius: 50rpx;
+    position: absolute;
+    bottom: 120rpx;
+    right: 10rpx;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+        <view @tap="goEdit({{index}})" class="list-container">
+          <view class="flex flex-between">
+            <view class="fz34">
+              {{item.title}}
+            </view>
+            <view class="fz26">
+              {{item.time}}
+            </view>
+          </view>
+          <view class="ellipsis fz26">
+            {{item.content}}
+          </view>
+        </view>
+      </block>
     </view>
   </view>
+  <navigator class="radius" url="/pages/my/diaryEdit?edit=0"  open-type="navigate">
+  <image src="{{icon}}"
+         style="vertical-align: middle;width:60rpx; height: 60rpx;"></image>
+  </navigator>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -16,7 +68,9 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import navigate from 'mixins/navigate'
+  import { post } from 'utils/service'
+  import {formatDate} from 'utils/common'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -29,39 +83,68 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
+      icon: '../../icon/my/edit.svg',
+      pageSize: 10,
+      pageNum: 1,
       dataList: []
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+      goEdit (i) {
+        this.$parent.globalData.diaryEdit = this.dataList[i]
+        this.navigate('my/diaryEdit?edit=1')
       },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      addDiary (i) {
+        this.navigate('diaryEdit?edit=0')
       }
     }
 
-    onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
+    onShow () {
+      this._getDiaryList()
+    }
+    _getDiaryList () {
+      let {pageSize, pageNum} = this
+      post({
+        apiName: 'getDiaryList',
+        data: {
+          pageSize,
+          pageNum
+        }
+      })
+        .then((res) => {
+          res.data = [{
+            diaryId: 2,
+            userId: 2,
+            title: '我的考研日记',
+            content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
+            diaryPictures: '',
+            status: '',
+            updatedAt: 1525179840480,
+            createdAt: 1525610856945
+          }, {
+            diaryId: 2,
+            userId: 2,
+            title: '我的考研日记',
+            content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
+            diaryPictures: '',
+            status: '',
+            updatedAt: 1525179840480,
+            createdAt: 1525610856945
+          }]
+          res.data.forEach(item => {
+            item.time = formatDate(new Date(item.createdAt))
+          })
+          this.dataList = res.data
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    onLoad () {
     }
   }
 </script>

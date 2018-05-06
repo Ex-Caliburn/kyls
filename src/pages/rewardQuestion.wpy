@@ -1,8 +1,4 @@
 <style>
-  page{
-    /* 底部tabbar*/
-    margin-bottom: 150rpx;
-  }
   .content-box{
     padding: 10px 15px;
   }

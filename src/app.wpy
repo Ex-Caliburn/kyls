@@ -98,9 +98,10 @@
         'pages/my/read',
         'pages/my/collection',
         'pages/my/diary',
+        'pages/my/diaryEdit',
         'pages/my/myHelp',
         // 研究生我的
-        'pages/my/attractQuestion',
+        // 'pages/my/attractQuestion',
         'pages/my/checkout',
         // 静态页面
         'pages/materials/protocol',
@@ -108,7 +109,7 @@
         'pages/materials/story'
       ],
       window: {
-        navigationBarBackgroundColor: '#ffffff',
+        navigationBarBackgroundColor: '#409EFF',
         navigationBarTextStyle: 'black',
         navigationBarTitleText: 'kyls',
         backgroundColor: '#dddddd'
@@ -117,12 +118,13 @@
 
     // FF7878 粉色
     globalData = {
-      group: 0, // 身份
       undergraduateSchoolId: 0,
       undergraduateMajorId: 0,
       isPostgraduate: false, // true 研究生 false本科生
       userInfo: {
-        avatarUrl: ''
+        userId: '',
+        avatarUrl: '',
+        userType: 1 // 身份 1:本科生 2研究生3审核中的研究生
       },
       token: '',
       invitationCode: '2sdf12sdfsdf231213sdfsdfsf',
@@ -134,7 +136,7 @@
         position: 'bottom',
         list: [
           {
-            pagePath: '/pages/index',
+            pagePath: '/pages/enter',
             text: '里手',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',

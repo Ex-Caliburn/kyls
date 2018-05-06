@@ -1,30 +1,30 @@
 <style>
-  .content-box{
-    padding: 10px 15px;
-  }
-  .weui-textarea{
-    min-height: 450rpx;
-  }
-  .type_yellow{
-    width: 200rpx;
-  }
-  .icon-cancel{
-    position: absolute;
-    top: -2rpx;
-    right: -5rpx;
-  }
-  .weui-uploader__file{
-    position: relative;
-  }
+.weui-textarea{
+  min-height: 450rpx;
+}
+.icon-cancel{
+  position: absolute;
+  top: -2rpx;
+  right: -5rpx;
+}
+.weui-uploader__file{
+  position: relative;
+}
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="weui-cells__title fz26">{{now}}</view>
       <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__bd">
+            <input class="weui-input" @chang="titleBind" placeholder="请输入日记标题"/>
+          </view>
+        </view>
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的求助信息" value="{{content}}"/>
+            <textarea @input="contentBind" class="weui-textarea" maxlength="-1" placeholder="请输入日记内容" value="{{content}}"/>
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
@@ -52,36 +52,29 @@
             </view>
           </view>
         </view>
-        <view class="content-box">
-          <view class="fz26 bold">温馨信息：</view>
-          <view class="fz22">点击“填写完毕”后，问题内容不可修改</view>
-          <view class="fz22">若在24小时后没有收到回复，所消耗研贝将退至研贝余额。</view>
-        </view>
       </view>
     </view>
   </view>
-  <button @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26">填写完毕</button>
+  <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">增添日记</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
-
 
 
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
+  import {formatDate} from 'utils/common'
   import { HOST, picturePrefix } from 'utils/config'
-  // import { diff } from 'utils/common'
   import db from 'utils/db'
   import { TOKEN } from 'utils/constant'
 
-  export default class questionFrom extends wepy.page {
+  export default class diaryEdit extends wepy.page {
     config = {
-      navigationBarTitleText: '问题填写'
+      navigationBarTitleText: '我的考研日记'
     }
     components = {
       tabbar: Tabbar,
@@ -91,10 +84,12 @@
     mixins = [tabbar, navigate]
 
     data = {
+      now: formatDate(new Date()),
+      edit: 0,
+      title: '',
       content: '',
-      pictures: [],
       userId: '',
-      answerUserId: '',
+      questionId: '',
       questionType: 1,
       imgCount: 8,
       successFlag: false,
@@ -108,24 +103,27 @@
         return this.content.length
       }
     }
-
     methods = {
-      async submitQuestion () {
-        let {userId, answerUserId, content, pictures} = this
-        userId = 1
-        answerUserId = 1
+      titleBind (e) {
+        this.title = e.detail.value
+      },
+      contentBind (e) {
+        this.content = e.detail.value
+      },
+      submit () {
+        let {userId, content, files, title} = this
+        let apiName = this.edit === 0 ? 'addDiary' : 'editDiary'
         post({
-          apiName: 'questionSubmit',
+          apiName,
           data: {
             userId,
-            answerUserId,
             content,
-            pictures: pictures.join(','),
-            questionType: 1 // 1.聊天类型，2：电话，3面聊
-          }})
+            files: files.join(','),
+            title
+          }
+        })
           .then((res) => {
-            console.log(res)
-            this.navigate('my/info')
+            this.navigate('', 2)
           }).catch(err => {
             console.log(err)
           })
@@ -156,6 +154,7 @@
         })
       }
     }
+
     dealImage (images) {
       // let task = diff(images, this.filesTask)
       var that = this
@@ -209,11 +208,12 @@
         console.log(err)
       }
     }
+    onShow () {
+    }
 
     onLoad (params) {
-      this.answerUserId = params.answerUserId
-      this.userId = params.answerUserId
-      console.log(params.answerUserId)
+      console.log(params.edit)
+      this.edit = params.edit
       this.$apply()
     }
   }
