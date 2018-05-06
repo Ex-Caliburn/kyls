@@ -29,21 +29,6 @@
      width: 50rpx;
      height: 50rpx;
    }
-  /*.switch{*/
-    /*height: 80rpx;*/
-    /*width: 80rpx;*/
-    /*border: 1rpx #666 solid;*/
-    /*border-radius: 40rpx;*/
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*margin-left: -40rpx;*/
-    /*margin-top: -40rpx;*/
-    /*z-index:1000;*/
-    /*box-sizing: border-box;*/
-    /*text-align: center;*/
-    /*padding: 7rpx;*/
-  /*}*/
 </style>
 <template>
   <view class="tabbar_box" style="background-color:{{tabbar.backgroundColor}}; border-top-color:{{tabbar.borderStyle}}; {{tabbar.position === 'top' ? 'top:0' : 'bottom:0'}}">
@@ -80,7 +65,7 @@
     }
 
     onLoad () {
-      console.log(this, 'isPostgraduate onLoad')
+      console.log('isPostgraduate onLoad')
       let isPostgraduate = db.get(IS_POSTGRADUATE)
       this.isPostgraduate = isPostgraduate || wepy.$instance.globalData.tabbar.isPostgraduate
       this.$apply()

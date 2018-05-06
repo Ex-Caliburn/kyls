@@ -68,7 +68,7 @@
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get, post} from '../utils/service'
+  import {get, share} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
@@ -112,10 +112,38 @@ let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6
 
     methods = {
       choose (i) {
-        this.navigate('my/medalDetail?type=' + i)
+        this.getMedalAward(i)
       }
     }
 
+    getUserMedal () {
+      get({
+        apiName: 'getUserMedal'
+      })
+        .then((res) => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    getMedalAward (i) {
+      get({
+        apiName: 'getMedalAward',
+        data: {
+          medalId: i
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.navigate('my/medalDetail?type=' + i)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    onShow () {
+      this.getUserMedal()
+    }
     onLoad (params) {
     }
     onShareAppMessage (res) {
@@ -129,8 +157,9 @@ let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6
       return {
         title: '考研里手',
         path: '/pages/my/medal',
-        success: function(res) {
+        success (res) {
           // 转发成功
+          share(res.shareTickets[0])
           console.log(res)
         },
         fail: function(res) {

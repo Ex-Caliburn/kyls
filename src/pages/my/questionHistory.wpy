@@ -8,6 +8,22 @@
   .isAnswer{
     background-color:  oldlace;
   }
+  .list-container{
+    padding: 20rpx 40rpx;
+  }
+  .pic-container{
+    margin-right: 40rpx;
+  }
+  .ellipsis-content{
+    width: 500rpx;
+  }
+
+  .avatarUrl {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 1000px;
+    display: block;
+  }
 </style>
 
 <template>
@@ -16,11 +32,15 @@
       <view class="weui-panel">
         <view class="weui-panel__bd">
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="weui-media-box weui-media-box_text" hover-class="weui-cell_active">
-              <view class="weui-media-box__title weui-media-box__title_in-text">{{item.nickname}}</view>
-              <view class="weui-media-box__desc ellipsis">{{item.questionContent}}</view>
-              <view class="weui-media-box__info">
-                <view class="weui-media-box__info__meta">{{item.askTime}}</view>
+            <navigator url="/pages/chat?id={{id}}" class="list-container flex flex-between" hover-class="weui-cell_active">
+              <view class="pic-container">
+                <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
+              </view>
+              <view>
+                <view class="">{{item.nickname}}</view>
+                <view class="">所属院校，所在专业</view>
+                <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
+                <view class="">{{item.askTime}}</view>
               </view>
             </navigator>
           </block>
@@ -54,6 +74,7 @@
     mixins = [tabbar]
 
     data = {
+      avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
       dataList: []
     }
 

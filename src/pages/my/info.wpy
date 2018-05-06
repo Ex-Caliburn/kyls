@@ -97,8 +97,9 @@
   .personConfig{
     right: 150rpx;
     color: #FFFFFF;
-    padding: 9rpx;
+    padding: 5rpx;
     margin: 0;
+    color: white;
     background-color: #ff6a3c;
   }
 
@@ -149,10 +150,14 @@
         <view class="header_content">
           <image class="avatarUrl" src="{{avatarUrl}}"></image>
           <!--<view class="nickName cfff">{{nickName}}</view>-->
-          <navigator class="radius personConfig type_yellow" url="/pages/my/money" open-type="navigate">
-            个人设置
+          <navigator class="radius personConfig type_empity" url="/pages/my/infoEdit" open-type="navigate">
+            <!--个人设置-->
+            <image src="{{config}}"
+                   style="margin-right: 5px;vertical-align: middle;width:30px; height: 30px;"></image>
           </navigator>
-          <button class="radius share type_yellow" open-type="share">分享</button>
+          <button class="radius share type_empity" open-type="share">
+            分享
+          </button>
 
           <view class="header-btn flexh flex-vcenter">
             <navigator url="/pages/my/money" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
@@ -212,6 +217,7 @@
   import db from 'utils/db'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
+  import {share} from 'utils/service'
 
   import { USER_INFO } from 'utils/constant'
 
@@ -228,80 +234,82 @@
       avatarUrl: '',
       nickName: '',
       bShowBind: false,
-      picPrefix: '../../images/',
+      picPrefix: '../../icon/my/',
+      share: '../../icon/my/share.svg',
+      config: '../../icon/my/config.svg',
       graduate: [
         {
           url: '/pages/my/questionHistory',
-          icon: 'icon_my_05.png',
+          icon: 'ask.svg',
           title: '我的提问'
         },
         {
           url: '/pages/my/thousandQuestion',
-          icon: 'icon_my_05.png',
+          icon: 'thousandQuestion.svg',
           title: '我的千问'
         },
         {
           url: '/pages/my/helpMe',
-          icon: 'icon_my_05.png',
+          icon: 'cow.svg',
           title: '我的里手'
         },
         {
           url: '/pages/my/read',
-          icon: 'icon_my_05.png',
+          icon: 'read.svg',
           title: '我的查看'
         },
         {
           url: '/pages/my/collection',
-          icon: 'icon_my_05.png',
+          icon: 'collection.svg',
           title: '我的收藏'
         },
         {
           url: '/pages/my/diary',
-          icon: 'icon_my_05.png',
+          icon: 'diary.svg',
           title: '我的私密考研日记'
         }
       ],
       underGraduateRegister: [
         {
           url: '/pages/my/thousandQuestion',
-          icon: 'icon_my_05.png',
+          icon: 'eye.svg',
           title: '我的吸睛设问(必须编辑)'
         },
         {
-          url: '/pages/my/helpMe',
-          icon: 'icon_my_05.png',
+          url: '/pages/my/checkout',
+          icon: 'test.svg',
           title: '入驻测试(必须查看及通过测试)'
         },
         {
-          url: '/pages/my/read',
-          icon: 'icon_my_05.png',
+          url: '/pages/my/history',
+          icon: 'history.svg',
           title: '我的回答'
         },
         {
           url: '/pages/my/collection',
-          icon: 'icon_my_05.png',
+          icon: 'love.svg',
           title: '我的关注'
         }
       ],
       common: [
         {
           url: '/pages/my/feedback',
-          icon: 'icon_my_05.png',
+          icon: 'feedback.svg',
           title: '帮助与反馈'
         },
         {
           url: '/pages/my/about',
-          icon: 'icon_my_05.png',
+          icon: 'about.svg',
           title: '关于我们'
         },
         {
           url: '/pages/my/contact',
-          icon: 'icon_my_05.png',
+          icon: 'ceo.svg',
           title: '联系CEO'
         },
         {
           url: '/pages/my/invitationCode',
-          icon: 'icon_my_05.png',
+          icon: 'code.svg',
           title: '我的邀请码'
         }
       ]
@@ -359,8 +367,9 @@
       return {
         title: '考研里手',
         path: '/pages/enter',
-        success: function(res) {
+        success (res) {
           // 转发成功
+          share(res.shareTickets[0])
           console.log(res)
         },
         fail: function(res) {

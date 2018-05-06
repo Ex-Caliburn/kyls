@@ -14,7 +14,7 @@
     justify-content: space-between;
   }
   .enter-btn{
-    margin-bottom: 50rpx;
+    margin-bottom: 35rpx;
     height: 94rpx;
     width: 500rpx;
     line-height: 94rpx;
@@ -62,27 +62,32 @@
       温馨信息：具体答复内容可在“我－我的提问”中查看。
     </view>
   </ivew>
+  <!--<tabbar :tabbar.sync='tabbar'></tabbar>-->
 </template>
 
 
 
 <script>
   import wepy from 'wepy'
-  import {get} from '../utils/service'
+  import { get } from '../utils/service'
+  import Tabbar from '@/components/tabbar' // alias example
+  import tabbar from 'mixins/tabbar'
 
   export default class chooseInterest extends wepy.page {
     config = {
       navigationBarTitleText: '选择兴趣'
     }
     components = {
+      tabbar: Tabbar
+
     }
 
-    mixins = []
+    mixins = [tabbar]
     data = {
       msgList: [
-        {url: 'url', title: '公告：多地首套房贷利率上浮 热点城市渐迎零折扣时代'},
-        {url: 'url', title: '公告：悦如公寓三周年生日趴邀你免费吃喝欢唱'},
-        {url: 'url', title: '公告：你想和一群有志青年一起过生日嘛？'}],
+        {url: 'url', title: '李明喜（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
+        {url: 'url', title: '大法官（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'}],
       publicTypes: [],
       publicIndex: ''
     }
@@ -129,9 +134,13 @@
       }
       console.log(res.data)
     }
+    onShow () {
+      if (this.publicTypes.length === 0) {
+        this.getScienceInfoByType()
+      }
+    }
 
     onLoad () {
-      this.getScienceInfoByType()
     }
   }
 </script>

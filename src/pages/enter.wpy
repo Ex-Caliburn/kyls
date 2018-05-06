@@ -87,7 +87,8 @@
       jump(index) {
         this.authorize()
         const route = [
-          'undergraduateRegister',
+          // 'undergraduateRegister',
+          'chooseInterest',
           'graduateRegister',
           'materials/story',
           'my/info',

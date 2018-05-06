@@ -31,7 +31,6 @@ export default class tabbar extends wepy.mixin {
       }
     }
     this.tabbar = tabbar
-    this.$parent.globalData.tabbar = tabbar
     this.$apply()
   }
 }

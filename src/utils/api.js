@@ -32,6 +32,11 @@ const api = {
   /*
   * 研究生列表信息 根据询问问题类型
   * */
+  getMedalAward: 'medal/getMedalAward',
+  getUserMedal: 'medal/getUserMedal',
+  share: 'share/share',
+  getUserMessage: 'message/getUserMessage ',
+  readMessage: 'message/readMessage ', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
   getPostgraduateInfo: user + 'getPostgraduateInfo',
   /*
   * 操作类上传

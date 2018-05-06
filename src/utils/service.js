@@ -5,6 +5,7 @@ import db from './db'
 import { SESSION_ID, TOKEN, USER_INFO } from './constant'
 
 export {
+  share,
   createPayOrder,
   addFormId,
   uploadPics,
@@ -72,10 +73,24 @@ function addFormId (formId) {
     apiName: 'addFormId',
     data: { formId }
   }).then((res) => {
-    console.log(res)
+    console.log('addFormId' + res)
   }).catch(err => {
     console.log(err)
   })
+}
+
+function share (shareTickets) {
+  get({
+    apiName: 'share',
+    data: {
+      shareTickets
+    }
+  })
+    .then((res) => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
 }
 
 function createPayOrder (courseID, onSuccess, onFail, onComplete) {
@@ -153,7 +168,7 @@ function request (options, onComplete) {
       dataType: options.dataType || 'json',
       responseType: options.responseType || 'text'
     }).then(res => {
-      console.log(res)
+      console.log(res, api[options.apiName])
       if (+res.statusCode === 200 && +res.data.code === 0) {
         if (res.header[SESSION_ID]) {
           wepy.$instance.globalData.token = res.header[SESSION_ID]
