@@ -50,7 +50,7 @@
 
   import { login } from './utils/service'
   import db from './utils/db'
-  import { SYSTEM_INFO, TOKEN } from './utils/constant'
+  import { SYSTEM_INFO, TOKEN, USER_INFO } from './utils/constant'
 
   export default class extends wepy.app {
     config = {
@@ -209,6 +209,11 @@
     }
 
     onLaunch () {
+      let userInfo = db.get(USER_INFO)
+      if (userInfo) {
+        this.globalData.userInfo = userInfo
+        this.globalData.isPostgraduate = userInfo.userType > 1
+      }
       // 存储系统信息
       let systemInfo = wepy.getSystemInfoSync()
       db.set(SYSTEM_INFO, systemInfo)

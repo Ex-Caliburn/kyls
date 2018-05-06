@@ -1,4 +1,7 @@
 <style>
+  .page{
+    margin: 0 20rpx;
+  }
   .page__bd{
     text-align: center;
   }
@@ -47,7 +50,7 @@
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
+  let icon = '../../icon/my/model.svg'
 
   export default class medalDetail extends wepy.page {
     config = {

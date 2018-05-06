@@ -1,4 +1,7 @@
 <style>
+  .page{
+    margin: 0 20rpx;
+  }
   .radius{
     position: absolute;
     width: 75rpx;
@@ -8,14 +11,6 @@
     text-align: center;
     box-sizing: border-box;
     top: 30rpx;
-  }
-
-  .personConfig{
-    right: 150rpx;
-    color: #FFFFFF;
-    padding: 9rpx;
-    margin: 0;
-    background-color: #ff6a3c;
   }
 
   .share{
@@ -29,6 +24,9 @@
 
   .model{
     padding: 40rpx;
+    background-color: #fff;
+    margin-top: 5rpx;
+    border-radius: 10rpx;
   }
 
   .icon{
@@ -71,7 +69,7 @@
   import {get, share} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
-let icon = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
+let icon = '../../icon/my/model.svg'
 
   export default class medal extends wepy.page {
     config = {

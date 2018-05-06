@@ -121,6 +121,8 @@
     text-decoration:none;
     -webkit-tap-highlight-color:transparent;
     overflow:hidden;
+    text-align: left;
+    padding-left: 5rpx;
   }
   .subTitle-special:nth-child(1){
     border-radius:10px 10px 0 0;
@@ -156,10 +158,10 @@
             <navigator url="/pages/my/medal" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
               <view class="subTitle  type_pick">我的勋章</view>
             </navigator>
-            <navigator url="/pages/my/money" class="navigate-btn flexh flex1 flexv fz26 "  hover-class="none" open-type="navigate">
-              <view class="subTitle-special type_pick">我的信誉：×××</view>
-              <view class="subTitle-special type_pick">我的星级：×星</view>
-            </navigator>
+            <view class="navigate-btn flexh flex1 flexv fz26 ">
+              <view class="subTitle-special type_pick">我的信誉：60+1</view>
+              <view class="subTitle-special type_pick">我的星级：5星</view>
+            </view>
           </view>
         </view>
       </view>
@@ -271,7 +273,7 @@
           title: '入驻测试(必须查看及通过测试)'
         },
         {
-          url: '/pages/my/history',
+          url: '/pages/my/questionHistory',
           icon: 'history.svg',
           title: '我的回答'
         },
@@ -339,6 +341,7 @@
 
     onShow () {
       this.isPostgraduate = wepy.$instance.globalData.isPostgraduate
+      console.log(this.isPostgraduate)
       this.$apply()
       this.getUserInfo()
     }
