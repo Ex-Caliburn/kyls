@@ -35,8 +35,8 @@ const api = {
   getMedalAward: 'medal/getMedalAward',
   getUserMedal: 'medal/getUserMedal',
   share: 'share/share',
-  getUserMessage: 'message/getUserMessage ',
-  readMessage: 'message/readMessage ', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
+  getUserMessage: 'message/getUserMessage',
+  readMessage: 'message/readMessage', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
   getPostgraduateInfo: user + 'getPostgraduateInfo',
   /*
   * 操作类上传
@@ -44,6 +44,7 @@ const api = {
   upload: '/upload/image',
   addFormId: user + 'addFormId',
   sendMessage: user + 'sendMessage',
+  addPostGraduateQuestionInfo: user + 'addPostgraduteQuestionInfo',
   /*
   * 日记
   * */

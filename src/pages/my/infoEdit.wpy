@@ -498,6 +498,7 @@
 
     _updateInfo() {
       let { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill } = this
+      answerWill = answerWill ? '1' : '0'
       if (!email || !EMAIL_RULE.test(email)) {
         let errMsg = '请输入正确的邮箱'
         this.ShowToast(errMsg)

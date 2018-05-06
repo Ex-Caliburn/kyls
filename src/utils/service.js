@@ -14,13 +14,13 @@ export {
   request as get
 }
 
-async function login () {
-  let res = await wepy.login({timeout: 30000})
+async function login() {
+  let res = await wepy.login({ timeout: 30000 })
   console.log('code', res.code)
   // code用户登录凭证（有效期五分钟）
-  let wxUserInfo = await wepy.getUserInfo({withCredentials: true})
+  let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
   console.log(wxUserInfo)
-  db.set(USER_INFO, wxUserInfo.userInfo)
+  db.set('wxUserInfo', wxUserInfo.userInfo)
   let thirdReturn = await post({
     apiName: 'login',
     data: {
@@ -30,10 +30,13 @@ async function login () {
       decrypt_type: 'user'
     }
   })
+  if (thirdReturn.data) {
+    db.set(USER_INFO, thirdReturn.data)
+  }
   wepy.$instance.globalData.userInfo = thirdReturn.data
 }
 
-async function uploadPics (data, success, fail) {
+async function uploadPics(data, success, fail) {
   try {
     let res = await wepy.uploadFile({
       url: HOST + 'upload/image',
@@ -64,14 +67,17 @@ async function uploadPics (data, success, fail) {
 /*
  * @:title:收集formid 用于发送模板消息
  */
-function addFormId (formId) {
+function addFormId(formId) {
   console.log('formId:' + formId)
   if (!formId || formId.indexOf('mock') > -1) {
     return
   }
   post({
     apiName: 'addFormId',
-    data: { formId }
+    data: {
+      formid: formId,
+      userId: wepy.$instance.globalData.userInfo.userId
+    }
   }).then((res) => {
     console.log('addFormId' + res)
   }).catch(err => {
@@ -79,8 +85,8 @@ function addFormId (formId) {
   })
 }
 
-function share (shareTickets) {
-  get({
+function share(shareTickets) {
+  request({
     apiName: 'share',
     data: {
       shareTickets
@@ -89,11 +95,11 @@ function share (shareTickets) {
     .then((res) => {
       console.log(res)
     }).catch(err => {
-      console.log(err)
-    })
+    console.log(err)
+  })
 }
 
-function createPayOrder (courseID, onSuccess, onFail, onComplete) {
+function createPayOrder(courseID, onSuccess, onFail, onComplete) {
   const that = this
   const fail = (errType, errMsg, errText) => {
     typeof onFail === 'function' && onFail({
@@ -103,7 +109,7 @@ function createPayOrder (courseID, onSuccess, onFail, onComplete) {
     })
   }
 
-  this.requestGet('user/order/create', {course_id: parseInt(courseID)},
+  this.requestGet('user/order/create', { course_id: parseInt(courseID) },
     (data) => {
       this.util.hideToast()
       wx.requestPayment({
@@ -151,7 +157,7 @@ function createPayOrder (courseID, onSuccess, onFail, onComplete) {
   )
 }
 
-function request (options, onComplete) {
+function request(options, onComplete) {
   console.log(wepy.$instance && wepy.$instance.globalData)
   const header = {
     'content-type': 'application/json',
@@ -195,7 +201,7 @@ function request (options, onComplete) {
   })
 }
 
-function post (options, onComplete) {
+function post(options, onComplete) {
   options.method = 'POST'
   return request(options, onComplete)
 }

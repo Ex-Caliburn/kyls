@@ -1,9 +1,21 @@
 <style>
+  .page {
+    margin: 1rpx 10rpx 100rpx;
+  }
+
+  .list-container {
+    background-color: #fff;
+    border-radius: 5rpx;
+    margin-bottom: 5rpx;
+  }
 </style>
 
 <template>
   <view class="page">
-    <view class="page__bd">
+    <view class="page__bd ">
+      <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+        <view @tap="operation({{item.id}})" class="list-container border">{{item.content}}</view>
+      </block>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -15,8 +27,9 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
+  import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import { get } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -29,39 +42,88 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
+      //   1.当用户获得某枚勋章时，自动发布：
+      // 恭喜您！获得“XX”勋章，快去勋章墙查看吧~
+      // 2.当研究生用户信誉分升一个小级时，自动发布：
+      // 恭喜您，您的信誉分等级升为“”（注：由于具体称呼一期上不了，此处一期之后再设置）
+      // 3.当研究生用户信誉分降一个小级时，自动发布：
+      // 您的信誉分等级降为“”
       showGuide: false,
       showAnswer: false,
       id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      dataList: [{
+        'id': 1,
+        'userId': 2,
+        'title': null,
+        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
+        'createdAt': '2018-05-05 21:01',
+        'isRead': 1
+      },
+      {
+        'id': 1,
+        'userId': 2,
+        'title': null,
+        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
+        'createdAt': '2018-05-05 21:01',
+        'isRead': 1
+      },
+      {
+        'id': 1,
+        'userId': 2,
+        'title': null,
+        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
+        'createdAt': '2018-05-05 21:01',
+        'isRead': 1
+      }]
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      operation(id) {
+        const route = [
+          'chat'
+        ]
+        this._readMessage(id)
+        this.navigate(route[0] + '?questionId=' + id)
       }
     }
 
-    onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
+    _readMessage(id) {
+      get({
+        apiName: 'readMessage',
+        data: { id }
+      })
+        .then((res) => {
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    getUserMessage() {
+      // GET 参数：{"status":0} 0：全部消息，1：未读消息，2已读消息
+      get({
+        apiName: 'getUserMessage',
+        data: {
+          status: 0
+        }
+      })
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.dataList.push(res.data)
+            this.$apply()
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    onShow() {
+      this.getUserMessage()
+    }
+
+    onLoad() {
     }
   }
 </script>

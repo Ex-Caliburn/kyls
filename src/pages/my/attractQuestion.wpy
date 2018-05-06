@@ -1,22 +1,69 @@
 <style>
+  .content{
+    height: 500rpx;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="weui-cells__title">个性介绍</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" @change="silence" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
+            <view class="weui-textarea-counter">0/50</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells__title">考研指导意见</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" @change="opinion" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
+            <view class="weui-textarea-counter">0/50</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells__title">考研典型问题及回答（请自拟一个考研问题及对应答案，长度为80-120个汉字）</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" @change="questionContent" placeholder="请输入考研典型问题" style="height: 3.3em"/>
+            <view class="weui-textarea-counter">0/120</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" @change="answerContent" placeholder="请输入回答" style="height: 3.3em"/>
+            <view class="weui-textarea-counter">0/120</view>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
+
+  <view class="fz26 tip">
+    <view >温馨信息：</view>
+    <view class="fz22">1、以上两项必须全部填写完成才可进行问题回答；</view>
+    <view class="fz22">2、考研典型问题及回答的内容包含问题及相应答案（可考虑院校专业个性问题及个人学习方法问题）；</view>
+    <view class="fz22">3、以上自主编辑内容将与您的收益密切相关；</view>
+    <view class="fz22">4、考研典型问题及回答被本科生查看一次，您的信誉分将提升0.1分。</view>
+  </view>
+  <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">确定</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
-attract
+
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
-  import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  // import toast from '../mixins/toast'
+  import tabbar from '../mixins/tabbar'
+  import { post } from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -32,36 +79,44 @@ attract
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
+      opinion: '',
+      silence: '',
+      questionContent: '',
+      answerContent: '',
       dataList: []
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+      silence(e) {
+        this.silence = e.detail.value
       },
-      showGuide () {
-        this.showGuide = !this.showGuide
+      opinion (e) {
+        this.opinion = e.detail.value
       },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      questionContent(e) {
+        this.questionContent = e.detail.value
+      },
+      answerContent (e) {
+        this.answerContent = e.detail.value
+      },
+      submit () {
+        let {userId, opinion, questionContent, silence, answerContent} = this
+        if (opinion && questionContent && silence && answerContent) {
+          post({
+            apiName: 'addPostGraduateQuestionInfo',
+            data: { userId, opinion, questionContent, answerContent, silence }
+          })
+            .then((res) => {
+            }).catch(err => {
+              console.log(err)
+            })
+        } else {
+          this.ShowToast('请补充完整信息')
+        }
       }
     }
 
-    onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
+    onLoad () {
     }
   }
 </script>

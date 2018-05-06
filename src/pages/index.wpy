@@ -114,7 +114,6 @@
     }
 
     onLoad () {
-      console.log(this)
     }
   }
 </script>

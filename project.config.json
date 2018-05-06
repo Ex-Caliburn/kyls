@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 10,
+			"current": 18,
 			"list": [
 				{
 					"id": 0,
@@ -74,7 +74,7 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 7,
 					"name": "info",
 					"pathName": "pages/my/info",
 					"query": ""
@@ -131,6 +131,18 @@
 					"id": -1,
 					"name": "infoEdit",
 					"pathName": "pages/my/infoEdit",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "message",
+					"pathName": "pages/message",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "attractQuestion",
+					"pathName": "pages/my/attractQuestion",
 					"query": ""
 				}
 			]

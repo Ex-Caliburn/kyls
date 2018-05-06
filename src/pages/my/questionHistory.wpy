@@ -1,4 +1,7 @@
 <style>
+  .page{
+    margin-bottom: 100rpx;
+  }
   .ellipsis {
     display: block;
     overflow: hidden;
@@ -10,6 +13,7 @@
   }
   .list-container{
     padding: 20rpx 40rpx;
+    background-color: #fff;
   }
   .pic-container{
     margin-right: 40rpx;
@@ -32,8 +36,8 @@
       <view class="weui-panel">
         <view class="weui-panel__bd">
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="list-container flex flex-between" hover-class="weui-cell_active">
-              <view class="pic-container">
+            <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between" hover-class="weui-cell_active">
+              <view class="pic-container flex flex-align-center" >
                 <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
               </view>
               <view>
