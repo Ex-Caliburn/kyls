@@ -70,7 +70,7 @@
         'pages/probation',
         'pages/graduateDetail',
         'pages/answerEdit',
-        'pages/answerHistory',
+        'pages/my/answerHistory',
         // 本科生
         'pages/undergraduateRegister',
         'pages/chooseInterest',
