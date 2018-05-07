@@ -1,5 +1,5 @@
 <style>
-  .content-box{
+  .title{
     padding: 10px 15px;
   }
   .weui-textarea{
@@ -22,6 +22,10 @@
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
+        <view class="flex flex-between title">
+          <view>聊天对象信息</view>
+          <image @tap="love" class="love" src="../../icon/my/love.svg"></image>
+        </view>
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的求助信息" value="{{content}}"/>
@@ -75,7 +79,7 @@
 
   export default class answerEdit extends wepy.page {
     config = {
-      navigationBarTitleText: '答案编辑填写'
+      navigationBarTitleText: '答案编辑'
     }
     components = {
       tabbar: Tabbar,
@@ -104,6 +108,9 @@
     }
 
     methods = {
+      love () {
+        console.log(1)
+      },
       async submitQuestion () {
         let {userId, questionId, content, pictures} = this
         post({

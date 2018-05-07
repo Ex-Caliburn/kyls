@@ -1,4 +1,4 @@
-<style>
+<style scoped>
   .margin{
     padding: 20rpx 30rpx;
     display: block;
@@ -42,6 +42,9 @@
   .tip{
     padding: 20rpx;
   }
+  .weui-btn{
+    margin-top: 40rpx;
+  }
 </style>
 
 <template>
@@ -58,7 +61,7 @@
         <text>请填写验证码：</text>
       </view>
       <view class="code">
-        <input class="code-input" type="number"/>
+        <input class="code-input" type="number" maxlength="6"/>
         <button @tap="getCode" class="weui-btn mini-btn" type="primary" size="mini">获取验证码</button>
       </view>
 
@@ -73,7 +76,6 @@
   </view>
 </template>
 
-
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
@@ -84,7 +86,7 @@
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class zzz extends wepy.page {
+  export default class withdraw extends wepy.page {
     config = {
       navigationBarTitleText: '提现'
     }
@@ -102,26 +104,15 @@
     }
 
     methods = {
-      submit () {
+      submit() {
         this.showGuide = !this.showGuide
       },
-      getCode () {
+      getCode() {
         this.showGuide = !this.showGuide
       }
     }
 
-    onLoad (params) {
-      /*post({
-        apiName: 'addFormId',
-        data: { formId }
-      }).then((res) => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()*/
+    onLoad(params) {
     }
   }
 </script>

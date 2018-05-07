@@ -16,7 +16,7 @@
   }
 
   .enter-btn {
-    margin-bottom: 50rpx;
+    margin-bottom: 80rpx;
     height: 94rpx;
     width: 360rpx;
     line-height: 94rpx;
@@ -27,16 +27,23 @@
     position: absolute;
     bottom: 100rpx;
   }
+  .type_blue{
+    background-color: #409eff;
+    color: #fff;
+    border-radius: 50rpx;
+    border: 1px solid #409eff;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
+  }
 </style>
 
 <template>
   <ivew class="container">
     <ivew class="content">
       <form report-submit="ture" @submit="getFormId">
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('0')" formType="submit" type="default">本科生入口</button>
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('1')" formType="submit" type="default">研究生入口</button>
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('2')" formType="submit" type="default">考研里手故事</button>
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('3')" formType="submit" type="default">使用帮助</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit">本科生入口</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit">研究生入口</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('2')" formType="submit">考研里手故事</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit">使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
     </ivew>
@@ -98,12 +105,12 @@
     }
 
     onLoad() {
-      let userType = this.$parent.globalData.userInfo.userType
-      if (userType === 1) {
-        this.navigate('chooseInterest', 1)
-      } else if (userType === 2 || userType === 3) {
-        this.navigate('chooseInterest', 1)
-      }
+      // let userType = this.$parent.globalData.userInfo.userType
+      // if (userType === 1) {
+      //   this.navigate('chooseInterest', 1)
+      // } else if (userType === 2 || userType === 3) {
+      //   this.navigate('chooseInterest', 1)
+      // }
     }
   }
 </script>

@@ -1,7 +1,14 @@
 <style>
+  .page{
+    background-color: #fff;
+    min-height: 300rpx;
+    margin: 20rpx;
+    border-radius: 10rpx;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
+  }
   .operation{
     position: absolute;
-    bottom: 100rpx;
+    bottom: 120rpx;
     left: 0;
     right: 0;
     text-align: center;
@@ -32,7 +39,7 @@
   <view class="operation">
     <button @tap="showGuide" class="weui-btn fz30" type="primary" >研究生个人介绍及考研指导意见(免费阅读)</button>
     <button @tap="showAnswer" class="weui-btn type_yellow fz30" >TA猜你想问(免费阅读，每人初始只有一次机会)</button>
-    <button @tap="goService" class="weui-btn mini-btn" type="primary fz26" size="mini">阅读完成</button>
+    <button @tap="goService" class="weui-btn type_pink fz30" >阅读完成</button>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -44,6 +51,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
+  import navigate from '../mixins/navigate'
   // import {get, post} from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
@@ -57,36 +65,30 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
       showGuide: false,
       showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      id: ''
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+      goService() {
+        this.navigate('serviceList?id=' + this.id)
       },
-      showGuide () {
+      showGuide() {
         this.showGuide = !this.showGuide
       },
-      showAnswer () {
+      showAnswer() {
         this.showAnswer = !this.showAnswer
       }
     }
 
-    onLoad (params) {
+    onShow() {
+    }
+
+    onLoad(params) {
       console.log(params.id)
       this.id = params.id
       this.$apply()

@@ -1,0 +1,166 @@
+<style lang="less">
+.weui-label{
+  max-width: 400rpx;
+  width:200px;
+  word-wrap:none;
+  word-break:none;
+}
+  .weui-select_in-select-after{
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 260rpx;
+  }
+</style>
+
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">问题大类</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="question" value="{{questionIndex}}" range="{{questionTypes}}">
+              <view class="weui-select weui-select_in-select-after">{{questionTypes[questionIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">专业大类</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindMajor" value="{{majorIndex}}" range="{{majorTypes}}">
+              <view class="weui-select weui-select_in-select-after">{{majorTypes[majorIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">公共科目及联考综合科目</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindCommon" value="{{commonIndex}}" range="{{commonTypes}}">
+              <view class="weui-select weui-select_in-select-after">{{commonTypes[commonIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">院校</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="" disabled value="{{undergraduateSchoolName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">专业</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="" disabled value="{{undergraduateMajorName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+      </view>
+      <button class="weui-btn" type="primary" @tap="submit">确定</button>
+    </view>
+  </view>
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+  import Tabbar from '@/components/tabbar' // alias example
+  import Toast from 'wepy-com-toast'
+  // import toast from 'mixins/toast'
+  import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
+  // import {get, post} from 'utils/service'
+  // import db from 'utils/db'
+  // import { IS_POSTGRADUATE } from 'utils/constant'
+
+  export default class questionType extends wepy.page {
+    config = {
+      navigationBarTitleText: '问题类型'
+    }
+    components = {
+      tabbar: Tabbar,
+      toast: Toast
+    }
+
+    mixins = [tabbar, navigate]
+
+    data = {
+      undergraduateSchoolId: '',
+      undergraduateSchoolName: '',
+      undergraduateMajorId: '',
+      undergraduateMajorName: '',
+      questionIndex: '',
+      majorIndex: '',
+      commonIndex: '',
+      questionTypes: ['考研四大选择题与考研规划问题', '十三大类学科咨询', '院校及专业咨询', '初试科目类问题咨询', '复试科目类问题咨询'],
+      majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
+        '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
+      commonTypes: [
+        '政治',
+        '英语一',
+        '英语二',
+        '数学一',
+        '数学二',
+        '数学三',
+        '管理类联考',
+        '西医综合',
+        '公共日语']
+    }
+
+    methods = {
+      submit (e) {
+        this.navigate('question')
+      },
+      bindCommon (e) {
+        this.commonIndex = e.detail.value
+      },
+      bindMajor (e) {
+        this.majorIndex = e.detail.value
+      },
+      question (e) {
+        this.questionIndex = e.detail.value
+      }
+    }
+
+    onShow() {
+      let gd = wepy.$instance.globalData
+      this.undergraduateSchoolId = gd.undergraduateSchoolId
+      this.undergraduateMajorId = gd.undergraduateMajorId
+      this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.undergraduateMajorName = gd.undergraduateMajorName
+      this.$apply()
+    }
+    onLoad(params) {
+    }
+
+    radioChange(e) {
+      var checked = e.detail.value
+      var changed = {}
+      for (var i = 0; i < this.data.questionTypes.length; i++) {
+        if (checked.indexOf(this.data.questionTypes[i].name) !== -1) {
+          changed['questionTypes[' + i + '].checked'] = true
+        } else {
+          changed['questionTypes[' + i + '].checked'] = false
+        }
+      }
+      this.setData(changed)
+    }
+  }
+</script>

@@ -135,6 +135,7 @@
         <scroll-view class="classify_detail" scroll-y scroll-with-animation="true"
                      style="height:{{windowHeight-topHeight}}px">
           <view class="children">
+            <view class="blue">{{name}}</view>
             <view class="children_item" wx:for="{{childList}}" wx:for-item="item" wx:key="item.id"
                   @tap="choose({{item.id}}, {{item.major_name || item.school_name}})">
               <view class="child_name" hidden="{{!item.school_name}}">{{item.school_name}}</view>
@@ -168,7 +169,14 @@
 
     components = {}
 
+    computed = {
+      value () {
+        console.log(this.index)
+      }
+    }
+
     data = {
+      name: '',
       undergraduateSchoolId: 0,
       undergraduateMajorId: 0,
       postgraduateSchoolId: 0,
@@ -289,6 +297,7 @@
       },
       choose (id, name) {
         console.log(name)
+        this.name = name
         this.rootList[this.index].selected = true
         switch (Number(this.index)) {
           case 0:
@@ -314,6 +323,27 @@
       changeCate (e) {
         console.log('changecate....')
         let id = e.currentTarget.dataset.id
+        console.log(id)
+        let name
+        switch (Number(id)) {
+          case 0:
+            name = this.undergraduateSchoolName || ''
+            break
+          case 1:
+            console.log(this)
+            name = this.undergraduateMajorName || ''
+            break
+          case 2:
+            name = this.postgraduateSchoolName || ''
+            break
+          case 3:
+            name = this.postgraduateMajorName || ''
+            break
+          default:
+            break
+        }
+        this.name = name
+        console.log(name)
         // 设置一级分类的选中状态
         for (var i = 0; i < this.rootList.length; i++) {
           var root = this.rootList[i]

@@ -87,7 +87,7 @@
   .personConfig{
     right: 150rpx;
     color: #FFFFFF;
-    padding: 5rpx;
+    padding: 8rpx;
     margin: 0;
     color: white;
     background-color: #ff6a3c;
@@ -142,25 +142,25 @@
         <view class="header_content">
           <image class="avatarUrl" src="{{avatarUrl}}"></image>
           <!--<view class="nickName cfff">{{nickName}}</view>-->
-          <navigator class="radius personConfig type_empity" url="/pages/my/infoEdit" open-type="navigate">
+          <navigator class="radius personConfig" url="/pages/my/infoEdit" open-type="navigate">
             <!--个人设置-->
             <image src="{{config}}"
                    style="margin-right: 5px;vertical-align: middle;width:30px; height: 30px;"></image>
           </navigator>
-          <button class="radius share type_empity" open-type="share">
+          <button class="radius share" open-type="share">
             分享
           </button>
 
           <view class="header-btn flexh flex-vcenter">
             <navigator url="/pages/my/money" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
-              <view class="subTitle type_pick">我的研贝</view>
+              <view class="subTitle type_pink">我的研贝</view>
             </navigator>
             <navigator url="/pages/my/medal" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
-              <view class="subTitle  type_pick">我的勋章</view>
+              <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
             <view class="navigate-btn flexh flex1 flexv fz26 ">
-              <view class="subTitle-special type_pick">我的信誉：60+1</view>
-              <view class="subTitle-special type_pick">我的星级：5星</view>
+              <view class="subTitle-special type_pink">我的信誉：60+1</view>
+              <view class="subTitle-special type_pink">我的星级：5星</view>
             </view>
           </view>
         </view>

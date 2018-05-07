@@ -1,7 +1,8 @@
 /**
  * 常量
  */
-const avatarUrl = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
+const QRCode = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/ac7565d809334b0385ab57481cb11aa7.jpg'
+const avatarUrl = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/d3c9bf9d42ee4d2f95d2d838e918bcd1.jpg'
 const TOKEN = 'token'
 const SESSION_ID = 'session-id'
 
@@ -19,6 +20,7 @@ const NAME_RULE = /^[a-zA-Z0-9_-]{4,16}$/ // 用户名正则
 const SYSTEM_INFO = 'systemInfo'
 
 export {
+  QRCode,
   avatarUrl,
   TOKEN,
   SESSION_ID,

@@ -69,14 +69,13 @@ async function uploadPics(data, success, fail) {
 }
 
 /*
- * @:title:收集formid 用于发送模板消息
+ * 收集formid 用于发送模板消息
  */
 function addFormId(formId) {
   console.log('formId:' + formId)
-  // if (!formId || formId.indexOf('mock') > -1) {
-  //   return
-  // }
-  formId = '123123123'
+  if (!formId || formId.indexOf('mock') > -1) {
+    return
+  }
   post({
     apiName: 'addFormId',
     data: {
@@ -192,11 +191,13 @@ function request(options, onComplete) {
       } else if (res.data.code === 101) {
         login()
       } else {
+        console.log(res.statusCode + ':  ' + res.data.data + ', ' + res.data.error)
         wepy.showToast({
           title: res.statusCode + ':  ' + res.data.data,
           icon: 'none',
           duration: 1000
         })
+        reject(res.data.error)
       }
     }, err => {
       console.log(err, api[options.apiName])

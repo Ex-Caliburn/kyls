@@ -41,9 +41,17 @@ const api = {
   /*
   * 操作类上传
   * */
+  wxNotify: '/pay/wxNotify', // get
+  order: '/pay/order', // POST{ "userId":1, "amount"1 } ##返回参数 { "prepay_id":"122121" }
+  /*
+  * 操作类上传
+  * */
   upload: '/upload/image',
+  setUserPhone: '/wx/setUserPhone', // post setUserPhone
   addFormId: user + 'addFormId',
   sendMessage: user + 'sendMessage',
+  addUserComplain: user + 'addUserComplain',
+  addFeedback: user + 'addFeedback',
   addPostGraduateQuestionInfo: user + 'addPostgraduteQuestionInfo',
   /*
   * 日记

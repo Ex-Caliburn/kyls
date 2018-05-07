@@ -1,22 +1,52 @@
-<style>
+<style scoped>
+  .radio{
+    display: flex;
+    justify-content: space-between;
+  }
+  .margin{
+    margin: 20rpx 30rpx;
+  }
+  .radio{
+    margin: 20rpx 0;
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="margin">
+        <text>您想投诉的问题类型：</text>
+      </view>
+      <radio-group class="radio-group margin" bindchange="radioChange">
+        <label class="radio" wx:for="{{complainTypes}}" wx:key="{{index}}">
+          <text>{{item.value}}</text>
+          <radio checked="{{item.checked}}" value="{{item.name}}"/>
+        </label>
+      </radio-group>
+      <view class="margin">
+        <text>请补充投诉细节：</text>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea @input="contentBind" class="weui-textarea" maxlength="-1" placeholder="请详细描述你的问题" value="{{content}}"/>
+          <view class="weui-textarea-counter">{{txtLength}}/150</view>
+        </view>
+      </view>
+      <uploadPic :files.sync="pictures" :tips.sync="tips"></uploadPic>
+      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">提交</button>
     </view>
   </view>
-  <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
 
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  import uploadPic from '@/components/uploadPic' // alias example
+  // import Toast from 'wepy-com-toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import { post } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -26,41 +56,67 @@
     }
     components = {
       tabbar: Tabbar,
-      toast: Toast
+      uploadPic: uploadPic
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      content: '',
+      complainType: '',
+      pictures: [],
+      tips: '提供相关问题的截图或照片',
+      complainTypes: [
+        { name: '1', value: '功能异常' },
+        { name: '2', value: '产品建议' },
+        { name: '3', value: '其它问题' }
+      ],
+      suePostgraduateTypes: [
+        { name: '5', value: '该研究生回答内容' },
+        { name: '6', value: '该研究生沟通态度问题' },
+        { name: '7', value: '其它问题' }
+      ]
     }
 
+    computed = {
+      txtLength() {
+        return this.content.length
+      }
+    }
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+      radioChange(e) {
+        this.complainType = e.detail.value
       },
-      showGuide () {
-        this.showGuide = !this.showGuide
+      contentBind(e) {
+        this.content = e.detail.value
       },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      submit() {
+        this.submitFeedback()
       }
     }
 
-    onLoad (params) {
-      console.log(params.id)
+    submitFeedback() {
+      // { "userId":1, "complainType":1, //1:该本科生求助内容，2：与本科生电话沟通 3：与本科生面谈问题 4.其他问题 （本科生 5：该研究生回答内容 6：该研究生沟通态度问题 7：其它问题 ） "content":"投诉内容", "pictures":"图片地址" }
+      let { content, pictures, complainType } = this
+      if (!content && !pictures) {
+        this.ShowToast('填写必要的信息')
+        return
+      }
+      post({
+        apiName: this.id ? 'addUserComplain' : 'addFeedback',
+        data: { content, pictures: pictures.join(','), complainType }
+      }).then((res) => {
+        this.ShowToast('提交成功')
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
+    onLoad(params) {
       this.id = params.id
+      if (params.id) {
+        this.complainTypes = this.suePostgraduateTypes
+      }
       this.$apply()
     }
   }

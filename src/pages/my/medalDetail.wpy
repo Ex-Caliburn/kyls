@@ -1,6 +1,6 @@
 <style>
   .page{
-    margin: 0 20rpx;
+    padding: 50rpx 0 0;
   }
   .page__bd{
     text-align: center;
@@ -31,11 +31,11 @@
       <view class="center">勋章名称</view>
       <view class="center">勋章界面话语</view>
       <view class="center">勋章获得条件</view>
-      <view class="center">勋章获得奖励：XXXXX</view>
-      <button class="center" hidden="{{isGet}}" @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26" size="mini">领取奖励</button>
-      <view class="center">完成度：</view>
+      <view class="center">勋章获得奖励：1000</view>
+      <view class="center">完成度：100</view>
     </view>
   </view>
+  <button class="center" hidden="{{isGet}}" @tap="submit" class="weui-btn mini-btn type_yellow fz26">领取奖励</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -46,7 +46,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import {get} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -66,35 +66,35 @@
     data = {
       icon: icon,
       isGet: false,
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      medalId: ''
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
+      submit () {
+        this.getMedalAward()
       }
     }
 
+    getMedalAward () {
+      get({
+        apiName: 'getMedalAward',
+        data: {
+          medalId: this.medalId
+        }
+      })
+        .then((res) => {
+          this.ShowToast(res.data)
+          console.log(res)
+          this.isGet = true
+          this.$apply()
+        }).catch(err => {
+          this.ShowToast(err)
+        })
+    }
+
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
+      console.log(params.medalId)
+      this.medalId = params.medalId
       this.$apply()
     }
   }

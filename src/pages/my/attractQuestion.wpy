@@ -59,8 +59,8 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
-  import tabbar from '../mixins/tabbar'
-  import { post } from '../utils/service'
+  import tabbar from 'mixins/tabbar'
+  import { post } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -87,17 +87,17 @@
       silence(e) {
         this.silence = e.detail.value
       },
-      opinion (e) {
+      opinion(e) {
         this.opinion = e.detail.value
       },
       questionContent(e) {
         this.questionContent = e.detail.value
       },
-      answerContent (e) {
+      answerContent(e) {
         this.answerContent = e.detail.value
       },
-      submit () {
-        let {userId, opinion, questionContent, silence, answerContent} = this
+      submit() {
+        let { userId, opinion, questionContent, silence, answerContent } = this
         if (opinion && questionContent && silence && answerContent) {
           post({
             apiName: 'addPostGraduateQuestionInfo',
@@ -113,7 +113,7 @@
       }
     }
 
-    onLoad () {
+    onLoad() {
     }
   }
 </script>

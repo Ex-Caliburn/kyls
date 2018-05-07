@@ -1,4 +1,12 @@
 <style lang="less">
+  .icon-cancel{
+    position: absolute;
+    top: -2rpx;
+    right: -5rpx;
+  }
+  .weui-uploader__file{
+    position: relative;
+  }
 </style>
 <template>
   <view class="page">
@@ -98,12 +106,23 @@
           </view>
         </view>
 
-        <view class="weui-cell weui-cell_switch">
-          <view class="weui-cell__bd">回答意愿*</view>
-          <view class="weui-cell__ft">
-            <switch @change="switchChange" checked="{{answerWill}}"></switch>
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">回答意愿*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker @change="bindWillChange" value="{{willIndex}}" range="{{willTypes}}">
+              <view class="weui-select weui-select_in-select-after">{{willTypes[willIndex]}}</view>
+            </picker>
           </view>
         </view>
+
+        <!--<view class="weui-cell weui-cell_switch">-->
+          <!--<view class="weui-cell__bd">回答意愿*</view>-->
+          <!--<view class="weui-cell__ft">-->
+            <!--<switch @change="switchChange" checked="{{answerWill}}"></switch>-->
+          <!--</view>-->
+        <!--</view>-->
 
         <view class="weui-cell">
           <view class="weui-cell__bd">
@@ -121,6 +140,7 @@
                 <view class="weui-uploader__files" id="uploaderFiles">
                   <block wx:for="{{files}}" wx:key="*this">
                     <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
                       <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
                     </view>
                   </block>
@@ -174,6 +194,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
   import { CN_RULE, EMAIL_RULE, ID_RULE } from '../utils/constant'
+  import navigate from 'mixins/navigate'
 
   export default class graduateRegister extends wepy.page {
     config = {
@@ -183,7 +204,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [toast]
+    mixins = [toast, navigate]
 
     data = {
       invitationCode: '',
@@ -200,6 +221,8 @@
       majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
         '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
       majorIndex: '',
+      willTypes: ['13大学科', '公共科目类', '复试科目类问题咨询', '考研四大选择题与考研规划问题', '院校及专业咨询'],
+      willIndex: '',
       undergraduateSchoolId: '',
       undergraduateMajorId: '',
       postgraduateSchoolId: '',
@@ -250,6 +273,11 @@
           console.log(err)
         })
       },
+      deleteImage (i) {
+        console.log(i)
+        this.files.splice(i, 1)
+        this.$apply()
+      },
       async chooseImage (e) {
         let res = await wepy.chooseImage({
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -279,6 +307,9 @@
       bindMajorChange (e) {
         this.majorIndex = e.detail.value
       },
+      bindWillChange (e) {
+        this.willIndex = e.detail.value
+      },
       switchChange: function (e) {
         this.answerWill = e.detail.value
       },
@@ -298,15 +329,14 @@
       let {
         email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
-        postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, answerWill,
+        postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willIndex,
         publicSubjectFirst, professionalSubjectFirst, invitationCode,
         files
       } = this
-      answerWill = answerWill ? '1' : '0'
       if (email && userName && idNumber && undergraduateSchoolId && undergraduateMajorId &&
-        postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') &&
+        postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && (willIndex !== '') &&
         (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
-        professionalSubjectFirst && isAgree && answerWill && files.length > 0) {
+        professionalSubjectFirst && isAgree && files.length > 0) {
       } else {
         let errMsg
         if (!userName || !CN_RULE.test(userName)) {
@@ -319,20 +349,20 @@
           errMsg = '请输入初试专业科目'
         } else if (!postgraduateNumber) {
           errMsg = '请输入硕士阶段学号'
-        } else if (degreeIndex === '') {
-          errMsg = '请选择学位性质'
-        } else if (studyModeIndex === '') {
-          errMsg = '请选择就读学习方式'
-        } else if (gradeIndex === '') {
-          errMsg = '请选择年级'
-        } else if (majorIndex === '') {
-          errMsg = '请选择硕士就读专业大类'
         } else if (!undergraduateSchoolId || !undergraduateMajorId || !postgraduateSchoolId || !postgraduateMajorId) {
           errMsg = '请选择毕业院校以及专业'
-        } else if (files.length > 0) {
+        } else if (degreeIndex === '') {
+          errMsg = '请选择学位性质'
+        } else if (gradeIndex === '') {
+          errMsg = '请选择年级'
+        } else if (studyModeIndex === '') {
+          errMsg = '请选择就读学习方式'
+        } else if (majorIndex === '') {
+          errMsg = '请选择硕士就读专业大类'
+        } else if (files.length === 0) {
           errMsg = '请上传学历证明图片'
-        } else if (answerWill !== '1') {
-          errMsg = '请修改回答意愿为愿意'
+        } else if (willIndex === '') {
+          errMsg = '请选择回答意愿'
         } else {
           errMsg = '请阅读并同意协议'
         }
@@ -359,13 +389,12 @@
           grade: gradeIndex + 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
           publicSubjectFirst, // 初试公共科目
           professionalSubjectFirst: professionalSubjectFirst.join(','), // 初试专业科目，逗号分割
-          answerWill: Number(answerWill) + '', //  回答意愿
+          answerWill: willIndex + 1, //  回答意愿   1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
           educationPicture: files.join(',') // 学历证明图片 这个时参数
         }
       }).then(res => {
-        console.log(res)
+        this.navigate('info')
       }).catch(res => {
-        console.log(res)
       })
     }
 

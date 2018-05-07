@@ -1,23 +1,26 @@
 <style>
   .vc{
+    width:300px;
+    height: 300px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
   }
   .avatarUrl{
-    width:400rpx;
-    /*height: 400rpx;*/
+    width:300px;
+    height: 300px;
     padding: 10rpx;
     border: 1px solid #eee;
     border-radius: 5rpx;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, .2);
   }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
-      <image src="{{boss}}" class="vc avatarUrl"></image>
+      <image @tap="previewImage" src="{{QRCode}}" class="vc avatarUrl"></image>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -28,10 +31,11 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
+  import { QRCode } from 'utils/constant'
 
   export default class contact extends wepy.page {
     config = {
@@ -42,13 +46,22 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
-      boss: '../../icon/my/boss.jpg'
+      QRCode
     }
 
     methods = {
+      previewImage() {
+        this.ShowToast('请保存图片到本地在扫二维码')
+        setTimeout(() => {
+          wepy.previewImage({
+            current: QRCode, // 当前显示图片的http链接
+            urls: [QRCode] // 需要预览的图片http链接列表
+          })
+        }, 1000)
+      }
     }
 
     onLoad (params) {

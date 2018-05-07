@@ -1,4 +1,4 @@
-<style>
+<style scoped>
   .page__bd{
     padding:10rpx 0 0;
   }
@@ -6,7 +6,7 @@
     margin-bottom: 20rpx;
   }
   .title{
-    margin-bottom: 10rpx;
+    margin-bottom: 5rpx;
   }
   .radio-group{
     background-color: #fff;

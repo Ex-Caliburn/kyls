@@ -6,7 +6,7 @@ export {
 }
 
 // 获取系统当前时间2017-01-20T14:08:51+08:00
-function current () {
+function current() {
   var date = new Date()
   var month = date.getMonth()
   var day = date.getDate()
@@ -34,7 +34,7 @@ function current () {
 }
 
 // 将date对象格式化为2017-11-20 02:00:12
-function formatDate (date) {
+function formatDate(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
@@ -62,12 +62,12 @@ function formatDate (date) {
 }
 
 // 找到 个arr1中arr2没有的项
-function diff (arr1, arr2) {
+function diff(arr1, arr2) {
   var newArr = []
   var arr3 = arr1.concat(arr2) // 将arr1和arr2合并为arr3
 
-  function isContain (value) {
-     // 找出arr3中不存在于arr1和arr2中的元素
+  function isContain(value) {
+    // 找出arr3中不存在于arr1和arr2中的元素
     return arr2.indexOf(value) === -1
   }
 
@@ -75,7 +75,7 @@ function diff (arr1, arr2) {
   return newArr
 }
 
-function formatDuration (second) {
+function formatDuration(second) {
   let minutes = Math.floor(second / 60)
   let newSeconds = second - minutes * 60
   return {
@@ -83,4 +83,3 @@ function formatDuration (second) {
     minutes
   }
 }
-

@@ -1,0 +1,147 @@
+<template>
+  <view class="weui-cell">
+    <view class="weui-cell__bd">
+      <view class="weui-uploader">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title bold">{{tips}}</view>
+          <view class="weui-uploader__info">{{files.length}}/8</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <view class="weui-uploader__files" id="uploaderFiles">
+            <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
+              <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                <icon class="icon-cancel" @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
+                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+              </view>
+            </block>
+          </view>
+          <view class="weui-uploader__input-box" hidden="{{files.length > 7}}">
+            <view class="weui-uploader__input" @tap="chooseImage"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<style lang="less" scoped>
+  .icon-cancel{
+    position: absolute;
+    top: -2rpx;
+    right: -5rpx;
+  }
+  .weui-uploader__file{
+    position: relative;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy'
+  import { HOST, picturePrefix } from 'utils/config'
+  import db from 'utils/db'
+  import { TOKEN } from 'utils/constant'
+
+  export default class uploadPic extends wepy.component {
+    props = {
+      files: {
+        type: Array,
+        default: [],
+        twoWay: true
+      },
+      tips: {
+        type: String,
+        default: '上传照片'
+      }
+    }
+
+    data = {
+      imgCount: 8,
+      filesTask: [], // pic
+      failTask: []
+    }
+
+    methods = {
+      deleteImage(i) {
+        console.log(i)
+        this.files.splice(i, 1)
+        this.$apply()
+      },
+      questionInput(e) {
+        this.content = e.detail.value
+      },
+      async chooseImage(e) {
+        let res = await wepy.chooseImage({
+          count: this.imgCount - this.files.length,
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        })
+        if (res.tempFilePaths) {
+          console.log(res)
+          this.dealImage(res.tempFilePaths)
+        }
+      },
+      previewImage(e) {
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
+      }
+    }
+
+    dealImage(images) {
+      var that = this
+      let filesTask = this.filesTask.concat(images)
+      this.filesTask = filesTask
+      console.log(this.filesTask)
+      this.$apply()
+
+      function success(imgUrl) {
+        for (var i = 0; i < that.filesTask.length; i++) {
+          if (that.filesTask[i] === imgUrl) {
+            that.filesTask.slice(i)
+          }
+        }
+        that.files.push(picturePrefix + imgUrl)
+        that.$apply()
+      }
+
+      function fail(imgUrl) {
+        that.failTask.push(imgUrl)
+        console.log(this.failTask)
+        that.$apply()
+      }
+
+      for (let i = 0; i < images.length; i++) {
+        this.uploadPics(images[i], success, fail)
+      }
+    }
+
+    async uploadPics(data, success, fail) {
+      try {
+        let res = await wepy.uploadFile({
+          url: HOST + 'upload/image',
+          filePath: data,
+          header: {
+            'session-id': db.get(TOKEN) || ''
+          },
+          name: 'file',
+          formData: {
+            file: data
+          }
+        })
+        try {
+          let resData = res.data && JSON.parse(res.data)
+          if (res.statusCode === 200 && resData.code === 0) {
+            success && success(resData.data)
+          } else {
+            fail && fail(resData.data)
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
+</script>

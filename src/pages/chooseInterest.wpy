@@ -1,4 +1,4 @@
-<style>
+<style scoped>
   .container{
     position: fixed;
     height: 100%;
@@ -20,6 +20,7 @@
     line-height: 94rpx;
     font-size: 36rpx;
     color: #999;
+    border-radius: 50rpx;
   }
   .swiper_container {
     height: 70rpx;
@@ -38,6 +39,15 @@
     color: #ea4a3a ;
     text-align: left;
   }
+
+  .type_pink{
+    background-color: #ff4856;
+    color: #fff;
+    border-radius: 50rpx;
+    border: 1px solid #ff4856;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
+  }
+
 </style>
 
 <template>
@@ -50,14 +60,14 @@
       </block>
     </swiper>
     <ivew class="content" >
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('0')"  disabled type="default">考研四大选择题与考研规划问题</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('1')"  disabled type="default">十三大类学科咨询</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('2')"  disabled type="default">院校及专业咨询</button>
-      <picker class="weui-btn mini-btn enter-btn" @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
-        <button class="weui-btn mini-btn enter-btn"  type="default">公共科目及联考综合类</button>
+      <button class="weui-btn mini-btn enter-btn " @tap="jump('0')"  disabled >考研四大选择题与考研规划问题</button>
+      <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled >十三大类学科咨询</button>
+      <button class="weui-btn mini-btn enter-btn " @tap="jump('2')"  disabled >院校及专业咨询</button>
+      <picker class="enter-btn " @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
+        <button class="weui-btn mini-btn enter-btn type_pink"  >公共科目及联考综合类</button>
       </picker>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled type="default">专业科目类</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled type="default">复试科目类问题咨询</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled >专业科目类</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled >复试科目类问题咨询</button>
     </ivew>
     <view class="fz24">
       温馨信息：具体答复内容可在“我－我的提问”中查看。
@@ -70,6 +80,7 @@
 
 <script>
   import wepy from 'wepy'
+  import toast from 'mixins/toast'
   import { get } from '../utils/service'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
@@ -83,12 +94,12 @@
 
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
     data = {
       msgList: [
-        {url: 'url', title: '李明喜（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
-        {url: 'url', title: '代峻峰（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
-        {url: 'url', title: '大法官（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'}],
+        {url: 'url', title: '李明喜（用户）关于“考研”悬赏金额为100元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰（用户）关于“励志”悬赏金额为50元的问题已被有效解决'},
+        {url: 'url', title: '大法官（用户）关于“方向”悬赏金额为60元的问题已被有效解决'}],
       publicTypes: [],
       publicIndex: ''
     }
@@ -96,14 +107,16 @@
     methods = {
       bindPublicChange(e) {
         console.log(e.detail.value)
-        let id = this.publicTypes[e.detail.value].id
-        wepy.navigateTo({
-          url: '/pages/graduateList?id=' + id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        if (this.publicTypes.length > 0) {
+          let id = this.publicTypes[e.detail.value].id
+          wepy.navigateTo({
+            url: '/pages/graduateList?id=' + id
+          }).then((res) => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        }
       },
       jump (index) {
         const route = [
@@ -136,11 +149,12 @@
       console.log(res.data)
     }
     onShow () {
-      // if (this.publicTypes.length === 0) {
-      //   this.getScienceInfoByType()
-      // }
+      // this.getScienceInfoByType()
     }
 
+    // pullDownRefresh () {
+    //   this.getScienceInfoByType()
+    // }
     onLoad () {
       this.getScienceInfoByType()
     }

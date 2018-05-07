@@ -5,14 +5,12 @@
     height: 79px;
     margin-right:4px;
   }
-  .pic-wrap{
-    /*width: 348px;*/
-    /*margin: 0 auto;*/
-  }
   .question,.answer{
     background-color: #fff;
     padding: 10rpx 20rpx 20rpx;
     margin-bottom: 20rpx;
+    border-radius: 10rpx;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
     .title{
       margin-bottom: 20rpx;
     }
@@ -27,7 +25,7 @@
   }
 
   .answer-btn{
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 30rpx;
     /*color: red;*/
     text-align: right;
@@ -41,10 +39,10 @@
     <view class="page__bd">
       <view class="question">
         <view class="title fz30 flex flex-between">
-          <view class="bold">提问人</view>
-          <view class="bold">￥{{cost}}</view>
+          <view class="bold">本科生</view>
+          <view class="blue">￥{{cost}}</view>
         </view>
-        <view class="content fz32">由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
+        <view class="content fz32">考研出来好找工作吗？我应该先考研还是先工作呢？</view>
         <view class="pic-wrap flex flex-wrap">
           <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
             <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
@@ -58,7 +56,7 @@
 
       <view class="answer">
         <view class="title fz30 flex flex-between">
-          <view class="bold">答题人</view>
+          <view class="bold">研究生</view>
           <navigator hidden="{{!isPostgraduate}}" url="/pages/answerEdit?questionId={{item.questionId}}" hover-class="weui-cell_active">
             编辑
           </navigator>
@@ -66,10 +64,14 @@
             <navigator url="/pages/questionFrom?id={{item.userId}}" hover-class="weui-cell_active">
               提问
             </navigator>
-            <view @tap="focus()" style="margin-left: 20rpx">关注</view>
+            <image @tap="focus" class="love" src="../../icon/my/love.svg"></image>
+
+            <navigator url="/pages/my/feedbackEdit?id={{item.userId}}" hover-class="weui-cell_active">
+              投诉
+            </navigator>
           </view>
         </view>
-        <view class="content fz32">由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体</view>
+        <view class="content fz32">  怎么说呢，现在就业形势很严峻，由于高考的扩招，导致现在的本科生遍地走，刚毕业的本科生找工作很难，因为没什么优势，而且很多好的公司都明确要求211以上或研究生以上。至于先考研还是先工作，我建议是先考研，因为我们刚毕业的我们知识储备和学习能力还是很强的，周围的学习环节也是很好的，在这种条件下，我们可以选择好的院校去考，考上的概率也大点。但是工作了在考研就不一样了，身边的学习环节变了，周围的人大多都想着赚钱，而没有了学习的氛围，这个时候我们考研就比较难了，往往很难考名校，很多时候只能考个一般的学校。</view>
         <view class="pic-wrap flex flex-wrap">
           <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
             <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
@@ -88,6 +90,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
+  import { formatDate } from 'utils/common'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
@@ -108,7 +111,7 @@
     mixins = [tabbar, navigate]
 
     data = {
-      time: new Date(),
+      time: formatDate(new Date()),
       id: '',
       questionId: '',
       cost: 10,
@@ -116,9 +119,6 @@
       isPostgraduate: true,
       img,
       pics: [
-        img,
-        img,
-        img,
         img
       ]
     }

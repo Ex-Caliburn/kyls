@@ -1,46 +1,25 @@
 <style>
-  .title{
-    text-align: center;
-    padding: 15rpx 0;
-    border-bottom: 1rpx dotted #eee;
-  }
   .upload{
     margin: 20rpx 30rpx;
   }
-  /*.money{*/
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
-  /*}*/
-  /*.money-list{*/
-    /*width: 170rpx;*/
-    /*height: 60rpx;*/
-  /*}*/
   .money{
+    margin-bottom: 20rpx;
     line-height: 70rpx;
     height: 70rpx;
     border-radius: 10rpx;
-    width: 150rpx;
+    width: 25%;
     text-align: center;
     border: 1px solid #09bb07;
     color: #09bb07;
     background-color: #fff;
   }
 
-  /*.money-num{*/
-    /*line-height: 70rpx;*/
-    /*border-radius: 10rpx;*/
-    /*width: 150rpx;*/
-    /*text-align: center;*/
-    /*border: 1px solid #09bb07;*/
-    /*color: #09bb07;*/
-    /*background-color: #fff;*/
-  /*}*/
   .swiper_container {
+    padding: 10rpx 15rpx;
     height: 70rpx;
   }
 
   .swiper_item {
-    padding: 0 15rpx;
     font-size: 25rpx;
     letter-spacing: 2px;
     color: #ea4a3a ;
@@ -57,13 +36,16 @@
   .tip{
     padding: 10px 15px;
   }
+  .money-enter{
+    /*text-align: center;*/
+    /*min-width: 180rpx;*/
+  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
-        <view class="title">悬赏速问</view>
         <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
           <block wx:for="{{msgList}}" wx:key="index">
             <swiper-item>
@@ -72,7 +54,7 @@
           </block>
         </swiper>
 
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">选择问题</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -109,21 +91,13 @@
         </view>
 
         <view class="upload">
-          <text>请设置悬赏金额：</text>
-          <view class="flex flex-around" style="margin-bottom: 20rpx">
-            <view class="money">16研贝</view>
-            <view class="money">36研贝</view>
-            <view class="money">66研贝</view>
+          <view>请设置悬赏金额：</view>
+          <view class="flex flex-around flex-wrap" style="margin:20rpx">
+            <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <view @tap="chooseMoney({{item}})" class="money">{{item}}研贝</view>
+            </block>
+            <input @change="moneyBind" class="money money-enter" type="text" placeholder="自定义金额"/>
           </view>
-          <view class="flex flex-around">
-            <view class="money">86研贝</view>
-            <view class="money">166研贝</view>
-            <input class="money" type="text" placeholder="其他" />
-          </view>
-          <!--<view class="money">-->
-            <!--<text class="money-num money-list" wx:for="{{money}}">{{item}}研贝</text>-->
-            <!--<input class="money-num money-list" type="text" placeholder="其他" />-->
-          <!--</view>-->
         </view>
 
         <view class="fz26 tip">
@@ -147,10 +121,10 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import {get, post} from 'utils/service'
+  import {post} from 'utils/service'
   import navigate from 'mixins/navigate'
   import { HOST, picturePrefix } from 'utils/config'
-  // import { diff } from 'utils/common'
+  import uploadPic from '@/components/uploadPic'
   import db from 'utils/db'
   import { TOKEN } from 'utils/constant'
   // import db from 'utils/db'
@@ -158,10 +132,11 @@
 
   export default class zzz extends wepy.page {
     config = {
-      navigationBarTitleText: '速问'
+      navigationBarTitleText: '悬赏速问'
     }
     components = {
       tabbar: Tabbar,
+      uploadPic,
       toast: Toast
     }
 
@@ -179,18 +154,25 @@
       filesTask: [], // pic
       failTask: [],
       msgList: [
-        {url: 'url', title: '李明喜（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
-        {url: 'url', title: '代峻峰（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'},
-        {url: 'url', title: '大法官（用户）关于“AAA”悬赏金额为XXX元的问题已被有效解决'}],
+        {url: 'url', title: '李明喜（用户）关于“考研”悬赏金额为100元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰（用户）关于“励志”悬赏金额为50元的问题已被有效解决'},
+        {url: 'url', title: '大法官（用户）关于“方向”悬赏金额为60元的问题已被有效解决'}],
       id: '',
       dataList: [],
       array: [1, 2, 3],
-      money: [16, 36, 66, 86, 166]
+      money: '',
+      moneyArr: [16, 36, 66, 86, 166]
     }
 
     methods = {
       submit () {
         this.showGuide = !this.showGuide
+      },
+      moneyBind (e) {
+        this.money = e.detail.value
+      },
+      chooseMoney (val) {
+        this.money = val
       },
       getCode () {
         this.showGuide = !this.showGuide
@@ -285,11 +267,6 @@
         console.log(err)
       })
       this.$apply()
-    }
-    bindPickerChange (e) {
-      this.setData({
-        index: e.detail.value
-      })
     }
   }
 </script>

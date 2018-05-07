@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" scoped>
   .tabbar_box{
     display: flex;
     flex-direction: row;
@@ -33,7 +33,7 @@
 <template>
   <view class="tabbar_box" style="background-color:{{tabbar.backgroundColor}}; border-top-color:{{tabbar.borderStyle}}; {{tabbar.position === 'top' ? 'top:0' : 'bottom:0'}}">
     <repeat for="{{tabbar.list}}" index="index" item="item" key="index">
-        <navigator  wx:if="{{item.show}}" hover-class="none" class="tabbar_nav" url="{{item.pagePath}}" style="width:{{1/tabbar.list.length*100}}%; color:{{item.selected ? tabbar.selectedColor : tabbar.color}}" open-type="navigate">
+        <navigator  hover-stop-propagation="true" wx:if="{{item.show}}" hover-class="none" class="tabbar_nav" url="{{item.pagePath}}" style="width:{{1/tabbar.list.length*100}}%; color:{{item.selected ? tabbar.selectedColor : tabbar.color}}" open-type="navigate">
           <image class="tabbar_icon" src="{{item.selected ? item.selectedIconPath : item.iconPath}}"></image>
           <text>{{item.text}}</text>
         </navigator>
@@ -51,7 +51,6 @@
     }
 
     data = {
-      isPostgraduate: false
     }
 
     methods = {
@@ -61,9 +60,16 @@
     }
 
     onLoad () {
+      let gd = wepy.$instance.globalData
       console.log('isPostgraduate onLoad')
       let isPostgraduate = db.get(IS_POSTGRADUATE)
-      this.isPostgraduate = isPostgraduate || wepy.$instance.globalData.tabbar.isPostgraduate
+      this.isPostgraduate = isPostgraduate || gd.isPostgraduate
+      // 2 答， 3问
+      if (isPostgraduate) {
+        gd.tabbar.list[2].show = true
+      } else {
+        gd.list[3].show = true
+      }
       this.$apply()
     }
     watch = {

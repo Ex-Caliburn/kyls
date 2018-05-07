@@ -56,13 +56,13 @@
     config = {
       pages: [
         'pages/enter',
-        'pages/index',
         'pages/message',
         'pages/answer',
         'pages/question',
         'pages/searchList',
         'pages/serviceList',
         'pages/questionFrom',
+        'pages/questionType',
         'pages/chat',
         // 研究生
         'pages/graduateRegister',
@@ -70,15 +70,15 @@
         'pages/probation',
         'pages/graduateDetail',
         'pages/answerEdit',
+        'pages/answerHistory',
         // 本科生
         'pages/undergraduateRegister',
         'pages/chooseInterest',
-        'pages/rewardQuestion',
         // 我的
         'pages/my/info',
         'pages/my/infoEdit',
+        'pages/my/helpCenter',
         'pages/my/avatar',
-        'pages/my/avatarEdit',
         'pages/my/contact',
         'pages/my/about',
         'pages/my/medal',
@@ -90,7 +90,6 @@
         'pages/my/credit',
         'pages/my/recharge',
         'pages/my/withdraw',
-        // 'pages/my/infoEdit',
         // 本科生我的
         'pages/my/questionHistory',
         'pages/my/thousandQuestion',
@@ -101,7 +100,7 @@
         'pages/my/diaryEdit',
         'pages/my/myHelp',
         // 研究生我的
-        // 'pages/my/attractQuestion',
+        'pages/my/attractQuestion',
         'pages/my/checkout',
         // 静态页面
         'pages/materials/protocol',
@@ -111,7 +110,7 @@
       window: {
         navigationBarBackgroundColor: '#409EFF',
         navigationBarTextStyle: 'black',
-        navigationBarTitleText: 'kyls',
+        navigationBarTitleText: '考研里手',
         backgroundColor: '#dddddd'
       }
     }
@@ -124,7 +123,7 @@
       userInfo: {
         userId: '',
         avatarUrl: '',
-        userType: 1 // 身份 1:本科生 2研究生3审核中的研究生
+        userType: 0 // 身份 1:本科生 2研究生3审核中的研究生
       },
       token: '',
       invitationCode: '2sdf12sdfsdf231213sdfsdfsf',
@@ -157,7 +156,7 @@
             iconPath: '/icon/answer.png',
             selectedIconPath: '/icon/answer@select.png',
             selected: false,
-            show: true
+            show: false
           },
           {
             pagePath: '/pages/question',
@@ -186,6 +185,12 @@
     }
 
     onShow () {
+      let userInfo = db.get(USER_INFO)
+      if (userInfo) {
+        this.globalData.userInfo = userInfo
+        this.globalData.isPostgraduate = userInfo.userType > 1
+      }
+      this.getToken()
       // const updateManager = wepy.getUpdateManager && wepy.getUpdateManager()
       // updateManager.onCheckForUpdate(function(res) {
       //   // 请求完新版本信息的回调
@@ -209,18 +214,15 @@
     }
 
     onLaunch () {
-      let userInfo = db.get(USER_INFO)
-      if (userInfo) {
-        this.globalData.userInfo = userInfo
-        this.globalData.isPostgraduate = userInfo.userType > 1
-      }
+      // let userInfo = db.get(USER_INFO)
+      // if (userInfo) {
+      //   this.globalData.userInfo = userInfo
+      //   this.globalData.isPostgraduate = userInfo.userType > 1
+      // }
       // 存储系统信息
       let systemInfo = wepy.getSystemInfoSync()
       db.set(SYSTEM_INFO, systemInfo)
-      this.getToken()
-    }
-
-    async _getUserInfo () {
+      // this.getToken()
     }
 
     // 微信登录

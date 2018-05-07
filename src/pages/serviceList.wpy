@@ -1,11 +1,14 @@
 <style>
   .page__bd{
-    padding-top:30px;
+    padding-top:10px;
   }
   .cost{
     display: inline-block;
     float: right;
     min-width: 100px;
+  }
+  .weui-panel {
+    margin-top: 5rpx;
   }
 </style>
 
@@ -42,7 +45,7 @@
           <view class="weui-media-box weui-media-box_text">
             <view class="weui-media-box__title weui-media-box__title_in-text">
               与学长学姐在校园当面沟通
-              <view class="cost bold">消耗100研贝</view>
+              <view class="cost bold">消耗1000研贝</view>
             </view>
             <view class="weui-media-box__info">
               <view class="weui-media-box__info__meta fz22">五六月份开发</view>

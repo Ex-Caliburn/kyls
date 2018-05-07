@@ -14,7 +14,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      counter: path.join(__dirname, 'src/components/counter'),
       '@': path.join(__dirname, 'src'),
       'components': path.join(__dirname, 'src/components'),
       'mixins': path.join(__dirname, 'src/mixins'),
