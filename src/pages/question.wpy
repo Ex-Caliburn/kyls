@@ -13,6 +13,10 @@
     color: #09bb07;
     background-color: #fff;
   }
+  .money-choose{
+    border: 1px solid #fc5353;
+    color: #fc5353;
+  }
 
   .swiper_container {
     padding: 10rpx 15rpx;
@@ -54,7 +58,7 @@
           </block>
         </swiper>
 
-        <navigator url="/pages/" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/questionType" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">选择问题</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -94,9 +98,9 @@
           <view>请设置悬赏金额：</view>
           <view class="flex flex-around flex-wrap" style="margin:20rpx">
             <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-              <view @tap="chooseMoney({{item}})" class="money">{{item}}研贝</view>
+              <view @tap="chooseMoney({{item}})" class="money {{item === money ? 'money-choose' :''}}">{{item}}研贝</view>
             </block>
-            <input @change="moneyBind" class="money money-enter" type="text" placeholder="自定义金额"/>
+            <input @change="moneyBind" class="money money-enter {{ entering ? 'money-choose' : '' }}" type="text" placeholder="自定义金额"/>
           </view>
         </view>
 
@@ -104,7 +108,7 @@
           <view >温馨信息：</view>
           <view class="fz22">1、悬赏金额越高，您得到回复的速度越快且回复质量越高；</view>
           <view class="fz22">2、其它金额下限为8；</view>
-          <view class="fz22">3、若半小时后您仍未得到回复，则研贝自动退还至您的余额。</view>
+          <view class="fz22">3、若一小时后您仍未得到回复，则研贝自动退还至您的余额。</view>
         </view>
 
         <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">我要回答</button>
@@ -154,24 +158,27 @@
       filesTask: [], // pic
       failTask: [],
       msgList: [
-        {url: 'url', title: '李明喜（用户）关于“考研”悬赏金额为100元的问题已被有效解决'},
-        {url: 'url', title: '代峻峰（用户）关于“励志”悬赏金额为50元的问题已被有效解决'},
-        {url: 'url', title: '大法官（用户）关于“方向”悬赏金额为60元的问题已被有效解决'}],
+        {url: 'url', title: '李明喜 关于“考研”悬赏金额为100元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰 关于“励志”悬赏金额为50元的问题已被有效解决'},
+        {url: 'url', title: '大法官 关于“方向”悬赏金额为60元的问题已被有效解决'}],
       id: '',
       dataList: [],
       array: [1, 2, 3],
       money: '',
+      entering: false,
       moneyArr: [16, 36, 66, 86, 166]
     }
 
     methods = {
       submit () {
-        this.showGuide = !this.showGuide
+
       },
       moneyBind (e) {
+        this.entering = true
         this.money = e.detail.value
       },
       chooseMoney (val) {
+        this.entering = false
         this.money = val
       },
       getCode () {
@@ -258,15 +265,8 @@
       }
     }
     onLoad (params) {
-      post({
-        apiName: 'addFormId',
-        data: {}
-      }).then((res) => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-      this.$apply()
+      let gd = wepy.$instance.globalData
+      this.questionType = gd.questionType
     }
   }
 </script>

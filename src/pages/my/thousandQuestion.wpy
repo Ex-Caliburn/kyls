@@ -5,7 +5,7 @@
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/my/thousandQuestion1" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">我的千问</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -38,36 +38,13 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
       dataList: []
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
-      }
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

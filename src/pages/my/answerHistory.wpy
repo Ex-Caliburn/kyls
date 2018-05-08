@@ -58,6 +58,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {get} from 'utils/service'
   // import db from 'utils/db'
   import {formatDate} from 'utils/common'
@@ -72,27 +73,21 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
-      avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+      avatarUrl: '',
       dataList: []
     }
 
     methods = {
       goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        this.navigate('serviceList?id=' + this.id)
       }
     }
 
     //          姓名、志愿院校、志愿专业
-    // 7.本科生信息	问题及答案：
+    // 本科生信息问题及答案
     // 问题：××××××××……     >
     getQuestionHistory () {
       for (let i = 0; i < 10; i++) {
@@ -109,7 +104,6 @@
       //   data: {}
       // })
       //   .then((res) => {
-      //     console.log(res)
       //     res.data.forEach((item) => {
       //       item.askTime = formatDate(Date.now())
       //     })
@@ -124,9 +118,6 @@
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

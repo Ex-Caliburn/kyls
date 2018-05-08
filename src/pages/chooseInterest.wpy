@@ -83,6 +83,7 @@
   import { get } from '../utils/service'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
 
   export default class chooseInterest extends wepy.page {
     config = {
@@ -92,12 +93,12 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, toast, navigate]
     data = {
       msgList: [
-        {url: 'url', title: '李明喜（用户）关于“考研”悬赏金额为100元的问题已被有效解决'},
-        {url: 'url', title: '代峻峰（用户）关于“励志”悬赏金额为50元的问题已被有效解决'},
-        {url: 'url', title: '大法官（用户）关于“方向”悬赏金额为60元的问题已被有效解决'}],
+        {url: 'url', title: '李明喜 关于“考研”悬赏金额为100元的问题已被有效解决'},
+        {url: 'url', title: '代峻峰 关于“励志”悬赏金额为50元的问题已被有效解决'},
+        {url: 'url', title: '大法官 关于“方向”悬赏金额为60元的问题已被有效解决'}],
       publicTypes: [],
       publicIndex: ''
     }
@@ -107,29 +108,17 @@
         console.log(e.detail.value)
         if (this.publicTypes.length > 0) {
           let id = this.publicTypes[e.detail.value].id
-          wepy.navigateTo({
-            url: '/pages/graduateList?id=' + id
-          }).then((res) => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
+          this.navigate('graduateList?id=' + id)
         }
       },
       jump (index) {
         const route = [
-          '/pages/graduateRegister',
-          '/pages/undergraduateRegister',
-          '/pages/materials/story',
-          '/pages/searchList'
+          'graduateRegister',
+          'undergraduateRegister',
+          'materials/story',
+          'searchList'
         ]
-        wepy.navigateTo({
-          url: route[index]
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        this.navigate(route[index])
       }
     }
 
@@ -149,10 +138,6 @@
     onShow () {
       // this.getScienceInfoByType()
     }
-
-    // pullDownRefresh () {
-    //   this.getScienceInfoByType()
-    // }
     onLoad () {
       this.getScienceInfoByType()
     }

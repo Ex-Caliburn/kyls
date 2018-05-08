@@ -1,20 +1,3 @@
-// 1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题
-// /school/getScienceInfoByType?science_type=1
-// http://47.98.211.80:8080/kyls_backend//school/getScienceInfoByType?science_type=1
-
-//   user/updateUserInfo  修改用户信息
-//
-//   private String wxFaceUrl;
-// private String email;
-// private String volunteerSchool;
-// private String volunteerMajor;
-// private String answerWill;
-// private Integer userType; //1:本科生 2 研究生
-//   answerWill  如果是研究生 直传这个，和private String wxFaceUrl;
-// private String email;
-//
-//   /upload/image post  file
-
 const school = 'school/'
 const user = 'user/'
 const diary = 'diary/'
@@ -34,18 +17,18 @@ const api = {
   * */
   getMedalAward: 'medal/getMedalAward',
   getUserMedal: 'medal/getUserMedal',
-  share: 'share/share',
   getUserMessage: 'message/getUserMessage',
   readMessage: 'message/readMessage', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
   getPostgraduateInfo: user + 'getPostgraduateInfo',
   /*
-  * 操作类上传
+  * 支付
   * */
   wxNotify: '/pay/wxNotify', // get
   order: '/pay/order', // POST{ "userId":1, "amount"1 } ##返回参数 { "prepay_id":"122121" }
   /*
   * 操作类上传
   * */
+  share: 'share/share',
   upload: '/upload/image',
   setUserPhone: '/wx/setUserPhone', // post setUserPhone
   addFormId: user + 'addFormId',
@@ -56,7 +39,6 @@ const api = {
   /*
   * 日记
   * */
-// { "code": 0, "error": "", "data": [ { "diaryId": 2, "userId": 2, "title": "1123121", "content": "dsajkgdashgkas", "diaryPictures": "我喜欢问问题", "status": 1, "updatedAt": 1525179840480, "createdAt": 1525179840000 } ] }
   getDiaryList: diary + 'diaryList',
   addDiary: diary + 'addDiary',
   editDiary: diary + 'editDiary',

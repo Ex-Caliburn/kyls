@@ -65,6 +65,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {post} from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
@@ -78,7 +79,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
       showGuide: false,
@@ -91,15 +92,9 @@
       chooseService (index) {
         console.log(index)
         const route = [
-          '/pages/questionFrom?answerUserId=' + this.answerUserId
+          'questionFrom?answerUserId=' + this.answerUserId
         ]
-        wepy.navigateTo({
-          url: route[index]
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        this.navigate(route[index])
       }
     }
 
@@ -108,7 +103,7 @@
 
     onLoad (params) {
       console.log(params.id)
-      this.answerUserId = params.answerUserId
+      this.answerUserId = params.id
       this.$apply()
     }
   }

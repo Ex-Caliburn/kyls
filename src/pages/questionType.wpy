@@ -126,6 +126,19 @@
 
     methods = {
       submit (e) {
+        let {
+          undergraduateSchoolId,
+          undergraduateMajorId,
+          questionIndex,
+          majorIndex,
+          commonIndex
+        } = this
+        let gd = wepy.$instance.globalData
+        gd.questionType = {undergraduateSchoolId,
+          undergraduateMajorId,
+          questionIndex,
+          majorIndex,
+          commonIndex}
         this.navigate('question')
       },
       bindCommon (e) {
@@ -148,19 +161,6 @@
       this.$apply()
     }
     onLoad(params) {
-    }
-
-    radioChange(e) {
-      var checked = e.detail.value
-      var changed = {}
-      for (var i = 0; i < this.data.questionTypes.length; i++) {
-        if (checked.indexOf(this.data.questionTypes[i].name) !== -1) {
-          changed['questionTypes[' + i + '].checked'] = true
-        } else {
-          changed['questionTypes[' + i + '].checked'] = false
-        }
-      }
-      this.setData(changed)
     }
   }
 </script>

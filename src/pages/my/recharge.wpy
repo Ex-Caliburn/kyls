@@ -55,7 +55,7 @@
         <view class="fz22">5、充值1666研贝您将获赠166研贝及无限次免费查看问题的权力，同时获得最佳考研里手见面会入场券一张。</view>
       </view>
 
-      <button @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26">立即支付</button>
+      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">立即支付</button>
 
     </view>
   </view>
@@ -85,29 +85,12 @@
     mixins = [tabbar]
 
     data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
+      id: ''
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
+      submit () {
         this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
       }
     }
 
@@ -115,9 +98,6 @@
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

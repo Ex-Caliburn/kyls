@@ -27,7 +27,7 @@
       <view hidden="{{!isGet}}" class="red center">恭喜你获得新勋章</view>
       <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
       <view class="center">已有XXX人获得</view>
-      <image class="icon" src="{{icon}}"/>
+      <image class="icon" src="{{medalId ? (icon + medalId + '.jpg') : ''}}"/>
       <view class="center">勋章名称</view>
       <view class="center">勋章界面话语</view>
       <view class="center">勋章获得条件</view>
@@ -46,11 +46,8 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import {get} from 'utils/service'
+  import { get } from 'utils/service'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
-
-  let icon = '../../icon/my/model.svg'
 
   export default class medalDetail extends wepy.page {
     config = {
@@ -64,7 +61,7 @@
     mixins = [tabbar]
 
     data = {
-      icon: icon,
+      icon: '../../icon/my/medal',
       isGet: false,
       medalId: ''
     }
@@ -84,7 +81,6 @@
       })
         .then((res) => {
           this.ShowToast(res.data)
-          console.log(res)
           this.isGet = true
           this.$apply()
         }).catch(err => {

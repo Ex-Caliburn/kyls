@@ -1,0 +1,79 @@
+<style scoped>
+  page {
+    background-color: #FFFFFF;
+  }
+  .weui-article__h3{
+    font-weight: bold;
+  }
+  .weui-article__p{
+    text-align: justify;
+  }
+</style>
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-article">
+        <view class="weui-article__section">
+          <view class="weui-article__section">
+            <view class="weui-article__h3">高效率与高质量</view>
+            <view class="weui-article__p">
+              考研里手着重于咨询的高效率与高质量。
+
+              回答速度越快的研究生，平台将给予他们更多的奖励（例如更优先的通知权力、更高的收益分成）。
+
+              当研究生被评分较低时，客服人员将会介入。如果情况不属实，对研究生将不会造成任何影响。同时，研究生想将研贝提现时，我们保证提现在24h内完成。
+
+              此外，您有任何需求，都可以联系我们的客服或者CEO热线。
+            </view>
+            <view class="weui-article__p">
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">里手问答</view>
+            <view class="weui-article__p">
+              考研里手一大模块是问答功能。我们按照您对于不同问题的回答意愿，可以详细地为您匹配到符合您回答意愿的本科生问题，以免对您造成不必要的干扰。
+
+              针对不同情况，我们为您准备了多种的咨询模式：
+              首先，您可以准备含金量高的问答，本科生可以选择付费或使用机会查看您设置的问题；
+              其次，本科生可以直接以聊天界面的形式向您提问；
+              接着，如果本科生觉得有些意思文字难以传达，还可以申请与您通过电话进行咨询（此功能近期将上线）；
+              最后，如果本科生想获取更全面详实的咨询服务，还可以申请与您当面会谈。
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">悬赏</view>
+            <view class="weui-article__p">
+              对于想更快获得报酬的童鞋，我们为您特地准备了悬赏功能。
+
+              悬赏功能具有高效性。
+
+              我们会将本科生的问题以短信的方式发送给您，以确保您能及时收到悬赏通知。当然，我们会控制好您接收消息的频率，不会打扰到您。
+
+              悬赏功能还具有可靠性。本科生的悬赏问题也会有悬赏标签的设置，这样可以确保为您匹配到尽可能合适的问题。
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">勋章</view>
+            <view class="weui-article__p">
+              每人都有属于自己的勋章墙，这里详细记录了您勋章的获得情况以及各个勋章的特性。您可以将自己的勋章墙分享给小伙伴炫耀一番~
+
+              每个勋章都有自己独特的获得方式以及奖励（比如优惠券、查看问题的机会等，详情本科生可在勋章墙上查看）。
+
+              勋章分为两种类型，一种是升级型勋章，当您触发越多相关条件时，相应的勋章等级越高、所获的奖励也相应越高。
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class guideP extends wepy.page {
+    config = {
+      navigationBarTitleText: '研究生使用帮助'
+    }
+  }
+</script>

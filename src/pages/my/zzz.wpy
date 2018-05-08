@@ -44,15 +44,6 @@
     }
 
     methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
       showGuide () {
         this.showGuide = !this.showGuide
       }
@@ -79,7 +70,6 @@
       //   data: {}
       // })
       //   .then((res) => {
-      //     console.log(res)
       //     res.data.forEach((item) => {
       //       item.askTime = formatDate(Date.now())
       //     })
@@ -91,10 +81,7 @@
     }
 
     onLoad (params) {
-      this.invitationCode = this.$parent.globalData.invitationCode
-      this.$apply()
-      console.log(params.id)
-      this.id = params.id
+      console.log(params)
       this.$apply()
     }
   }

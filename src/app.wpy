@@ -38,9 +38,7 @@
         'pages/graduateRegister',
         'pages/graduateList',
         'pages/probation',
-        'pages/graduateDetail',
         'pages/answerEdit',
-        'pages/my/answerHistory',
         // 本科生
         'pages/undergraduateRegister',
         'pages/chooseInterest',
@@ -48,7 +46,6 @@
         'pages/my/info',
         'pages/my/infoEdit',
         'pages/my/helpCenter',
-        'pages/my/avatar',
         'pages/my/contact',
         'pages/my/about',
         'pages/my/medal',
@@ -62,7 +59,9 @@
         'pages/my/withdraw',
         // 本科生我的
         'pages/my/questionHistory',
+        'pages/my/thousandQuestion1',
         'pages/my/thousandQuestion',
+        'pages/my/answerHistory',
         'pages/my/helpMe',
         'pages/my/read',
         'pages/my/collection',
@@ -75,6 +74,8 @@
         // 静态页面
         'pages/materials/protocol',
         'pages/materials/help',
+        'pages/materials/guideP',
+        'pages/materials/guideU',
         'pages/materials/story'
       ],
       window: {
@@ -93,7 +94,7 @@
       userInfo: {
         userId: '',
         avatarUrl: '',
-        userType: 0 // 身份 1:本科生 2研究生3审核中的研究生
+        userType: 0   // 身份 1:本科生 2研究生3审核中的研究生
       },
       token: '',
       invitationCode: '2sdf12sdfsdf231213sdfsdfsf',

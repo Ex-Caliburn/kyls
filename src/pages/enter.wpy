@@ -79,7 +79,6 @@
     authorize() {
       wepy.getSetting()
         .then(res => {
-          console.log(res)
           if (!res.authSetting['scope.userInfo']) {
             wepy.authorize({ scope: 'scope.userInfo' })
           }

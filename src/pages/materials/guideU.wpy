@@ -1,0 +1,80 @@
+<style scoped>
+  page {
+    background-color: #FFFFFF;
+  }
+  .weui-article__h3{
+    font-weight: bold;
+  }
+  .weui-article__p{
+    text-align: justify;
+  }
+</style>
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <view class="weui-article">
+        <view class="weui-article__section">
+          <view class="weui-article__section">
+            <view class="weui-article__h3">高效率与高质量</view>
+            <view class="weui-article__p">
+              考研里手着重于咨询的高效率与高质量。
+
+              为保证咨询质量，在每次咨询后我们都设有匿名评价框。当评分过低时，工作人员将介入审查，切实高效地保障本科生的权益。
+
+              如果您有任何需求，都可以联系我们的客服或者CEO热线。
+            </view>
+            <view class="weui-article__p">
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">里手问答</view>
+            <view class="weui-article__p">
+              考研里手一大模块是问答功能。一方面，本科生可以详细地定位到想咨询的学长学姐（此处放上一级问题、二级问题的流程图）；另一方面，在本科生最终定位的咨询领域上，我们还结合了学长学姐评分、平均回答时间等因素进行排序，节省本科生的挑选成本。
+
+              为满足本科生不同的需求，问答模块下我们设有多种咨询方式：
+              首先，每位学长学姐自己都精心准备了高含金量的问答供您参考；
+              其次，您可以直接以聊天界面的形式向学长学姐提问；
+              接着，如果您觉得有些意思文字难以传达，您还可以选择使用电话咨询的方式（此功能近期将上线）；
+              最后，如果您想获取更全面详实的咨询服务，您还可以选择与心仪的学长学姐当面会谈（此功能近期将上线）。
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">悬赏</view>
+            <view class="weui-article__p">
+              对于那些问题比较疑难、小众，或者是迫切得到答案的童鞋，我们为您特地准备了悬赏功能。
+
+              悬赏功能具有高效性。
+              首先，我们会将您的问题以短信的方式发送给研究生，以确保他们能及时收到您的求助。
+
+              其次，除了推荐金额，您还可以根据自己的需求，自定义地设置悬赏金额。悬赏金额越高，研究生回答的动力越足，同时回答质量也会相应越高。
+
+              悬赏功能还具有可靠性。本科生的悬赏问题会有悬赏标签设置，这样可以确保为您联系到尽可能合适的研究生，从而保障回答质量。
+            </view>
+          </view>
+          <view class="weui-article__section">
+            <view class="weui-article__h3">勋章</view>
+            <view class="weui-article__p">
+              每人都有属于自己的勋章墙，这里详细记录了您勋章的获得情况以及各个勋章的特性。您可以将自己的勋章墙分享给小伙伴炫耀一番~
+
+              每个勋章都有自己独特的获得方式以及奖励（比如优惠券、查看问题的机会等，详情本科生可在勋章墙上查看）。
+              勋章分为两种类型，一种是升级型勋章，当您触发越多相关条件时，相应的勋章等级越高、所获的奖励也相应越高。
+
+              其中有两类勋章较为特殊，它们的奖励是解锁与研究生打电话和见面的权限，这两枚勋章分别是“抽茧剥丝”和“矢志不渝”。
+
+              最高级别的勋章是“大满贯”勋章，它的奖励是赠送去香港的机票一张哟(或同等量级的奖励)~快快来获取吧!
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class guideU extends wepy.page {
+    config = {
+      navigationBarTitleText: '本科生使用帮助'
+    }
+  }
+</script>

@@ -127,7 +127,7 @@
       focus () {
       },
       continueAsk () {
-        this.navigate()
+        this.navigate('questionFrom?id=' + this.answerUserId)
       },
       previewImage(img) {
         wepy.previewImage({
@@ -136,21 +136,15 @@
         })
       },
       goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        })
-          .then((res) => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
+        this.navigate('serviceList?id=' + this.id)
       }
     }
 
-    onLoad (params) {
+    onLoad(params) {
+      console.log(params)
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      console.log(params.questionId)
       this.questionId = params.questionId
+      this.answerUserId = params.answerUserId
       this.$apply()
     }
   }

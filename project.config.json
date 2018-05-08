@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 24,
 			"list": [
 				{
 					"id": 0,
@@ -216,6 +216,24 @@
 					"name": "questionType",
 					"pathName": "pages/questionType",
 					"query": ""
+				},
+				{
+					"id": 31,
+					"name": "guideP",
+					"pathName": "pages/materials/guideP",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "protocol",
+					"pathName": "pages/materials/protocol",
+					"query": ""
+				},
+				{
+					"id": 33,
+					"name": "medalId",
+					"pathName": "pages/my/medalDetail",
+					"query": "medalId=1"
 				}
 			]
 		}

@@ -78,7 +78,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请推荐人邀请码" @change="invitationCodeInp()" value="{{InvitationCode}}"/>
+            <input class="weui-input" placeholder="请推荐人邀请码" @change="invitationCodeInp" value="{{InvitationCode}}"/>
           </view>
         </view>
       </view>
@@ -92,7 +92,7 @@
                     wx:if="{{isAgree}}"></icon>
             </view>
             阅读并同意
-            <navigator url="" class="weui-agree__link">《考研里手相关协议》</navigator>
+            <navigator url="/pages/materials/protocol" class="weui-agree__link">《考研里手相关协议》</navigator>
           </view>
         </label>
       </checkbox-group>
@@ -107,10 +107,12 @@
 <script>
   import wepy from 'wepy'
   // import Toast from 'wepy-com-toast'
-  import toast from '../mixins/toast'
+  import toast from 'mixins/toast'
+  import navigate from 'mixins/navigate'
   import Tabbar from '@/components/tabbar' // alias example
-  import { post } from '../utils/service'
-  import { CN_RULE, EMAIL_RULE } from '../utils/constant'
+  import { post } from 'utils/service'
+  import db from 'utils/db'
+  import { CN_RULE, EMAIL_RULE, USER_INFO } from '../utils/constant'
 
   export default class undergraduateRegister extends wepy.page {
     config = {
@@ -120,7 +122,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [toast]
+    mixins = [toast, navigate]
 
     // https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc
     data = {
@@ -207,6 +209,10 @@
           volunteerMajor // 志愿专业
         }
       }).then(res => {
+        let gd = this.$parent.globalData
+        gd.isPostgraduate = false
+        gd.userInfo.userType = 1
+        db.set(USER_INFO, gd.userInfo)
         this.navigate('info')
       }).catch(res => {
       })

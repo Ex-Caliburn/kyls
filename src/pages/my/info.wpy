@@ -333,7 +333,6 @@
     }
 
     onLoad () {
-      console.log(this)
       let userInfo = db.get(USER_INFO)
       this.avatarUrl = userInfo.avatarUrl
       this.nickName = userInfo.nickName
@@ -341,7 +340,6 @@
 
     onShow () {
       this.isPostgraduate = wepy.$instance.globalData.isPostgraduate
-      console.log(this.isPostgraduate)
       this.$apply()
       this.getUserInfo()
     }

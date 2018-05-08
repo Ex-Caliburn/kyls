@@ -5,9 +5,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .isAnswer{
-    background-color:  oldlace;
-  }
   .list-container{
     padding: 20rpx 40rpx;
     background-color: #fff;
@@ -58,6 +55,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import navigate from 'mixins/navigate'
   // import {get} from 'utils/service'
   // import db from 'utils/db'
   import {formatDate} from 'utils/common'
@@ -72,22 +70,16 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, navigate]
 
     data = {
-      avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+      avatarUrl: '',
       dataList: []
     }
 
     methods = {
       goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        this.navigate('serviceList?id=' + this.id)
       }
     }
 
@@ -107,7 +99,6 @@
       //   data: {}
       // })
       //   .then((res) => {
-      //     console.log(res)
       //     res.data.forEach((item) => {
       //       item.askTime = formatDate(Date.now())
       //     })
@@ -118,13 +109,11 @@
       //   })
     }
     onShow () {
+      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
       this.getQuestionHistory()
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
     }
   }
 </script>

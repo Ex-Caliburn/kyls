@@ -101,6 +101,9 @@
       }
     }
   }
+  .MB{
+    margin-bottom: 20rpx;
+  }
 </style>
 <template>
   <view class="page">
@@ -135,7 +138,7 @@
         <scroll-view class="classify_detail" scroll-y scroll-with-animation="true"
                      style="height:{{windowHeight-topHeight}}px">
           <view class="children">
-            <view class="blue">{{name}}</view>
+            <view class="red MB">{{name}}</view>
             <view class="children_item" wx:for="{{childList}}" wx:for-item="item" wx:key="item.id"
                   @tap="choose({{item.id}}, {{item.major_name || item.school_name}})">
               <view class="child_name" hidden="{{!item.school_name}}">{{item.school_name}}</view>
@@ -168,12 +171,6 @@
     mixins = [navigate]
 
     components = {}
-
-    computed = {
-      value () {
-        console.log(this.index)
-      }
-    }
 
     data = {
       name: '',
@@ -223,61 +220,12 @@
           [params]: this.inputVal.trim()
         }
       }).then(res => {
-        console.log(res)
         this.childList = res.data
         this.$apply()
       }).catch(res => {
-        console.log(res)
         tip.error(res.data)
       })
     }
-
-    onLoad () {
-      if (wepy.$instance.globalData.isPostgraduate) {
-        this.rootList.push({
-          id: '2',
-          name: '硕士院校*',
-          active: false,
-          selected: false
-        },
-          {
-            id: '3',
-            name: '硕士专业*',
-            active: false,
-            selected: false
-          })
-      }
-      let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
-      this.windowHeight = systemInfo.windowHeight
-      this.$apply()
-    }
-
-    onShow () {
-      let gd = wepy.$instance.globalData
-      this.undergraduateSchoolId = gd.undergraduateSchoolId
-      this.undergraduateMajorId = gd.undergraduateMajorId
-      this.postgraduateSchoolId = gd.postgraduateSchoolId
-      this.postgraduateMajorId = gd.postgraduateMajorId
-      this.undergraduateSchoolName = gd.undergraduateSchoolName
-      this.undergraduateMajorName = gd.undergraduateMajorName
-      this.postgraduateSchoolName = gd.postgraduateSchoolName
-      this.postgraduateMajorName = gd.postgraduateMajorName
-      if (gd.undergraduateSchoolId) {
-        this.rootList[0].selected = true
-      }
-      if (gd.undergraduateMajorId) {
-        this.rootList[1].selected = true
-      }
-      if (gd.postgraduateSchoolId) {
-        this.rootList[2].selected = true
-      }
-      if (gd.postgraduateMajorId) {
-        this.rootList[3].selected = true
-      }
-      this.$apply()
-    }
-
-    computed = {}
     methods = {
       showInput () {
         this.inputShowed = true
@@ -321,16 +269,13 @@
         }
       },
       changeCate (e) {
-        console.log('changecate....')
         let id = e.currentTarget.dataset.id
-        console.log(id)
         let name
         switch (Number(id)) {
           case 0:
             name = this.undergraduateSchoolName || ''
             break
           case 1:
-            console.log(this)
             name = this.undergraduateMajorName || ''
             break
           case 2:
@@ -343,7 +288,6 @@
             break
         }
         this.name = name
-        console.log(name)
         // 设置一级分类的选中状态
         for (var i = 0; i < this.rootList.length; i++) {
           var root = this.rootList[i]
@@ -389,6 +333,51 @@
       gd.postgraduateMajorName = this.postgraduateMajorName
       this.$apply()
       this.navigate('', 2)
+    }
+
+    onLoad (params) {
+      if (params.isPostgraduate) {
+        this.rootList.push({
+          id: '2',
+          name: '硕士院校*',
+          active: false,
+          selected: false
+        },
+          {
+            id: '3',
+            name: '硕士专业*',
+            active: false,
+            selected: false
+          })
+      }
+      let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
+      this.windowHeight = systemInfo.windowHeight
+      this.$apply()
+    }
+
+    onShow () {
+      let gd = wepy.$instance.globalData
+      this.undergraduateSchoolId = gd.undergraduateSchoolId
+      this.undergraduateMajorId = gd.undergraduateMajorId
+      this.postgraduateSchoolId = gd.postgraduateSchoolId
+      this.postgraduateMajorId = gd.postgraduateMajorId
+      this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.undergraduateMajorName = gd.undergraduateMajorName
+      this.postgraduateSchoolName = gd.postgraduateSchoolName
+      this.postgraduateMajorName = gd.postgraduateMajorName
+      if (gd.undergraduateSchoolId) {
+        this.rootList[0].selected = true
+      }
+      if (gd.undergraduateMajorId) {
+        this.rootList[1].selected = true
+      }
+      if (gd.postgraduateSchoolId) {
+        this.rootList[2].selected = true
+      }
+      if (gd.postgraduateMajorId) {
+        this.rootList[3].selected = true
+      }
+      this.$apply()
     }
   }
 </script>

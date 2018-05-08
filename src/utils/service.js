@@ -30,6 +30,8 @@ async function login() {
       decrypt_type: 'user'
     }
   })
+  wepy.$instance.globalData[IS_POSTGRADUATE] = false
+  db.set(IS_POSTGRADUATE, false)
   if (thirdReturn.data) {
     db.set(USER_INFO, thirdReturn.data)
     if (thirdReturn.data.userType > 1) {

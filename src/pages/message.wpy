@@ -111,7 +111,7 @@
       })
         .then((res) => {
           if (res.data.length > 0) {
-            this.dataList.push(res.data)
+            this.dataList = this.dataList.concat(res.data)
             this.$apply()
           }
         }).catch(err => {
@@ -119,7 +119,14 @@
         })
     }
 
+    // onReachBottom() {
+    //   this.pageNum += 10
+    //   this.$apply()
+    //   this.getUserMessage()
+    // }
     onShow() {
+      this.dataList = []
+      this.$apply()
       this.getUserMessage()
     }
 

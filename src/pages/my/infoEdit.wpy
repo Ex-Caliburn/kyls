@@ -385,11 +385,7 @@
     <canvas canvas-id="myCanvas"
             style="position:absolute;border: 1px solid red; width:{{qualityWidth}}px;height:{{qualityWidth/innerAspectRadio}}px;top:-9999px;left:-9999px;"></canvas>
     <button type="primary" bindtap="getImageInfo"
-            style="position:fixed;bottom:120rpx;width:30%;left:20%;transform:translate3d(-50%,0,0)"> 点击生成图片
-    </button>
-
-    <button type="primary" bindtap="getImage"
-            style="position:fixed;bottom:120rpx;width:30%;left:60%;transform:translate3d(-50%,0,0)"> 选择图片
+            style="position:fixed;bottom:120rpx;width:30%;left:20%;transform:translate3d(-50%,0,0)"> 确定
     </button>
 
     <button type="primary" bindtap="getImage"
@@ -405,7 +401,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { picturePrefix } from 'utils/config'
   import { post, uploadPics } from 'utils/service'
@@ -442,7 +438,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
       answerWill: '',
@@ -450,7 +446,7 @@
       volunteerMajor: '',
       volunteerSchool: '',
       email: '',
-      avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0',
+      avatarUrl: '',
       imageSrc: '',
       returnImage: '',
       isShowImg: false,
@@ -507,7 +503,6 @@
         apiName: 'updateUserInfo',
         data: { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill }
       }).then((res) => {
-        console.log(res)
         let userInfo = this.$parent.globalData.userInfo
         if (userInfo.avatarUrl !== avatarUrl) {
           userInfo.avatarUrl = picturePrefix + avatarUrl
@@ -520,7 +515,7 @@
 
     onLoad (params) {
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.invitationCode = this.$parent.globalData.invitationCode
+      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
       this.$apply()
     }
 

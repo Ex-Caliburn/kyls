@@ -7,6 +7,25 @@
   .weui-uploader__file{
     position: relative;
   }
+  .unChoose{
+    margin-bottom: 20rpx;
+    line-height: 70rpx;
+    height: 70rpx;
+    border-radius: 10rpx;
+    text-align: center;
+    border: 1px solid #09bb07;
+    color: #09bb07;
+    background-color: #fff;
+    padding: 0 5rpx;
+  }
+  .choose{
+    border: 1px solid #fc5353;
+    color: #fc5353;
+  }
+  .will{
+    padding: 10rpx 30rpx;
+    border-top: 1px solid #eee;
+  }
 </style>
 <template>
   <view class="page">
@@ -58,7 +77,7 @@
           </view>
         </view>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">院校信息*</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -106,21 +125,13 @@
           </view>
         </view>
 
-        <view class="weui-cell weui-cell_select">
-          <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">回答意愿*</view>
+        <view class="will">
+          <view class="weui-label MB10">回答意愿*</view>
+          <view class="flex flex-around flex-wrap">
+            <block wx:for-items="{{willTypes}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <view @tap="choose({{index}})" class="unChoose {{item.choose ? 'choose' : ''}}">{{item.txt}}</view>
+            </block>
           </view>
-          <view class="weui-cell__bd">
-            <picker @change="bindWillChange" value="{{willIndex}}" range="{{willTypes}}">
-              <view class="weui-select weui-select_in-select-after">{{willTypes[willIndex]}}</view>
-            </picker>
-          </view>
-        </view>
-
-        <view class="weui-cell flex flex-around flex-wrap">
-          <block wx:for-items="{{willTypes}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <view>{{}}</view>
-          </block>
         </view>
 
         <view class="weui-cell">
@@ -173,7 +184,7 @@
                     wx:if="{{isAgree}}"></icon>
             </view>
             阅读并同意
-            <view @tap="openFile" class="weui-agree__link fz30">《考研里手相关协议》</view>
+            <navigator url="/pages/materials/protocol" class="weui-agree__link">《考研里手相关协议》</navigator>
           </view>
         </label>
       </checkbox-group>
@@ -192,7 +203,8 @@
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
-  import { CN_RULE, EMAIL_RULE, ID_RULE } from '../utils/constant'
+  import db from 'utils/db'
+  import { CN_RULE, EMAIL_RULE, ID_RULE, USER_INFO } from '../utils/constant'
   import navigate from 'mixins/navigate'
 
   export default class graduateRegister extends wepy.page {
@@ -224,26 +236,30 @@
       willTypes: [
         {
           txt: '13大学科',
-          value: '1'
+          value: '1',
+          choose: false
         },
         {
           txt: '公共科目类',
-          value: '2'
+          value: '2',
+          choose: false
         },
         {
           txt: '复试科目类问题咨询',
-          value: '3'
+          value: '3',
+          choose: false
         },
         {
           txt: '考研四大选择题与考研规划问题',
-          value: '4'
+          value: '4',
+          choose: false
         },
         {
           txt: '院校及专业咨询',
-          value: '5'
+          value: '5',
+          choose: false
         }
       ],
-      willIndex: '',
       undergraduateSchoolId: '',
       undergraduateMajorId: '',
       postgraduateSchoolId: '',
@@ -261,6 +277,9 @@
     computed = {}
 
     methods = {
+      choose (i) {
+        this.willTypes[i].choose = !this.willTypes[i].choose
+      },
       invitationCodeInp (e) {
         this.invitationCode = e.detail.value.trim()
       },
@@ -278,21 +297,6 @@
       },
       idNumberInp (e) {
         this.idNumber = e.detail.value.trim()
-      },
-      async openFile () {
-        let res = await wepy.downloadFile({
-          url: 'https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc'
-        })
-        if (res) {
-          var filePath = res.tempFilePath
-        }
-        wepy.openDocument({
-          filePath: filePath
-        }).then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
       },
       deleteImage (i) {
         console.log(i)
@@ -328,9 +332,6 @@
       bindMajorChange (e) {
         this.majorIndex = e.detail.value
       },
-      bindWillChange (e) {
-        this.willIndex = e.detail.value
-      },
       switchChange: function (e) {
         this.answerWill = e.detail.value
       },
@@ -350,12 +351,18 @@
       let {
         email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
-        postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willIndex,
+        postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willTypes,
         publicSubjectFirst, professionalSubjectFirst, invitationCode,
         files
       } = this
+      let answerWill = []
+      willTypes.forEach(item => {
+        if (item.choose) {
+          answerWill.push(item.value)
+        }
+      })
       if (email && userName && idNumber && undergraduateSchoolId && undergraduateMajorId &&
-        postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && (willIndex !== '') &&
+        postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && answerWill.length > 0 &&
         (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
         professionalSubjectFirst && isAgree && files.length > 0) {
       } else {
@@ -382,12 +389,11 @@
           errMsg = '请选择硕士就读专业大类'
         } else if (files.length === 0) {
           errMsg = '请上传学历证明图片'
-        } else if (willIndex === '') {
+        } else if (answerWill.length === 0) {
           errMsg = '请选择回答意愿'
         } else {
           errMsg = '请阅读并同意协议'
         }
-        console.log(errMsg)
         this.ShowToast(errMsg)
         return
       }
@@ -410,10 +416,14 @@
           grade: gradeIndex + 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
           publicSubjectFirst, // 初试公共科目
           professionalSubjectFirst: professionalSubjectFirst.join(','), // 初试专业科目，逗号分割
-          answerWill: willIndex + 1, //  回答意愿   1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
+          answerWill: answerWill.join(','), //  回答意愿   1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
           educationPicture: files.join(',') // 学历证明图片 这个时参数
         }
       }).then(res => {
+        let gd = this.$parent.globalData
+        gd.isPostgraduate = true
+        gd.userInfo.userType = 3
+        db.set(USER_INFO, gd.userInfo)
         this.navigate('info')
       }).catch(res => {
       })
