@@ -4,36 +4,6 @@
   @import "./styles/style";
   @import './style/weui.less';
 
-  /*page{*/
-    /*background-color: #F8F8F8;*/
-    /*font-size: 16px;*/
-    /*font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;*/
-  /*}*/
-  /*.page__hd {*/
-    /*padding: 40px;*/
-  /*}*/
-  /*.page__bd_spacing {*/
-    /*padding-left: 15px;*/
-    /*padding-right: 15px;*/
-  /*}*/
-
-  /*.page__ft{*/
-    /*padding-bottom: 10px;*/
-    /*text-align: center;*/
-  /*}*/
-
-  /*.page__title {*/
-    /*text-align: left;*/
-    /*font-size: 20px;*/
-    /*font-weight: 400;*/
-  /*}*/
-
-  /*.page__desc {*/
-    /*margin-top: 5px;*/
-    /*color: #888888;*/
-    /*text-align: left;*/
-    /*font-size: 14px;*/
-  /*}*/
   .container {
     height: 100%;
     display: flex;
@@ -190,7 +160,8 @@
         this.globalData.userInfo = userInfo
         this.globalData.isPostgraduate = userInfo.userType > 1
       }
-      this.getToken()
+      // this.getToken()
+      login()
       // const updateManager = wepy.getUpdateManager && wepy.getUpdateManager()
       // updateManager.onCheckForUpdate(function(res) {
       //   // 请求完新版本信息的回调

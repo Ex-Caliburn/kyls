@@ -2,7 +2,7 @@ import wepy from 'wepy'
 import { HOST, version } from './config'
 import api from './api'
 import db from './db'
-import { SESSION_ID, TOKEN, USER_INFO, IS_POSTGRADUATE } from './constant'
+import { IS_POSTGRADUATE, SESSION_ID, TOKEN, USER_INFO } from './constant'
 
 export {
   share,
@@ -168,7 +168,7 @@ function request(options, onComplete) {
     version
   }
   return new Promise((resolve, reject) => {
-    let userId = wepy.$instance.globalData.userInfo.userId || db.get(USER_INFO) && db.get(USER_INFO).userId
+    let userId = wepy.$instance.globalData.userInfo.userId || (db.get(USER_INFO) && db.get(USER_INFO).userId)
     if (options.data) {
       options.data.userId = userId
     }
@@ -192,11 +192,11 @@ function request(options, onComplete) {
         login()
       } else {
         console.log(res.statusCode + ':  ' + res.data.data + ', ' + res.data.error)
-        wepy.showToast({
-          title: res.statusCode + ':  ' + res.data.data,
-          icon: 'none',
-          duration: 1000
-        })
+        // wepy.showToast({
+        //   title: res.statusCode + ':  ' + res.data.data,
+        //   icon: 'none',
+        //   duration: 1000
+        // })
         reject(res.data.error)
       }
     }, err => {

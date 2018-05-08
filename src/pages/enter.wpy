@@ -25,7 +25,11 @@
   }
   .des{
     position: absolute;
+    width: 600rpx;
+    left: 50%;
+    transform: translate(-50%);
     bottom: 100rpx;
+    text-align: center;
   }
   .type_blue{
     background-color: #409eff;
@@ -37,8 +41,8 @@
 </style>
 
 <template>
-  <ivew class="container">
-    <ivew class="content">
+  <view class="container">
+    <view class="content">
       <form report-submit="ture" @submit="getFormId">
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit">本科生入口</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit">研究生入口</button>
@@ -46,9 +50,10 @@
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit">使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
-    </ivew>
-    <ivew class="des bold">考研里手——实名制考研百科全书</ivew>
-  </ivew>
+      <!--<view class="des bold">考研里手——实名制考研百科全书</view>-->
+    </view>
+    <view class="des bold">考研里手——实名制考研百科全书</view>
+  </view>
 </template>
 
 <script>
@@ -94,8 +99,7 @@
       jump(index) {
         this.authorize()
         const route = [
-          // 'undergraduateRegister',
-          'chooseInterest',
+          'undergraduateRegister',
           'graduateRegister',
           'materials/story',
           'materials/help'
@@ -105,12 +109,12 @@
     }
 
     onLoad() {
-      // let userType = this.$parent.globalData.userInfo.userType
-      // if (userType === 1) {
-      //   this.navigate('chooseInterest', 1)
-      // } else if (userType === 2 || userType === 3) {
-      //   this.navigate('chooseInterest', 1)
-      // }
+      let userType = this.$parent.globalData.userInfo.userType
+      if (userType === 1) {
+        this.navigate('chooseInterest', 1)
+      } else if (userType === 2 || userType === 3) {
+        this.navigate('chooseInterest', 1)
+      }
     }
   }
 </script>

@@ -68,7 +68,7 @@
       if (isPostgraduate) {
         gd.tabbar.list[2].show = true
       } else {
-        gd.list[3].show = true
+        gd.tabbar.list[3].show = true
       }
       this.$apply()
     }

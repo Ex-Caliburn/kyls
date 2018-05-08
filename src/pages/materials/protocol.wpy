@@ -3,9 +3,9 @@
 </style>
 
 <template>
-  <ivew>
-    <ivew>协议</ivew>
-  </ivew>
+  <view>
+    <view>协议</view>
+  </view>
 </template>
 
 

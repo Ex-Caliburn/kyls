@@ -117,12 +117,11 @@
           </view>
         </view>
 
-        <!--<view class="weui-cell weui-cell_switch">-->
-          <!--<view class="weui-cell__bd">回答意愿*</view>-->
-          <!--<view class="weui-cell__ft">-->
-            <!--<switch @change="switchChange" checked="{{answerWill}}"></switch>-->
-          <!--</view>-->
-        <!--</view>-->
+        <view class="weui-cell flex flex-around flex-wrap">
+          <block wx:for-items="{{willTypes}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+            <view>{{}}</view>
+          </block>
+        </view>
 
         <view class="weui-cell">
           <view class="weui-cell__bd">
@@ -221,7 +220,29 @@
       majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
         '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
       majorIndex: '',
-      willTypes: ['13大学科', '公共科目类', '复试科目类问题咨询', '考研四大选择题与考研规划问题', '院校及专业咨询'],
+      // '公共科目类', '复试科目类问题咨询', '考研四大选择题与考研规划问题', '院校及专业咨询'
+      willTypes: [
+        {
+          txt: '13大学科',
+          value: '1'
+        },
+        {
+          txt: '公共科目类',
+          value: '2'
+        },
+        {
+          txt: '复试科目类问题咨询',
+          value: '3'
+        },
+        {
+          txt: '考研四大选择题与考研规划问题',
+          value: '4'
+        },
+        {
+          txt: '院校及专业咨询',
+          value: '5'
+        }
+      ],
       willIndex: '',
       undergraduateSchoolId: '',
       undergraduateMajorId: '',
@@ -411,8 +432,7 @@
       this.$apply()
     }
 
-    onLoad (params) {
-      // this.ShowToast('123123')
+    onLoad () {
     }
   }
 </script>

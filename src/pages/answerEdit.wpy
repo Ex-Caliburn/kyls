@@ -24,7 +24,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="flex flex-between title">
           <view>聊天对象信息</view>
-          <image @tap="love" class="love" src="../../icon/my/love.svg"></image>
+          <image @tap="love" class="love" src="{{icon}}"></image>
         </view>
         <view class="weui-cell">
           <view class="weui-cell__bd">
@@ -75,7 +75,7 @@
   import { HOST, picturePrefix } from 'utils/config'
   // import { diff } from 'utils/common'
   import db from 'utils/db'
-  import { TOKEN } from 'utils/constant'
+  import { LOVE, TOKEN, UNLOVE } from 'utils/constant'
 
   export default class answerEdit extends wepy.page {
     config = {
@@ -85,10 +85,11 @@
       tabbar: Tabbar,
       toast: Toast
     }
-
     mixins = [tabbar, navigate]
 
     data = {
+      loveStatus: false,
+      icon: LOVE,
       content: '',
       pictures: [],
       userId: '',
@@ -109,7 +110,13 @@
 
     methods = {
       love () {
-        console.log(1)
+        if (this.loveStatus) {
+          this.icon = UNLOVE
+        } else {
+          this.icon = LOVE
+        }
+        this.loveStatus = !this.loveStatus
+        this.$apply()
       },
       async submitQuestion () {
         let {userId, questionId, content, pictures} = this

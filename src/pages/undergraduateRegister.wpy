@@ -207,9 +207,8 @@
           volunteerMajor // 志愿专业
         }
       }).then(res => {
-        console.log(res)
+        this.navigate('info')
       }).catch(res => {
-        console.log(res)
       })
     }
 

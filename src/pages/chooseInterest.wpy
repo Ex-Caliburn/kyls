@@ -21,6 +21,7 @@
     font-size: 36rpx;
     color: #999;
     border-radius: 50rpx;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
   }
   .swiper_container {
     height: 70rpx;
@@ -41,17 +42,15 @@
   }
 
   .type_pink{
-    background-color: #ff4856;
     color: #fff;
     border-radius: 50rpx;
-    border: 1px solid #ff4856;
     box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
   }
 
 </style>
 
 <template>
-  <ivew class="container">
+  <view class="container">
     <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
       <block wx:for="{{msgList}}" wx:key="index">
         <swiper-item>
@@ -59,7 +58,7 @@
         </swiper-item>
       </block>
     </swiper>
-    <ivew class="content" >
+    <view class="content" >
       <button class="weui-btn mini-btn enter-btn " @tap="jump('0')"  disabled >考研四大选择题与考研规划问题</button>
       <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled >十三大类学科咨询</button>
       <button class="weui-btn mini-btn enter-btn " @tap="jump('2')"  disabled >院校及专业咨询</button>
@@ -68,12 +67,12 @@
       </picker>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled >专业科目类</button>
       <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled >复试科目类问题咨询</button>
-    </ivew>
+    </view>
     <view class="fz24">
       温馨信息：具体答复内容可在“我－我的提问”中查看。
     </view>
-  </ivew>
-  <!--<tabbar :tabbar.sync='tabbar'></tabbar>-->
+  </view>
+  <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
 
@@ -91,7 +90,6 @@
     }
     components = {
       tabbar: Tabbar
-
     }
 
     mixins = [tabbar, toast]

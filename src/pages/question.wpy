@@ -132,7 +132,7 @@
 
   export default class zzz extends wepy.page {
     config = {
-      navigationBarTitleText: '悬赏速问'
+      navigationBarTitleText: '我要提问'
     }
     components = {
       tabbar: Tabbar,
