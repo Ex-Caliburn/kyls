@@ -60,6 +60,7 @@
   import wepy from 'wepy'
   import { addFormId } from '../utils/service'
   import navigate from 'mixins/navigate'
+  import shareApp from 'mixins/shareApp'
 
   export default class Enter extends wepy.page {
     config = {
@@ -67,7 +68,7 @@
     }
     components = {}
 
-    mixins = [navigate]
+    mixins = [navigate, shareApp]
 
     data = {}
 

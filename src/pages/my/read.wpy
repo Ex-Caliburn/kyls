@@ -56,6 +56,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
+  import reachBottom from '../mixins/reachBottom'
   // import {get} from 'utils/service'
   // import db from 'utils/db'
   import {formatDate} from 'utils/common'
@@ -63,14 +64,17 @@
 
   export default class helpMe extends wepy.page {
     config = {
-      navigationBarTitleText: '我的里手'
+      navigationBarTitleText: '我看过的',
+      window: {
+        enableOnReachBottom: true
+      }
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       avatarUrl: '',
@@ -83,7 +87,7 @@
       }
     }
 
-    getQuestionHistory () {
+    fetchDate () {
       for (let i = 0; i < 10; i++) {
         let obj = {
           userId: i,
@@ -110,7 +114,7 @@
     }
     onShow () {
       this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
-      this.getQuestionHistory()
+      this.fetchDate()
     }
 
     onLoad (params) {

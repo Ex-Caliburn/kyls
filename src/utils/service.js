@@ -16,12 +16,12 @@ export {
 
 async function login() {
   let res = await wepy.login({ timeout: 30000 })
-  console.log('code', res.code)
+  console.log('code', res, res.code)
   // code用户登录凭证（有效期五分钟）
   let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
   console.log(wxUserInfo)
   db.set('wxUserInfo', wxUserInfo.userInfo)
-  let thirdReturn = await post({
+  post({
     apiName: 'login',
     data: {
       code: res.code,
@@ -29,17 +29,20 @@ async function login() {
       encryptedData: wxUserInfo.encryptedData,
       decrypt_type: 'user'
     }
+  }).then(res => {
+    db.set(USER_INFO, res.data)
+    let isPostgraduate = res.data.userType > 1
+    wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
+    db.set(IS_POSTGRADUATE, isPostgraduate)
+    wepy.$instance.globalData.userInfo = res.data
+  }).catch(err => {
+    wepy.showToast({
+      title: JSON.stringify(err),
+      icon: 'none',
+      duration: 1000
+    })
+    console.log(err)
   })
-  wepy.$instance.globalData[IS_POSTGRADUATE] = false
-  db.set(IS_POSTGRADUATE, false)
-  if (thirdReturn.data) {
-    db.set(USER_INFO, thirdReturn.data)
-    if (thirdReturn.data.userType > 1) {
-      wepy.$instance.globalData[IS_POSTGRADUATE] = true
-      db.set(IS_POSTGRADUATE, true)
-    }
-  }
-  wepy.$instance.globalData.userInfo = thirdReturn.data
 }
 
 async function uploadPics(data, success, fail) {

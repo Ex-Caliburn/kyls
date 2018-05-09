@@ -26,6 +26,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
+  import reachBottom from '../mixins/reachBottom'
   // import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
@@ -35,14 +36,17 @@
 
   export default class message extends wepy.page {
     config = {
-      navigationBarTitleText: '消息'
+      navigationBarTitleText: '消息',
+      window: {
+        enableOnReachBottom: true
+      }
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       //   1.当用户获得某枚勋章时，自动发布：
@@ -101,7 +105,7 @@
         })
     }
 
-    getUserMessage() {
+    fetchDate() {
       // GET 参数：{"status":0} 0：全部消息，1：未读消息，2已读消息
       get({
         apiName: 'getUserMessage',
@@ -119,15 +123,10 @@
         })
     }
 
-    // onReachBottom() {
-    //   this.pageNum += 10
-    //   this.$apply()
-    //   this.getUserMessage()
-    // }
     onShow() {
       this.dataList = []
       this.$apply()
-      this.getUserMessage()
+      this.fetchDate()
     }
 
     onLoad() {

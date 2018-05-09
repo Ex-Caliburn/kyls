@@ -12,6 +12,11 @@
     background-color: #fff;
   }
 
+  .money-choose{
+    border: 1px solid #fc5353;
+    color: #fc5353;
+  }
+
   .recharge{
     border-top:1px solid #ddd ;
     border-bottom:1px solid #ddd ;
@@ -35,14 +40,17 @@
   <view class="page">
     <view class="page__bd">
       <view class="flex flex-around">
-        <view class="money">166研贝</view>
-        <view class="money">666研贝</view>
-        <view class="money">1666研贝</view>
+        <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+          <view @tap="chooseMoney({{item}})" class="money {{item === amount ? 'money-choose' :''}}">{{item}}研贝</view>
+        </block>
+        <!--<view class="money">166研贝</view>-->
+        <!--<view class="money">666研贝</view>-->
+        <!--<view class="money">1666研贝</view>-->
       </view>
 
       <view class="recharge flex flex-between">
         <view class="recharge-item" style="font-size: 30px">￥</view>
-        <input class="recharge-item" type="text" placeholder="其它金额"/>
+        <input @input="moneyBind" class="recharge-item" type="text" placeholder="其它金额" value="{{moneyInp}}"/>
         <view class="recharge-item">研贝</view>
       </view>
 
@@ -69,7 +77,7 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from '../utils/service'
+  import {post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -85,19 +93,40 @@
     mixins = [tabbar]
 
     data = {
-      id: ''
+      amount: '',
+      moneyInp: '',
+      moneyArr: [166, 666, 1666]
     }
 
     methods = {
+      moneyBind (e) {
+        this.amount = Number(e.detail.value)
+        this.moneyInp = Number(e.detail.value)
+      },
+      chooseMoney (val) {
+        this.moneyInp = ''
+        this.amount = Number(val)
+      },
       submit () {
-        this.showGuide = !this.showGuide
+        post({
+          apiName: 'order',
+          data: {
+            amount: this.amount
+          }
+        })
+          .then((res) => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
       }
     }
 
     pay (data, onSuccess, fail) {
+      console.log(123)
     }
-
     onLoad (params) {
+      console.log(24)
     }
   }
 </script>

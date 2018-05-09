@@ -89,7 +89,7 @@
     }
 
     onLoad(params) {
-      console.log(params.id)
+      console.log('id', params.id)
       this.id = params.id
       this.$apply()
     }

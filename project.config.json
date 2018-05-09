@@ -1,7 +1,7 @@
 {
 	"description": "A WePY project",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 24,
 			"list": [
 				{
 					"id": 0,
@@ -173,6 +173,12 @@
 					"id": 33,
 					"name": "medalId",
 					"pathName": "pages/my/medalDetail",
+					"query": "medalId=1"
+				},
+				{
+					"id": -1,
+					"name": "money",
+					"pathName": "pages/my/money",
 					"query": "medalId=1"
 				}
 			]

@@ -70,29 +70,7 @@
           </view>
         </view>
 
-        <view class="weui-cell">
-          <view class="weui-cell__bd">
-            <view class="weui-uploader">
-              <view class="weui-uploader__hd">
-                <view class="weui-uploader__title bold">上传照片</view>
-                <view class="weui-uploader__info">{{files.length}}/8</view>
-              </view>
-              <view class="weui-uploader__bd">
-                <view class="weui-uploader__files" id="uploaderFiles">
-                  <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
-                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
-                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
-                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
-                    </view>
-                  </block>
-                </view>
-                <view class="weui-uploader__input-box" hidden="{{files.length > 7}}">
-                  <view class="weui-uploader__input" @tap="chooseImage"></view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
+        <uploadPic :files.sync="pictures" ></uploadPic>
 
         <view class="upload">
           <view>请设置悬赏金额：</view>
@@ -100,7 +78,7 @@
             <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
               <view @tap="chooseMoney({{item}})" class="money {{item === money ? 'money-choose' :''}}">{{item}}研贝</view>
             </block>
-            <input @change="moneyBind" class="money money-enter {{ entering ? 'money-choose' : '' }}" type="text" placeholder="自定义金额"/>
+            <input @input="moneyBind" class="money money-enter value={{moneyInp}} {{ entering ? 'money-choose' : '' }}" type="text" placeholder="自定义金额"/>
           </view>
         </view>
 
@@ -127,14 +105,11 @@
   import tabbar from 'mixins/tabbar'
   import {post} from 'utils/service'
   import navigate from 'mixins/navigate'
-  import { HOST, picturePrefix } from 'utils/config'
   import uploadPic from '@/components/uploadPic'
-  import db from 'utils/db'
-  import { TOKEN } from 'utils/constant'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
-  export default class zzz extends wepy.page {
+  export default class question extends wepy.page {
     config = {
       navigationBarTitleText: '我要提问'
     }
@@ -147,121 +122,41 @@
     mixins = [tabbar, navigate]
 
     data = {
+      moneyInp: '',
       content: '',
       pictures: [],
-      userId: '',
       questionId: '',
       questionType: 1,
-      imgCount: 8,
-      successFlag: false,
-      files: [], // pic
-      filesTask: [], // pic
-      failTask: [],
       msgList: [
         {url: 'url', title: '李明喜 关于“考研”悬赏金额为100元的问题已被有效解决'},
         {url: 'url', title: '代峻峰 关于“励志”悬赏金额为50元的问题已被有效解决'},
         {url: 'url', title: '大法官 关于“方向”悬赏金额为60元的问题已被有效解决'}],
       id: '',
       dataList: [],
-      array: [1, 2, 3],
       money: '',
       entering: false,
       moneyArr: [16, 36, 66, 86, 166]
     }
 
     methods = {
-      submit () {
+      submit() {
 
       },
-      moneyBind (e) {
+      moneyBind(e) {
         this.entering = true
-        this.money = e.detail.value
+        this.money = Number(e.detail.value)
+        this.moneyInp = Number(e.detail.value)
       },
-      chooseMoney (val) {
+      chooseMoney(val) {
+        this.moneyInp = ''
         this.entering = false
-        this.money = val
+        this.money = Number(val)
       },
-      getCode () {
+      getCode() {
         this.showGuide = !this.showGuide
       },
-      deleteImage (i) {
-        console.log(i)
-        this.files.splice(i, 1)
-        this.$apply()
-      },
-      questionInput (e) {
+      questionInput(e) {
         this.content = e.detail.value
-      },
-      async chooseImage(e) {
-        let res = await wepy.chooseImage({
-          count: this.imgCount - this.files.length,
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
-        })
-        if (res.tempFilePaths) {
-          console.log(res)
-          this.dealImage(res.tempFilePaths)
-        }
-      },
-      previewImage(e) {
-        wepy.previewImage({
-          current: e.currentTarget.id, // 当前显示图片的http链接
-          urls: this.data.files // 需要预览的图片http链接列表
-        })
-      }
-    }
-
-    dealImage (images) {
-      // let task = diff(images, this.filesTask)
-      var that = this
-      let filesTask = this.filesTask.concat(images)
-      this.filesTask = filesTask
-      console.log(this.filesTask)
-      this.$apply()
-      function success (imgUrl) {
-        for (var i = 0; i < that.filesTask.length; i++) {
-          if (that.filesTask[i] === imgUrl) {
-            that.filesTask.slice(i)
-          }
-        }
-        that.files.push(picturePrefix + imgUrl)
-        that.$apply()
-      }
-      function fail (imgUrl) {
-        that.failTask.push(imgUrl)
-        console.log(this.failTask)
-        that.$apply()
-      }
-      for (let i = 0; i < images.length; i++) {
-        this.uploadPics(images[i], success, fail)
-      }
-    }
-
-    async uploadPics (data, success, fail) {
-      try {
-        let res = await wepy.uploadFile({
-          url: HOST + 'upload/image',
-          filePath: data,
-          header: {
-            'session-id': db.get(TOKEN) || ''
-          },
-          name: 'file',
-          formData: {
-            file: data
-          }
-        })
-        try {
-          let resData = res.data && JSON.parse(res.data)
-          if (res.statusCode === 200 && resData.code === 0) {
-            success && success(resData.data)
-          } else {
-            fail && fail(resData.data)
-          }
-        } catch (err) {
-          console.log(err)
-        }
-      } catch (err) {
-        console.log(err)
       }
     }
     onLoad (params) {

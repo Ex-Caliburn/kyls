@@ -15,11 +15,11 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="weui-cells__title fz26">{{now}}</view>
+      <view class="weui-cells__title fz26">{{createdAt}}</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
-            <input class="weui-input" @chang="titleBind" placeholder="请输入日记标题"/>
+            <input class="weui-input" @change="titleBind" placeholder="请输入日记标题" value="{{title}}"/>
           </view>
         </view>
         <view class="weui-cell">
@@ -29,29 +29,7 @@
           </view>
         </view>
 
-        <view class="weui-cell">
-          <view class="weui-cell__bd">
-            <view class="weui-uploader">
-              <view class="weui-uploader__hd">
-                <view class="weui-uploader__title bold">上传照片</view>
-                <view class="weui-uploader__info">{{files.length}}/8</view>
-              </view>
-              <view class="weui-uploader__bd">
-                <view class="weui-uploader__files" id="uploaderFiles">
-                  <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
-                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
-                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
-                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
-                    </view>
-                  </block>
-                </view>
-                <view class="weui-uploader__input-box" hidden="{{files.length > 7}}">
-                  <view class="weui-uploader__input" @tap="chooseImage"></view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
+        <uploadPic :files.sync="pictures"></uploadPic>
       </view>
     </view>
   </view>
@@ -62,15 +40,13 @@
 
 <script>
   import wepy from 'wepy'
-  import Tabbar from '@/components/tabbar' // alias example
+  import Tabbar from '@/components/tabbar'
+  import uploadPic from '@/components/uploadPic'
   import Toast from 'wepy-com-toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
-  import {formatDate} from 'utils/common'
-  import { HOST, picturePrefix } from 'utils/config'
-  import db from 'utils/db'
-  import { TOKEN } from 'utils/constant'
+  import { formatDate } from 'utils/common'
 
   export default class diaryEdit extends wepy.page {
     config = {
@@ -78,24 +54,18 @@
     }
     components = {
       tabbar: Tabbar,
+      uploadPic: uploadPic,
       toast: Toast
     }
 
     mixins = [tabbar, navigate]
 
     data = {
-      now: formatDate(new Date()),
-      edit: 0,
+      pictures: [],
+      createdAt: formatDate(new Date()),
+      diaryId: 0,
       title: '',
-      content: '',
-      userId: '',
-      questionId: '',
-      questionType: 1,
-      imgCount: 8,
-      successFlag: false,
-      files: [], // pic
-      filesTask: [], // pic
-      failTask: []
+      content: ''
     }
 
     computed = {
@@ -110,110 +80,50 @@
       contentBind (e) {
         this.content = e.detail.value
       },
-      submit () {
-        let {userId, content, files, title} = this
-        let apiName = this.edit === 0 ? 'addDiary' : 'editDiary'
-        post({
-          apiName,
-          data: {
-            userId,
-            content,
-            files: files.join(','),
-            title
-          }
-        })
-          .then((res) => {
-            this.navigate('', 2)
-          }).catch(err => {
-            console.log(err)
-          })
-      },
-      deleteImage (i) {
-        console.log(i)
-        this.files.splice(i, 1)
-        this.$apply()
-      },
       questionInput (e) {
         this.content = e.detail.value
       },
-      async chooseImage(e) {
-        let res = await wepy.chooseImage({
-          count: this.imgCount - this.files.length,
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
-        })
-        if (res.tempFilePaths) {
-          console.log(res)
-          this.dealImage(res.tempFilePaths)
-        }
-      },
-      previewImage(e) {
-        wepy.previewImage({
-          current: e.currentTarget.id, // 当前显示图片的http链接
-          urls: this.data.files // 需要预览的图片http链接列表
-        })
-      }
-    }
-
-    dealImage (images) {
-      // let task = diff(images, this.filesTask)
-      var that = this
-      let filesTask = this.filesTask.concat(images)
-      this.filesTask = filesTask
-      console.log(this.filesTask)
-      this.$apply()
-      function success (imgUrl) {
-        for (var i = 0; i < that.filesTask.length; i++) {
-          if (that.filesTask[i] === imgUrl) {
-            that.filesTask.slice(i)
+      submit () {
+        let {content, pictures, title} = this
+        let apiName = this.diaryId ? 'addDiary' : 'editDiary'
+        post({
+          apiName,
+          data: {
+            title,
+            content,
+            pictures: pictures.join(',')
           }
-        }
-        that.files.push(picturePrefix + imgUrl)
-        that.$apply()
-      }
-      function fail (imgUrl) {
-        that.failTask.push(imgUrl)
-        console.log(this.failTask)
-        that.$apply()
-      }
-      for (let i = 0; i < images.length; i++) {
-        this.uploadPics(images[i], success, fail)
-      }
-    }
-
-    async uploadPics (data, success, fail) {
-      try {
-        let res = await wepy.uploadFile({
-          url: HOST + 'upload/image',
-          filePath: data,
-          header: {
-            'session-id': db.get(TOKEN) || ''
-          },
-          name: 'file',
-          formData: {
-            file: data
-          }
-        })
-        try {
-          let resData = res.data && JSON.parse(res.data)
-          if (res.statusCode === 200 && resData.code === 0) {
-            success && success(resData.data)
-          } else {
-            fail && fail(resData.data)
-          }
-        } catch (err) {
+        }).then((res) => {
+          this.$parent.globalData.diaryEdit = ''
+          this.navigate('my/diary', 1)
+        }).catch(err => {
           console.log(err)
-        }
-      } catch (err) {
-        console.log(err)
+        })
       }
     }
+
     onShow () {
     }
 
     onLoad (params) {
-      console.log(params.edit)
-      this.edit = params.edit
+      console.log(params.diaryId)
+      this.diaryId = params.diaryId
+      if (params.diaryId) {
+        this.title = ''
+        this.content = ''
+        this.content = ''
+        this.createdAt = ''
+      }
+      let diaryEdit = this.$parent.globalData.diaryEdit
+      if (diaryEdit) {
+        if (diaryEdit.diaryPictures) {
+          this.pictures = diaryEdit.diaryPictures.split(',')
+        }
+        this.title = diaryEdit.title
+        this.content = diaryEdit.content
+        this.content = diaryEdit.createdAt
+        this.createdAt = formatDate(new Date(diaryEdit.createdAt))
+      }
       this.$apply()
     }
   }

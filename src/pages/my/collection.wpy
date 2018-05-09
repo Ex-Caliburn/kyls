@@ -28,6 +28,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
+  import reachBottom from '../mixins/reachBottom'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
@@ -44,7 +45,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       dataList: []
@@ -56,6 +57,8 @@
       }
     }
 
+    fetchDate() {
+    }
     onLoad (params) {
     }
   }

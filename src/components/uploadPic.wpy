@@ -66,9 +66,6 @@
         this.files.splice(i, 1)
         this.$apply()
       },
-      questionInput(e) {
-        this.content = e.detail.value
-      },
       async chooseImage(e) {
         let res = await wepy.chooseImage({
           count: this.imgCount - this.files.length,

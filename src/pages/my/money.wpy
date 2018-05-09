@@ -1,4 +1,24 @@
-<style>
+<style scope>
+  .btn{
+    position:inherit;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    padding-left:14px;
+    padding-right:14px;
+    box-sizing:border-box;
+    border: none;
+    font-size:18px;
+    text-align:center;
+    text-decoration:none;
+    line-height:1.5;
+    border-radius:0;
+    -webkit-tap-highlight-color:transparent;
+    overflow:hidden;
+    color:#000000;
+    background-color:#fff;
+  }
+
 </style>
 
 <template>
@@ -45,7 +65,7 @@
 
     data = {
       id: '',
-      money: 13123
+      money: 0
     }
 
     methods = {

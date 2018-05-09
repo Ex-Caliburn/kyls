@@ -106,7 +106,7 @@
         position: 'bottom',
         list: [
           {
-            pagePath: '/pages/enter',
+            pagePath: '/pages/chooseInterest',
             text: '里手',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',

@@ -18,12 +18,12 @@
         <navigator  url="/pages/probation?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">
           <view class="flex flex-between">
             <view>{{(index + 1)}}</view>
-            <view>￥{{item.cost}}</view>
+            <view>￥{{item.cost || 0}}</view>
           </view>
           <view class="flex flex-between">
             <image class="faceUrl weui-media-box__thumb" src="{{item.faceUrl}}"/>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__title">{{item.nickname + index}}</view>
+              <view class="weui-media-box__title">{{item.nickName }}</view>
               <view class="class=flex flex-between">
                 <view>{{item.schoolName}}</view>
                 <view>{{item.majorName}}</view>
@@ -51,51 +51,34 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
+  import reachBottom from '../mixins/reachBottom'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
   import { formatDuration } from 'utils/common'
   // import db from 'utils/db'
-  import { avatarUrl } from 'utils/constant'
 
   export default class graduateList extends wepy.page {
     config = {
-      navigationBarTitleText: '研究生列表',
-      window: {
-        enableOnReachBottom: true
-      }
+      navigationBarTitleText: '研究生列表'
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, reachBottom]
 
     data = {
-      dataList: [],
-      pageSize: 10,
-      pageNum: 1
+      dataList: []
     }
 
     fetchDate() {
-      let o = {
-        'userId': 1,
-        'faceUrl': avatarUrl,
-        'nickname': '研究生',
-        'schoolName': '北京大学',
-        'majorName': '哲学\t010100',
-        'grade': 1,
-        'cost': 123,
-        'creditScore': 10,
-        'avgAnswerTime': 123
-      }
       let { scienceId, pageSize, pageNum } = this
       post({
         apiName: 'getPostgraduateInfo',
         data: { scienceId, pageSize, pageNum }
       })
         .then((res) => {
-          res.data = Array(10).fill(o) // test
           res.data.forEach((item) => {
             item.answerTime = formatDuration(item.avgAnswerTime).minutes + 'M'
           })
@@ -106,20 +89,10 @@
         })
     }
 
-    onShow(params) {
-      this.dataList = []
-      this.$apply()
-      this.fetchDate()
-    }
-
     onLoad(params) {
       console.log(params.id)
-      this.scienceId = params.id
-      this.$apply()
-    }
-
-    onReachBottom() {
-      this.pageNum += 10
+      this.scienceId = params.id || 1
+      this.dataList = []
       this.$apply()
       this.fetchDate()
     }

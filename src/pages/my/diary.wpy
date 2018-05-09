@@ -38,7 +38,7 @@
   <view class="page">
     <view class="page__bd">
       <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-        <view @tap="goEdit({{index}})" class="list-container">
+        <view @tap="goEdit({{index}},{{item.diaryId}})" class="list-container">
           <view class="flex flex-between">
             <view class="fz34">
               {{item.title}}
@@ -54,7 +54,7 @@
       </block>
     </view>
   </view>
-  <navigator class="radius" url="/pages/my/diaryEdit?edit=0"  open-type="navigate">
+  <navigator class="radius" url="/pages/my/diaryEdit"  open-type="navigate">
   <image src="{{icon}}"
          style="vertical-align: middle;width:60rpx; height: 60rpx;"></image>
   </navigator>
@@ -67,6 +67,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
+  import reachBottom from '../mixins/reachBottom'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
@@ -83,7 +84,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       icon: '../../icon/my/edit.svg',
@@ -93,19 +94,20 @@
     }
 
     methods = {
-      goEdit (i) {
+      goEdit (i, diaryId) {
         this.$parent.globalData.diaryEdit = this.dataList[i]
-        this.navigate('my/diaryEdit?edit=1')
+        this.navigate('my/diaryEdit?diaryId=' + diaryId)
       },
-      addDiary (i) {
-        this.navigate('my/diaryEdit?edit=0')
+      addDiary () {
+        this.navigate('my/diaryEdit')
       }
     }
 
     onShow () {
-      this._getDiaryList()
+      this.fetchDate()
     }
-    _getDiaryList () {
+    fetchDate () {
+      // { "code": 0, "error": "", "data": [ { "diaryId": 2, "userId": 2, "title": "1123121", "content": "dsajkgdashgkas", "diaryPictures": "我喜欢问问题", "status": 1, "updatedAt": 1525179840480, "createdAt": 1525179840000 } ] }
       let {pageSize, pageNum} = this
       post({
         apiName: 'getDiaryList',
@@ -113,37 +115,35 @@
           pageSize,
           pageNum
         }
-      })
-        .then((res) => {
-          res.data = [{
-            diaryId: 2,
-            userId: 2,
-            title: '我的考研日记',
-            content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
-            diaryPictures: '',
-            status: '',
-            updatedAt: 1525179840480,
-            createdAt: 1525610856945
-          }, {
-            diaryId: 2,
-            userId: 2,
-            title: '我的考研日记',
-            content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
-            diaryPictures: '',
-            status: '',
-            updatedAt: 1525179840480,
-            createdAt: 1525610856945
-          }]
-          res.data.forEach(item => {
-            item.time = formatDate(new Date(item.createdAt))
-          })
-          this.dataList = res.data
-          this.$apply()
-        }).catch(err => {
-          console.log(err)
+      }).then((res) => {
+        res.data = [{
+          diaryId: 2,
+          userId: 2,
+          title: '我的考研日记2',
+          content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
+          diaryPictures: '',
+          status: '',
+          updatedAt: 1525179840480,
+          createdAt: 1525610856945
+        }, {
+          diaryId: 2,
+          userId: 2,
+          title: '我的考研日记1',
+          content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
+          diaryPictures: '',
+          status: '',
+          updatedAt: 1525179840480,
+          createdAt: 1525610856945
+        }]
+        res.data.forEach(item => {
+          item.time = formatDate(new Date(item.createdAt))
         })
+        this.dataList = res.data
+        this.$apply()
+      }).catch(err => {
+        console.log(err)
+      })
     }
-
     onLoad () {
     }
   }

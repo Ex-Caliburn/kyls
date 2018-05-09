@@ -204,7 +204,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from '../utils/service'
   import db from 'utils/db'
-  import { CN_RULE, EMAIL_RULE, ID_RULE, USER_INFO } from '../utils/constant'
+  import { CN_RULE, EMAIL_RULE, USER_INFO } from '../utils/constant'
   import navigate from 'mixins/navigate'
 
   export default class graduateRegister extends wepy.page {
@@ -403,7 +403,6 @@
           userId,
           userName,
           email,
-          idNumber,
           invitationCode,
           undergraduateSchoolId,
           undergraduateMajorId,

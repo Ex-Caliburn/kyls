@@ -85,7 +85,7 @@
     }
     methods = {
       radioChange(e) {
-        this.complainType = e.detail.value
+        this.complainType = Number(e.detail.value)
       },
       contentBind(e) {
         this.content = e.detail.value

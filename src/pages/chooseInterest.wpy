@@ -84,6 +84,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
+  import shareApp from 'mixins/shareApp'
 
   export default class chooseInterest extends wepy.page {
     config = {
@@ -93,7 +94,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast, navigate]
+    mixins = [tabbar, toast, navigate, shareApp]
     data = {
       msgList: [
         {url: 'url', title: '李明喜 关于“考研”悬赏金额为100元的问题已被有效解决'},
@@ -123,10 +124,11 @@
     }
 
     async getScienceInfoByType () {
+      // 1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题
       let res = await get({
         apiName: 'getScienceInfoByType',
         data: {
-          science_type: 1
+          science_type: 2
         }
       })
       if (res.data) {

@@ -59,6 +59,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
+  import reachBottom from '../mixins/reachBottom'
   // import {get} from 'utils/service'
   // import db from 'utils/db'
   import {formatDate} from 'utils/common'
@@ -66,14 +67,17 @@
 
   export default class answerHistory extends wepy.page {
     config = {
-      navigationBarTitleText: '我的回答'
+      navigationBarTitleText: '我的回答',
+      window: {
+        enableOnReachBottom: true
+      }
     }
     components = {
       tabbar: Tabbar,
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       avatarUrl: '',
@@ -89,7 +93,7 @@
     //          姓名、志愿院校、志愿专业
     // 本科生信息问题及答案
     // 问题：××××××××……     >
-    getQuestionHistory () {
+    fetchDate () {
       for (let i = 0; i < 10; i++) {
         let obj = {
           nickname: '李先生' + i,
@@ -114,7 +118,7 @@
       //   })
     }
     onShow () {
-      this.getQuestionHistory()
+      this.fetchDate()
     }
 
     onLoad (params) {

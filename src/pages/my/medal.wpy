@@ -100,7 +100,7 @@
         },
         {
           title: '大型勋章',
-          content: '恭喜您或得香港机票一张或同等价值奖励！',
+          content: '恭喜您获得香港机票一张或同等价值奖励！',
           color: 'blue',
           get: false,
           icon: '../../icon/my/medal2.jpg'

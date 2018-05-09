@@ -62,7 +62,9 @@
   export default class Answer extends wepy.page {
     config = {
       navigationBarTitleText: '悬赏速答',
-      enableOnReachBottom: true
+      window: {
+        enableOnReachBottom: true
+      }
     }
     components = {
       tabbar: Tabbar,
