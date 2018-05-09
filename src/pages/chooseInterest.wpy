@@ -80,8 +80,8 @@
 <script>
   import wepy from 'wepy'
   import toast from 'mixins/toast'
-  import { get } from '../utils/service'
-  import Tabbar from '@/components/tabbar' // alias example
+  import { get } from 'utils/service'
+  import Tabbar from 'components/tabbar'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import shareApp from 'mixins/shareApp'
@@ -141,7 +141,12 @@
       // this.getScienceInfoByType()
     }
     onLoad () {
-      this.getScienceInfoByType()
+      let userType = this.$parent.globalData.userInfo.userType
+      if (userType === 0) {
+        this.navigate('enter', 1)
+      } else {
+        this.getScienceInfoByType()
+      }
     }
   }
 </script>

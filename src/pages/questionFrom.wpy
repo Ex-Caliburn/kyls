@@ -32,29 +32,7 @@
           </view>
         </view>
 
-        <view class="weui-cell">
-          <view class="weui-cell__bd">
-            <view class="weui-uploader">
-              <view class="weui-uploader__hd">
-                <view class="weui-uploader__title bold">上传照片</view>
-                <view class="weui-uploader__info">{{files.length}}/8</view>
-              </view>
-              <view class="weui-uploader__bd">
-                <view class="weui-uploader__files" id="uploaderFiles">
-                  <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
-                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
-                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
-                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
-                    </view>
-                  </block>
-                </view>
-                <view class="weui-uploader__input-box" hidden="{{files.length > 7}}">
-                  <view class="weui-uploader__input" @tap="chooseImage"></view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
+        <uploadPic :files.sync="pictures" ></uploadPic>
         <view class="content-box">
           <view class="fz26 bold">温馨信息：</view>
           <view class="fz22">点击“填写完毕”后，问题内容不可修改</view>

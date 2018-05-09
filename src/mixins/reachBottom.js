@@ -12,7 +12,6 @@ export default class reachBottom extends wepy.mixin {
   }
 
   onReachBottom() {
-    console.log(112312)
     this.pageNum += 10
     this.$apply()
     this.fetchDate()

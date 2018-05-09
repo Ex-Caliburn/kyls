@@ -1,48 +1,23 @@
 <style>
-  .ellipsis {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .list-container{
-    padding: 20rpx 40rpx;
-    background-color: #fff;
-  }
-  .pic-container{
-    margin-right: 40rpx;
-  }
-  .ellipsis-content{
-    width: 500rpx;
-  }
 
-  .avatarUrl {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 1000px;
-    display: block;
-  }
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="weui-panel">
-        <view class="weui-panel__bd">
-          <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between" hover-class="weui-cell_active">
-              <view class="pic-container flex flex-align-center" >
-                <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
-              </view>
-              <view>
-                <view class="">{{item.nickname}}</view>
-                <view class="">所属院校，所在专业</view>
-                <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
-                <view class="">{{item.askTime}}</view>
-              </view>
-            </navigator>
-          </block>
-        </view>
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/my/recharge" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">求助过的学长学姐</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">电话沟通过的学长学姐（五六月份开发</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">约见过的学长学姐（五六月份开发）</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
       </view>
     </view>
   </view>

@@ -40,7 +40,7 @@
     .item {
       border-top: 1rpx solid #dbdbdb;
       background: #fff;
-      padding: 34 rpx 28 rpx;
+      padding: 34rpx 28rpx;
       display: flex;
       align-items: center;
       justify-content: space-between;

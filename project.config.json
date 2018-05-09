@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 24,
+			"current": 15,
 			"list": [
 				{
 					"id": 0,
@@ -179,6 +179,12 @@
 					"id": -1,
 					"name": "money",
 					"pathName": "pages/my/money",
+					"query": "medalId=1"
+				},
+				{
+					"id": -1,
+					"name": "answerEdit",
+					"pathName": "pages/answerEdit",
 					"query": "medalId=1"
 				}
 			]

@@ -9,7 +9,6 @@
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <textarea class="weui-textarea" @change="silence" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
-            <view class="weui-textarea-counter">0/50</view>
           </view>
         </view>
       </view>
@@ -18,7 +17,6 @@
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <textarea class="weui-textarea" @change="opinion" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
-            <view class="weui-textarea-counter">0/50</view>
           </view>
         </view>
       </view>
@@ -26,16 +24,14 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="questionContent" placeholder="请输入考研典型问题" style="height: 3.3em"/>
-            <view class="weui-textarea-counter">0/120</view>
+            <textarea class="weui-textarea" @change="questionContent" placeholder="问题" style="height: 3.3em"/>
           </view>
         </view>
       </view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="answerContent" placeholder="请输入回答" style="height: 3.3em"/>
-            <view class="weui-textarea-counter">0/120</view>
+            <textarea class="weui-textarea" @change="answerContent" placeholder="回答" style="height: 3.3em"/>
           </view>
         </view>
       </view>

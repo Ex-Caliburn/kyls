@@ -45,6 +45,7 @@ const api = {
   /*
   * 问答
   * */
+  wantAnswer: 'question/doQuestion',  // 我要回答 （研究生回答问题）
   questionSubmit: 'question/submit',
   answerQuestion: 'answer/answerQuestion',
   viewQuestion: 'question/viewQuestion', // 问题一览 （浏览悬赏问题）

@@ -1,8 +1,6 @@
 # kyls
 
-"Bracket Spacing": true,
-  "Trailing Commas": false,
-  "Semicolons": false
+页面跳转清空旧页面数据
 
 ### 安装（更新） wepy 命令行工具。
 	npm install wepy-cli -g

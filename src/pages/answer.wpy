@@ -54,10 +54,10 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
+  import reachBottom from 'mixins/reachBottom'
   import { post } from 'utils/service'
   import { formatDate } from 'utils/common'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class Answer extends wepy.page {
     config = {
@@ -71,25 +71,40 @@
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       pageSize: 10,
       pageNum: 1,
+      userType: '',
       dataList: []
     }
 
     methods = {
       goAnswer (questionId) {
-        this.navigate('answerEdit?questionId=' + questionId)
+        if (this.userType > 2) {
+          this.ShowToast('请完善你的资料后再来答题')
+          return
+        }
+        post({
+          apiName: 'wantAnswer',
+          data: {
+            Questioned: questionId
+          }})
+          .then((res) => {
+            this.navigate('answerEdit?questionId=' + questionId)
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
       }
     }
 
     onShow () {
-      this.getOfferQuestions()
+      this.fetchDate()
     }
 
-    getOfferQuestions () {
+    fetchDate () {
       let {pageSize, pageNum} = this
       post({
         apiName: 'getOfferQuestions',
@@ -105,12 +120,10 @@
           console.log(err)
         })
     }
-    onReachBottom () {
-      this.pageNum += 10
+
+    onLoad(params) {
+      this.userType = this.$parent.globalData.userInfo.userType
       this.$apply()
-      // this.fetchDate()
-    }
-    onLoad (params) {
     }
   }
 </script>
