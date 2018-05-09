@@ -41,14 +41,14 @@
             <input class="weui-input" @change="nameInp" placeholder="请输入真实姓名" value="{{userName}}"/>
           </view>
         </view>
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-            <view class="weui-label">身份证号*</view>
-          </view>
-          <view class="weui-cell__bd">
-            <input class="weui-input" type="idcard" @change="idNumberInp" placeholder="请输入身份证号" value="{{idNumber}}"/>
-          </view>
-        </view>
+        <!--<view class="weui-cell weui-cell_input">-->
+          <!--<view class="weui-cell__hd">-->
+            <!--<view class="weui-label">身份证号*</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<input class="weui-input" type="idcard" @change="idNumberInp" placeholder="请输入身份证号" value="{{idNumber}}"/>-->
+          <!--</view>-->
+        <!--</view>-->
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
             <view class="weui-label">邮箱*</view>
@@ -222,7 +222,7 @@
       files: [], // pic
       userName: '',
       email: '',
-      idNumber: '',
+      // idNumber: '',
       degrees: ['学术型', '专业型'],
       degreeIndex: '',
       studyModes: ['全日制', '非全日制'],
@@ -349,7 +349,7 @@
     submit () {
       let userId = this.$parent.globalData.userInfo.userId
       let {
-        email, userName, idNumber, undergraduateSchoolId, undergraduateMajorId,
+        email, userName, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
         postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willTypes,
         publicSubjectFirst, professionalSubjectFirst, invitationCode,
@@ -361,7 +361,7 @@
           answerWill.push(item.value)
         }
       })
-      if (email && userName && idNumber && undergraduateSchoolId && undergraduateMajorId &&
+      if (email && userName && undergraduateSchoolId && undergraduateMajorId &&
         postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && answerWill.length > 0 &&
         (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
         professionalSubjectFirst && isAgree && files.length > 0) {
@@ -369,8 +369,8 @@
         let errMsg
         if (!userName || !CN_RULE.test(userName)) {
           errMsg = '请输入正确名字'
-        } else if (!idNumber || !ID_RULE.test(idNumber)) {
-          errMsg = '请输入正确的身份证号'
+        // } else if (!idNumber || !ID_RULE.test(idNumber)) {
+          //   errMsg = '请输入正确的身份证号'
         } else if (!email || !EMAIL_RULE.test(email)) {
           errMsg = '请输入正确的邮箱'
         } else if (!professionalSubjectFirst) {

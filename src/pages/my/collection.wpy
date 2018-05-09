@@ -5,12 +5,17 @@
   <view class="page">
     <view class="page__bd">
       <view>我所关注的学弟学妹</view>
+      <view>
+        <view>本科生姓名</view>
+        <view>志愿院校</view>
+        <view>志愿专业</view>
+      </view>
 
       <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-        <view>
-          <view>本科生姓名</view>
-          <view>志愿院校</view>
-          <view>志愿专业</view>
+        <view class="flex flex-between">
+          <view>水电费很快就</view>
+          <view>水电费很快就</view>
+          <view>水电费很快就</view>
         </view>
       </block>
     </view>
