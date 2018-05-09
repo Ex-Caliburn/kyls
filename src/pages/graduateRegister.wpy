@@ -424,7 +424,7 @@
         gd.isPostgraduate = true
         gd.userInfo.userType = 3
         db.set(USER_INFO, gd.userInfo)
-        this.navigate('info')
+        this.navigate('my/info')
       }).catch(res => {
       })
     }

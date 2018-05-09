@@ -98,7 +98,7 @@
         this.navigate('my/diaryEdit?edit=1')
       },
       addDiary (i) {
-        this.navigate('diaryEdit?edit=0')
+        this.navigate('my/diaryEdit?edit=0')
       }
     }
 

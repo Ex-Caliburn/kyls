@@ -1,7 +1,7 @@
 {
 	"description": "A WePY project",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 24,
+			"current": 12,
 			"list": [
 				{
 					"id": 0,
@@ -80,18 +80,6 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "avatar",
-					"pathName": "pages/my/avatar",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "cropper",
-					"pathName": "pages/my/cropper",
-					"query": ""
-				},
-				{
 					"id": 10,
 					"name": "questionHistory",
 					"pathName": "pages/my/questionHistory",
@@ -116,14 +104,8 @@
 					"query": ""
 				},
 				{
-					"id": 14,
-					"name": "研贝余额",
-					"pathName": "pages/my/money",
-					"query": ""
-				},
-				{
 					"id": -1,
-					"name": "/medal",
+					"name": "medal",
 					"pathName": "pages/my/medal",
 					"query": ""
 				},
@@ -153,26 +135,8 @@
 				},
 				{
 					"id": -1,
-					"name": "checkout",
-					"pathName": "pages/my/checkout",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "answer",
 					"pathName": "pages/answer",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "withdraw",
-					"pathName": "pages/withdraw",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "withdraw",
-					"pathName": "pages/my/withdraw",
 					"query": ""
 				},
 				{
@@ -195,38 +159,14 @@
 				},
 				{
 					"id": -1,
-					"name": "serviceList",
-					"pathName": "pages/serviceList",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "withdraw",
 					"pathName": "pages/my/withdraw",
 					"query": ""
 				},
 				{
 					"id": -1,
-					"name": "rewardQuestion.wpy",
-					"pathName": "pages/rewardQuestion",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "questionType",
 					"pathName": "pages/questionType",
-					"query": ""
-				},
-				{
-					"id": 31,
-					"name": "guideP",
-					"pathName": "pages/materials/guideP",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "protocol",
-					"pathName": "pages/materials/protocol",
 					"query": ""
 				},
 				{

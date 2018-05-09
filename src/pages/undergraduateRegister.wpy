@@ -213,7 +213,7 @@
         gd.isPostgraduate = false
         gd.userInfo.userType = 1
         db.set(USER_INFO, gd.userInfo)
-        this.navigate('info')
+        this.navigate('my/info')
       }).catch(res => {
       })
     }

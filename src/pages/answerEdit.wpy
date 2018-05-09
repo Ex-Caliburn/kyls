@@ -130,7 +130,7 @@
             questionType: 1 // 1.聊天类型，2：电话，3面聊
           }})
           .then((res) => {
-            this.navigate('/pages/my/info')
+            this.navigate('my/info')
           }).catch(err => {
             console.log(err)
           })
