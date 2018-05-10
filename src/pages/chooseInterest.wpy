@@ -47,6 +47,23 @@
     box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
   }
 
+  .btn{
+    /*white-space: nowrap;*/
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-color: #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    transition: .1s;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
 </style>
 
 <template>
@@ -60,14 +77,14 @@
     </swiper>
     <view class="content" >
       <form report-submit="ture" @submit="getFormId">
-        <button class="weui-btn mini-btn enter-btn " @tap="jump('4')"  disabled formType="submit">考研四大选择题与考研规划问题</button>
-        <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled formType="submit">十三大类学科咨询</button>
-        <button class="weui-btn mini-btn enter-btn " @tap="jump('5')"  disabled formType="submit">院校及专业咨询</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('4')"  disabled formType="submit">考研四大选择题与考研规划问题</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('1')"  disabled formType="submit">十三大类学科咨询</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('5')"  disabled formType="submit">院校及专业咨询</button>
         <picker class="enter-btn " @change="jump('2')" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
           <button class="weui-btn mini-btn enter-btn type_pink"  formType="submit">公共科目及联考综合类</button>
         </picker>
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('6')"  disabled formType="submit">专业科目类</button>
-        <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled formType="submit">复试科目类问题咨询</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('6')"  disabled formType="submit">专业科目类</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('3')"  disabled formType="submit">复试科目类问题咨询</button>
       </form>
     </view>
     <view class="fz24">
@@ -80,7 +97,7 @@
 <script>
   import wepy from 'wepy'
   import toast from 'mixins/toast'
-  import { get } from 'utils/service'
+  import { get, addFormId } from 'utils/service'
   import Tabbar from 'components/tabbar'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
@@ -113,6 +130,9 @@
         } else {
           this.getScienceInfoByType()
         }
+      },
+      getFormId (e) {
+        addFormId(e.detail.formId)
       }
     }
 
