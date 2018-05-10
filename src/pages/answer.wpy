@@ -89,7 +89,7 @@
         post({
           apiName: 'wantAnswer',
           data: {
-            Questioned: questionId
+            questionId: questionId
           }})
           .then((res) => {
             this.navigate('answerEdit?questionId=' + questionId)
