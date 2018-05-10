@@ -2,6 +2,7 @@
  * 常量
  */
 const LOVE = '../../icon/my/love.svg'
+const Document = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/document/6def6ad04b260a70e2669a8ef1476117.docx'
 const UNLOVE = '../../icon/my/love1.svg'
 const QRCode = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/ac7565d809334b0385ab57481cb11aa7.jpg'
 const avatarUrl = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/d3c9bf9d42ee4d2f95d2d838e918bcd1.jpg'
@@ -22,6 +23,7 @@ const NAME_RULE = /^[a-zA-Z0-9_-]{4,16}$/ // 用户名正则
 const SYSTEM_INFO = 'systemInfo'
 
 export {
+  Document,
   UNLOVE,
   LOVE,
   QRCode,

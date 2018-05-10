@@ -68,7 +68,6 @@
         'pages/my/collection',
         'pages/my/diary',
         'pages/my/diaryEdit',
-        'pages/my/myHelp',
         // 研究生我的
         'pages/my/attractQuestion',
         'pages/my/checkout',

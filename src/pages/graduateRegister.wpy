@@ -202,7 +202,9 @@
       </checkbox-group>
 
       <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
+        <form report-submit="ture" @submit="getFormId">
+        <button class="weui-btn" type="primary" @tap="showTopTips" formType="submit">确定</button>
+        </form>
       </view>
     </view>
   </view>
@@ -214,7 +216,7 @@
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
-  import { post } from '../utils/service'
+  import { post, addFormId } from '../utils/service'
   import db from 'utils/db'
   import { EMAIL_RULE, USER_INFO } from '../utils/constant'
   import navigate from 'mixins/navigate'
@@ -326,6 +328,9 @@
     computed = {}
 
     methods = {
+      getFormId (e) {
+        addFormId(e.detail.formId)
+      },
       choose (i) {
         this.willTypes[i].choose = !this.willTypes[i].choose
       },
@@ -350,25 +355,6 @@
       idNumberInp (e) {
         this.idNumber = e.detail.value.trim()
       },
-      deleteImage (i) {
-        console.log(i)
-        this.files.splice(i, 1)
-        this.$apply()
-      },
-      async chooseImage (e) {
-        let res = await wepy.chooseImage({
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
-        })
-        this.files = this.files.concat(res.tempFilePaths)
-        this.$apply()
-      },
-      previewImage (e) {
-        wepy.previewImage({
-          current: e.currentTarget.id, // 当前显示图片的http链接
-          urls: this.data.files // 需要预览的图片http链接列表
-        })
-      },
       bindAgreeChange (e) {
         this.isAgree = !!e.detail.value.length
       },
@@ -389,13 +375,26 @@
       },
       showTopTips () {
         this.submit()
+      },
+      deleteImage (i) {
+        console.log(i)
+        this.files.splice(i, 1)
+        this.$apply()
+      },
+      async chooseImage (e) {
+        let res = await wepy.chooseImage({
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        })
+        this.files = this.files.concat(res.tempFilePaths)
+        this.$apply()
+      },
+      previewImage (e) {
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
       }
-    }
-
-    events = {}
-
-    check () {
-
     }
 
     submit () {

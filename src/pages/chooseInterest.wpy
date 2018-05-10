@@ -59,14 +59,16 @@
       </block>
     </swiper>
     <view class="content" >
-      <button class="weui-btn mini-btn enter-btn " @tap="jump('4')"  disabled >考研四大选择题与考研规划问题</button>
-      <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled >十三大类学科咨询</button>
-      <button class="weui-btn mini-btn enter-btn " @tap="jump('5')"  disabled >院校及专业咨询</button>
-      <picker class="enter-btn " @change="jump('2')" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
-        <button class="weui-btn mini-btn enter-btn type_pink"  >公共科目及联考综合类</button>
-      </picker>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('6')"  disabled >专业科目类</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled >复试科目类问题咨询</button>
+      <form report-submit="ture" @submit="getFormId">
+        <button class="weui-btn mini-btn enter-btn " @tap="jump('4')"  disabled formType="submit">考研四大选择题与考研规划问题</button>
+        <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled formType="submit">十三大类学科咨询</button>
+        <button class="weui-btn mini-btn enter-btn " @tap="jump('5')"  disabled formType="submit">院校及专业咨询</button>
+        <picker class="enter-btn " @change="jump('2')" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
+          <button class="weui-btn mini-btn enter-btn type_pink"  formType="submit">公共科目及联考综合类</button>
+        </picker>
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('6')"  disabled formType="submit">专业科目类</button>
+        <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled formType="submit">复试科目类问题咨询</button>
+      </form>
     </view>
     <view class="fz24">
       温馨信息：具体答复内容可在“我－我的提问”中查看。

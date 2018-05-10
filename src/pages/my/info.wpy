@@ -103,6 +103,8 @@
   }
 
   .subTitle {
+    padding: 0;
+    line-height: 1.5;
     font-size: 26rpx;
     margin: 0 40rpx;
     box-sizing:border-box;
@@ -125,10 +127,10 @@
     padding-left: 5rpx;
   }
   .subTitle-special:nth-child(1){
-    border-radius:10px 10px 0 0;
+    border-radius:10px ;
   }
   .subTitle-special:nth-child(2){
-    border-radius:0 0 10px 10px;
+    border-radius:10px ;
   }
 
 
@@ -151,16 +153,17 @@
             分享
           </button>
 
-          <view class="header-btn flexh flex-vcenter">
-            <navigator url="/pages/my/money" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
-              <view class="subTitle type_pink">我的研贝</view>
+          <view class="header-btn flex flex-around flex-align-center">
+            <navigator url="/pages/my/money" class="navigate-btn flex1 fz26  " hover-class="none" open-type="navigate">
+              <!--<view class="subTitle type_pink">我的研贝</view>-->
+              <button class="subTitle type_pink" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>我的研贝</button>
             </navigator>
-            <navigator url="/pages/my/medal" class="navigate-btn flexh flex1 flexv fz26  " hover-class="none" open-type="navigate">
+            <navigator url="/pages/my/medal" class="navigate-btn  flex1  fz26  " hover-class="none" open-type="navigate">
               <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
-            <view class="navigate-btn flexh flex1 flexv fz26 ">
+            <view class="navigate-btn flex1 fz26 ">
               <view class="subTitle-special type_pink">我的信誉：60+1</view>
-              <view class="subTitle-special type_pink">我的星级：5星</view>
+              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：5星</view>
             </view>
           </view>
         </view>
@@ -209,8 +212,7 @@
   import db from 'utils/db'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
-  import {share} from 'utils/service'
-
+  import {share, post, getPhoneNumber} from 'utils/service'
   import { USER_INFO } from 'utils/constant'
 
   export default class Info extends wepy.page {
@@ -339,14 +341,15 @@
     }
 
     onShow () {
-      this.isPostgraduate = wepy.$instance.globalData.isPostgraduate
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.$apply()
       this.getUserInfo()
     }
 
-    computed = {}
-    methods = {}
-    events = {}
+    methods = {
+      let {iv, encryptedData} = e.detail
+      this.getPhoneNumber(iv, encryptedData)
+    }
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮

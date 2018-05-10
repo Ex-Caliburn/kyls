@@ -98,7 +98,9 @@
       </checkbox-group>
 
       <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
+        <form report-submit="ture" @submit="getFormId">
+        <button class="weui-btn" type="primary" @tap="showTopTips" formType="submit">确定</button>
+        </form>
       </view>
     </view>
   </view>
@@ -110,7 +112,7 @@
   import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import Tabbar from '@/components/tabbar' // alias example
-  import { post } from 'utils/service'
+  import { post, addFormId } from '../utils/service'
   import db from 'utils/db'
   import { EMAIL_RULE, USER_INFO } from '../utils/constant'
 
@@ -142,6 +144,9 @@
     computed = {}
 
     methods = {
+      getFormId (e) {
+        addFormId(e.detail.formId)
+      },
       invitationCodeInp (e) {
         this.invitationCode = e.detail.value.trim()
       },

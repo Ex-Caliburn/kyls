@@ -38,7 +38,6 @@
       navigationBarTitleText: '我的收藏'
     }
     components = {
-      title: [],
       tabbar: Tabbar,
       toast: Toast
     }

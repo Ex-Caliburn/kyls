@@ -5,10 +5,10 @@
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
-        <navigator url="/pages/my/thousandQuestion1" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view @tap="open" url="/pages/my/thousandQuestion1" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">我的千问</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
+        </view>
       </view>
     </view>
   </view>
@@ -24,7 +24,7 @@
   import tabbar from 'mixins/tabbar'
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import { Document } from 'utils/constant'
 
   export default class thousandQuestion extends wepy.page {
     config = {
@@ -42,6 +42,15 @@
     }
 
     methods = {
+      async open () {
+        try {
+          let res = await wepy.downloadFile({url: Document})
+          var filePath = res.tempFilePath
+          await wepy.openDocument({filePath})
+        } catch (err) {
+          console.log(err)
+        }
+      }
     }
 
     onLoad (params) {

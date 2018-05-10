@@ -5,6 +5,7 @@ import db from './db'
 import { IS_POSTGRADUATE, SESSION_ID, TOKEN, USER_INFO } from './constant'
 
 export {
+  getPhoneNumber,
   share,
   createPayOrder,
   addFormId,
@@ -78,6 +79,21 @@ async function uploadPics(data, success, fail) {
     } catch (err) {
       console.log(err)
     }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+function getPhoneNumber (iv, encryptedData) {
+  try {
+    post({
+      apiName: 'setUserPhone',
+      data: {iv, encryptedData}
+    }).then((res) => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   } catch (err) {
     console.log(err)
   }

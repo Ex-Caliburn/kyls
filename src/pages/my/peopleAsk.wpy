@@ -37,7 +37,6 @@
       navigationBarTitleText: '求助过的学长学姐'
     }
     components = {
-      title: [],
       tabbar: Tabbar,
       toast: Toast
     }

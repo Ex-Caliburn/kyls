@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 26,
+			"current": 10,
 			"list": [
 				{
 					"id": 0,
@@ -190,7 +190,14 @@
 				{
 					"id": -1,
 					"name": "collection",
-					"pathName": "pages/my/collection"
+					"pathName": "pages/my/collection",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "collection",
+					"pathName": "pages/my/thousandQuestion",
+					"query": ""
 				}
 			]
 		}
