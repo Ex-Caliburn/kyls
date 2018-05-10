@@ -44,13 +44,12 @@
   <view class="container">
     <view class="content">
       <form report-submit="ture" @submit="getFormId">
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit">本科生入口</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit">研究生入口</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('2')" formType="submit">考研里手故事</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit">使用帮助</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">本科生入口</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">研究生入口</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('2')" formType="submit" >考研里手故事</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit" >使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
-      <!--<view class="des bold">考研里手——实名制考研百科全书</view>-->
     </view>
     <view class="des bold">考研里手——实名制考研百科全书</view>
   </view>
@@ -93,6 +92,9 @@
     }
 
     methods = {
+      getUserInfo (e) {
+        console.log(e)
+      },
       getFormId (e) {
         addFormId(e.detail.formId)
       },

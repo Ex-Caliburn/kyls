@@ -59,14 +59,14 @@
       </block>
     </swiper>
     <view class="content" >
-      <button class="weui-btn mini-btn enter-btn " @tap="jump('0')"  disabled >考研四大选择题与考研规划问题</button>
+      <button class="weui-btn mini-btn enter-btn " @tap="jump('4')"  disabled >考研四大选择题与考研规划问题</button>
       <button class="weui-btn mini-btn enter-btn " @tap="jump('1')"  disabled >十三大类学科咨询</button>
-      <button class="weui-btn mini-btn enter-btn " @tap="jump('2')"  disabled >院校及专业咨询</button>
-      <picker class="enter-btn " @change="bindPublicChange" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
+      <button class="weui-btn mini-btn enter-btn " @tap="jump('5')"  disabled >院校及专业咨询</button>
+      <picker class="enter-btn " @change="jump('2')" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
         <button class="weui-btn mini-btn enter-btn type_pink"  >公共科目及联考综合类</button>
       </picker>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled >专业科目类</button>
-      <button class="weui-btn mini-btn enter-btn" @tap="jump('4')"  disabled >复试科目类问题咨询</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('6')"  disabled >专业科目类</button>
+      <button class="weui-btn mini-btn enter-btn" @tap="jump('3')"  disabled >复试科目类问题咨询</button>
     </view>
     <view class="fz24">
       温馨信息：具体答复内容可在“我－我的提问”中查看。
@@ -74,8 +74,6 @@
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
-
-
 
 <script>
   import wepy from 'wepy'
@@ -105,37 +103,29 @@
     }
 
     methods = {
-      bindPublicChange(e) {
-        console.log(e.detail.value)
+      jump(i) {
+        console.log(i)
         if (this.publicTypes.length > 0) {
-          let id = this.publicTypes[e.detail.value].id
-          this.navigate('graduateList?id=' + id)
+          let id = this.publicTypes[i].id
+          this.navigate('graduateList?id=' + id + '&science_type=' + i)
+        } else {
+          this.getScienceInfoByType()
         }
-      },
-      jump (index) {
-        const route = [
-          'graduateRegister',
-          'undergraduateRegister',
-          'materials/story',
-          'searchList'
-        ]
-        this.navigate(route[index])
       }
     }
 
-    async getScienceInfoByType () {
-      // 1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题
-      let res = await get({
+    getScienceInfoByType () {
+      // 1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
+      get({
         apiName: 'getScienceInfoByType',
         data: {
           science_type: 2
         }
-      })
-      if (res.data) {
+      }).then(res => {
         this.publicTypes = res.data
         this.$apply()
-      }
-      console.log(res.data)
+      }).catch(res => {
+      })
     }
     onShow () {
       // this.getScienceInfoByType()

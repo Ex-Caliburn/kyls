@@ -36,7 +36,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import reachBottom from '../mixins/reachBottom'
+  import reachBottom from 'mixins/reachBottom'
   // import {get} from 'utils/service'
   // import db from 'utils/db'
   import {formatDate} from 'utils/common'

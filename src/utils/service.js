@@ -32,6 +32,16 @@ async function login() {
   }).then(res => {
     db.set(USER_INFO, res.data)
     let isPostgraduate = res.data.userType > 1
+    if (res.data.userType) {
+      console.log(wepy.$instance)
+      // wepy.navigateTo({ url: '/chooseInterest' })
+      //   .then((res) => {
+      //     console.log(res)
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
+    }
     wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
     db.set(IS_POSTGRADUATE, isPostgraduate)
     wepy.$instance.globalData.userInfo = res.data

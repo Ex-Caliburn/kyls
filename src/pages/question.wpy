@@ -89,7 +89,7 @@
           <view class="fz22">3、若一小时后您仍未得到回复，则研贝自动退还至您的余额。</view>
         </view>
 
-        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">我要回答</button>
+        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">我要提问</button>
       </view>
     </view>
   </view>

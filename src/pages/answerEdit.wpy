@@ -90,7 +90,7 @@
       questionInput (e) {
         this.content = e.detail.value
       },
-      async submit () {
+      submit () {
         let {userId, questionId, content, pictures} = this
         post({
           apiName: 'answerQuestion',

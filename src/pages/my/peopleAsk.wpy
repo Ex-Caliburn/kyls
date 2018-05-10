@@ -7,15 +7,14 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="tc title">{{isPostgraduate > 1 ? '我所关注的学弟学妹' : '我赞过的学长学姐'}}</view>
-        <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-          <view @tap="goService({{item.id}})" class="list-container flex flex-between border">
-            <view>{{item.nickname}}</view>
-            <view>{{item.school}}</view>
-            <view>{{item.major}}</view>
-            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-          </view>
-        </block>
+      <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+        <view @tap="goService({{item.id}})" class="list-container flex flex-between border">
+          <view>{{item.nickname}}</view>
+          <view>{{item.school}}</view>
+          <view>{{item.major}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+      </block>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -33,9 +32,9 @@
   // import {get, post} from 'utils/service'
   // import db from 'utils/db'
 
-  export default class collection extends wepy.page {
+  export default class peopleAsk extends wepy.page {
     config = {
-      navigationBarTitleText: '我的收藏'
+      navigationBarTitleText: '求助过的学长学姐'
     }
     components = {
       title: [],

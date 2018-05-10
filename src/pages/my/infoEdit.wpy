@@ -482,13 +482,13 @@
         this.answerWill = e.detail.value
       },
       emailInp (e) {
-        this.email = e.detail.value
+        this.email = e.detail.value.trim()
       },
       volunteerMajorInp (e) {
-        this.volunteerMajor = e.detail.value
+        this.volunteerMajor = e.detail.value.trim()
       },
       volunteerSchoolInp (e) {
-        this.volunteerSchool = e.detail.value
+        this.volunteerSchool = e.detail.value.trim()
       }
     }
 

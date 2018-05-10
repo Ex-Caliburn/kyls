@@ -84,7 +84,7 @@
     }
 
     methods = {
-      async submitQuestion () {
+      submitQuestion () {
         let {userId, answerUserId, content, pictures} = this
         userId = 1
         answerUserId = 1

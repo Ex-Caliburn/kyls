@@ -13,7 +13,7 @@
     margin-right: 40rpx;
   }
   .ellipsis-content{
-    width: 500rpx;
+    width: 700rpx;
   }
 
   .avatarUrl {
@@ -30,15 +30,12 @@
       <view class="weui-panel">
         <view class="weui-panel__bd">
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between" hover-class="weui-cell_active">
-              <view class="pic-container flex flex-align-center" >
-                <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
-              </view>
-              <view>
-                <view class="">{{item.nickname}}</view>
-                <view class="">所属院校，所在专业</view>
-                <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
-                <view class="">{{item.askTime}}</view>
+            <navigator url="/pages/chat?id={{id}}" class="list-container border " hover-class="weui-cell_active">
+              <view class="ellipsis ellipsis-content">问题:{{item.questionContent}}</view>
+              <view class="ellipsis ellipsis-content">答案:{{item.answerContent || '暂无回答'}}</view>
+              <view class="flex flex-between">
+                <view class="fz22">{{item.askTime}}</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               </view>
             </navigator>
           </block>
@@ -51,12 +48,13 @@
 
 <script>
   import wepy from 'wepy'
-  import Tabbar from '@/components/tabbar' // alias example
+  import Tabbar from '@/components/tabbar'
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get} from 'utils/service'
+  import reachBottom from 'mixins/reachBottom'
+  import {post} from 'utils/service'
   // import db from 'utils/db'
   import { formatDate } from 'utils/common'
   // import { IS_POSTGRADUATE } from 'utils/constant'
@@ -73,7 +71,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, reachBottom]
 
     data = {
       pageSize: 10,
@@ -83,45 +81,39 @@
     }
 
     methods = {
-      goService () {
-        this.navigate('serviceList?id=' + this.id)
-      }
+      // goService (id) {
+      //   this.navigate('chat?id=' + this.id)
+      // }
     }
 
-    getQuestionHistory () {
+    fetchDate () {
       for (let i = 0; i < 10; i++) {
         let obj = {
-          userId: i,
-          nickname: '李先生' + i,
+          questionId: i,
           questionContent: '由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体',
+          answerContent: '由各种物质组成体',
           askTime: formatDate(new Date())
         }
         this.dataList.push(obj)
       }
       this.$apply()
-      // get({
-      //   apiName: 'getPostgraduateInfo',
-      //   data: {}
-      // })
-      //   .then((res) => {
-      //     res.data.forEach((item) => {
-      //       item.askTime = formatDate(Date.now())
-      //     })
-      //     this.dataList.push(res.data)
-      //     this.$apply()
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
-    }
-
-    onReachBottom() {
-      this.pageNum += 10
-      this.$apply()
-      this.getQuestionHistory()
+      post({
+        apiName: 'getPostgraduateInfo',
+        data: {}
+      })
+        .then((res) => {
+          res.data.forEach((item) => {
+            item.askTime = formatDate(Date.now())
+          })
+          this.dataList.push(res.data)
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
     }
     onShow () {
       this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
-      this.getQuestionHistory()
+      this.fetchDate()
     }
 
     onLoad (params) {

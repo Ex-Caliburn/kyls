@@ -112,7 +112,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import { post } from 'utils/service'
   import db from 'utils/db'
-  import { CN_RULE, EMAIL_RULE, USER_INFO } from '../utils/constant'
+  import { EMAIL_RULE, USER_INFO } from '../utils/constant'
 
   export default class undergraduateRegister extends wepy.page {
     config = {
@@ -181,6 +181,7 @@
       if (email && userName && undergraduateSchoolId && undergraduateMajorId && isAgree) {
       } else {
         let errMsg
+        let CN_RULE = /^[\u4E00-\u9FA5]/g
         if (!userName || !CN_RULE.test(userName)) {
           errMsg = '请输入正确名字'
         } else if (!email || !EMAIL_RULE.test(email)) {

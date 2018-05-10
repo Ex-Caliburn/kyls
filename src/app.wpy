@@ -62,6 +62,7 @@
         'pages/my/thousandQuestion1',
         'pages/my/thousandQuestion',
         'pages/my/answerHistory',
+        'pages/my/peopleAsk',
         'pages/my/helpMe',
         'pages/my/read',
         'pages/my/collection',
@@ -161,8 +162,8 @@
         this.globalData.userInfo = userInfo
         this.globalData.isPostgraduate = userInfo.userType > 1
       }
-      // this.getToken()
-      login()
+      this.getToken()
+      // login()
       // const updateManager = wepy.getUpdateManager && wepy.getUpdateManager()
       // updateManager.onCheckForUpdate(function(res) {
       //   // 请求完新版本信息的回调
@@ -206,6 +207,13 @@
         wepy.checkSession()
           .then(res => {
             this.globalData.token = token
+            let userInfo = db.get(USER_INFO)
+            if (userInfo) {
+              this.globalData.userInfo = userInfo
+              this.globalData.isPostgraduate = userInfo.userType > 1
+            } else {
+              login()
+            }
           }, err => {
             console.log('checkSession err', err)
             console.log(2)

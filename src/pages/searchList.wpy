@@ -207,7 +207,7 @@
       childList: []
     }
 
-    async getChildCate (id) {
+    getChildCate (id) {
       let i = id || this.index
       console.log(id, this.index)
       const apiArr = ['getUndergraduateSchool', 'getUndergraduateMajor', 'getPostgraduateSchool', 'getPostgraduateMajor']
@@ -238,7 +238,7 @@
         this.inputVal = ''
       },
       inputTyping (e) {
-        this.inputVal = e.detail.value
+        this.inputVal = e.detail.value.trim()
       },
       inputSearch () {
         this.getChildCate()
@@ -362,6 +362,7 @@
       this.postgraduateSchoolId = gd.postgraduateSchoolId
       this.postgraduateMajorId = gd.postgraduateMajorId
       this.undergraduateSchoolName = gd.undergraduateSchoolName
+      this.name = gd.undergraduateSchoolName
       this.undergraduateMajorName = gd.undergraduateMajorName
       this.postgraduateSchoolName = gd.postgraduateSchoolName
       this.postgraduateMajorName = gd.postgraduateMajorName

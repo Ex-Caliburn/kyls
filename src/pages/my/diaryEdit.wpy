@@ -84,11 +84,12 @@
         this.content = e.detail.value
       },
       submit () {
-        let {content, pictures, title} = this
-        let apiName = this.diaryId ? 'addDiary' : 'editDiary'
+        let {content, pictures, title, diaryId} = this
+        let apiName = diaryId ? 'addDiary' : 'editDiary'
         post({
           apiName,
           data: {
+            diaryId,
             title,
             content,
             pictures: pictures.join(',')

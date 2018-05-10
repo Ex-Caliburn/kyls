@@ -51,7 +51,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
-  import reachBottom from '../mixins/reachBottom'
+  import reachBottom from 'mixins/reachBottom'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
   import { formatDuration } from 'utils/common'
