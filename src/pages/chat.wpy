@@ -153,7 +153,7 @@
     onLoad(params) {
       console.log(params)
       this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
-      this.pics = this.pics.push(this.$parent.globalData.userInfo.avatarUrl)
+      this.pics = this.pics.concat(this.$parent.globalData.userInfo.avatarUrl)
       console.log(this.$parent.globalData.userInfo.avatarUrl)
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.questionId = params.questionId
