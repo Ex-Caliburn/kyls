@@ -163,7 +163,7 @@
             </navigator>
             <view class="navigate-btn flex1 fz26 ">
               <view class="subTitle-special type_pink">我的信誉：60+1</view>
-              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：5星</view>
+              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：1星</view>
             </view>
           </view>
         </view>
@@ -212,7 +212,7 @@
   import db from 'utils/db'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
-  import {share, post, getPhoneNumber} from 'utils/service'
+  import { getPhoneNumber, share } from 'utils/service'
   import { USER_INFO } from 'utils/constant'
 
   export default class Info extends wepy.page {
@@ -311,46 +311,25 @@
 
     mixins = [tabbar]
 
-    async getUserInfo (phone, code) {
-      // let that = this
-      // let userSpecialInfo = db.get(USER_SPECICAL_INFO) || {}
-      // let openId = userSpecialInfo.openid
-      // const json = await api.getUserInfo({
-      //   query: {
-      //     openId: openId
-      //   }
-      // })
-
-      // if (json.data.code == 0) {
-      //   if (json.data.user.mobile.length>0) {
-      //     this.bShowBind=false
-      //   } else {
-      //     this.bShowBind = true
-      //   }
-      //   that.$apply()
-      // } else {
-      //   tip.error(json.data.msg)
-      // }
-      this.showLoading = false
-    }
-
-    onLoad () {
+    onLoad() {
       let userInfo = db.get(USER_INFO)
       this.avatarUrl = userInfo.avatarUrl
       this.nickName = userInfo.nickName
     }
 
-    onShow () {
+    onShow() {
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.$apply()
-      this.getUserInfo()
     }
 
     methods = {
-      let {iv, encryptedData} = e.detail
-      this.getPhoneNumber(iv, encryptedData)
+      getPhoneNumber(e) {
+        let { iv, encryptedData } = e.detail
+        getPhoneNumber(iv, encryptedData)
+      }
     }
-    onShareAppMessage (res) {
+
+    onShareAppMessage(res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
         wepy.showShareMenu({

@@ -85,13 +85,11 @@
 
     methods = {
       submitQuestion () {
-        let {userId, answerUserId, content, pictures} = this
-        userId = 1
+        let { answerUserId, content, pictures } = this
         answerUserId = 1
         post({
           apiName: 'questionSubmit',
           data: {
-            userId,
             answerUserId,
             content,
             pictures: pictures.join(','),
@@ -110,7 +108,6 @@
 
     onLoad (params) {
       this.answerUserId = params.answerUserId
-      this.userId = params.answerUserId
       console.log(params)
       this.$apply()
     }

@@ -66,9 +66,11 @@
       this.isPostgraduate = isPostgraduate || gd.isPostgraduate
       // 2 答， 3问
       if (isPostgraduate) {
-        gd.tabbar.list[2].show = true
-      } else {
+        gd.tabbar.list[0].show = false
         gd.tabbar.list[3].show = true
+      } else {
+        gd.tabbar.list[1].show = false
+        gd.tabbar.list[4].show = true
       }
       this.$apply()
     }

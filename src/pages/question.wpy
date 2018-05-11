@@ -1,5 +1,5 @@
 <style>
-  .upload{
+  .wrapper{
     margin: 20rpx 30rpx;
   }
   .money{
@@ -29,20 +29,8 @@
     color: #ea4a3a ;
     text-align: left;
   }
-  .icon-cancel{
-    position: absolute;
-    top: -2rpx;
-    right: -5rpx;
-  }
-  .weui-uploader__file{
-    position: relative;
-  }
   .tip{
     padding: 10px 15px;
-  }
-  .money-enter{
-    /*text-align: center;*/
-    /*min-width: 180rpx;*/
   }
 </style>
 
@@ -72,7 +60,7 @@
 
         <uploadPic :files.sync="pictures" ></uploadPic>
 
-        <view class="upload">
+        <view class="wrapper">
           <view>请设置悬赏金额：</view>
           <view class="flex flex-around flex-wrap" style="margin:20rpx">
             <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
@@ -125,14 +113,11 @@
       moneyInp: '',
       content: '',
       pictures: [],
-      questionId: '',
       questionType: 1,
       msgList: [
         {url: 'url', title: '李明喜 关于“考研”悬赏金额为100元的问题已被有效解决'},
         {url: 'url', title: '代峻峰 关于“励志”悬赏金额为50元的问题已被有效解决'},
         {url: 'url', title: '大法官 关于“方向”悬赏金额为60元的问题已被有效解决'}],
-      id: '',
-      dataList: [],
       money: '',
       entering: false,
       moneyArr: [16, 36, 66, 86, 166]
@@ -140,7 +125,22 @@
 
     methods = {
       submit() {
-
+        let { answerUserId, content, pictures, questionType, money } = this
+        // { "userId":1, "answerUserId":2, //悬赏问题时不用传回答人id "content":"试试事实上", "pictures":"111.jsp", "questionType":1, "rewardMoney":100 //研贝，悬赏时传
+        post({
+          apiName: 'questionSubmit',
+          data: {
+            answerUserId,
+            money,
+            content,
+            pictures: pictures.join(','),
+            questionType // 1.聊天类型，2：电话，3面聊
+          }})
+          .then((res) => {
+            this.navigate('my/info')
+          }).catch(err => {
+            console.log(err)
+          })
       },
       moneyBind(e) {
         this.entering = true
@@ -162,6 +162,7 @@
     onLoad (params) {
       let gd = wepy.$instance.globalData
       this.questionType = gd.questionType
+      this.$apply()
     }
   }
 </script>

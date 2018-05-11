@@ -114,6 +114,14 @@
             show: true
           },
           {
+            pagePath: '/pages/my/answerHistory',
+            text: '里手',
+            iconPath: '/icon/home.png',
+            selectedIconPath: '/icon/home@select.png',
+            selected: true,
+            show: true
+          },
+          {
             pagePath: '/pages/message',
             text: '消息',
             iconPath: '/icon/message.png',
@@ -214,13 +222,11 @@
               login()
             }
           }, err => {
-            console.log('checkSession err', err)
-            console.log(2)
+            console.log('checkSession 2 err', err)
             login()
           })
           .catch(err => {
-            console.log('checkSession err', err)
-            console.log(3)
+            console.log('checkSession 3 err', err)
             login()
           })
       }

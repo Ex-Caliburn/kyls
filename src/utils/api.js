@@ -20,11 +20,13 @@ const api = {
   getUserMessage: 'message/getUserMessage',
   readMessage: 'message/readMessage', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
   getPostgraduateInfo: user + 'getPostgraduateInfo',
+  getPgShowInfo: user + 'getPgShowInfoByUserInfo',
   /*
   * 支付
   * */
-  wxNotify: '/pay/wxNotify', // get
-  order: '/pay/order', // POST{ "userId":1, "amount"1 } ##返回参数 { "prepay_id":"122121" }
+  wxNotify: 'pay/wxNotify', // get
+  order: 'pay/order',
+  getSign: 'pay/sign',
   /*
   * 操作类上传
   * */

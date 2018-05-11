@@ -34,7 +34,7 @@ async function login() {
     db.set(USER_INFO, res.data)
     let isPostgraduate = res.data.userType > 1
     if (res.data.userType) {
-      console.log(wepy.$instance)
+      // todo 对于游客的处理
       // wepy.navigateTo({ url: '/chooseInterest' })
       //   .then((res) => {
       //     console.log(res)

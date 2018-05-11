@@ -126,7 +126,6 @@
 
     mixins = [toast, navigate]
 
-    // https://jdk3t-doc.oss-cn-shanghai.aliyuncs.com/document/2018/04/17/567a46e8-b659-4750-9649-7accdf5fe692.doc
     data = {
       undergraduateSchoolId: '',
       undergraduateSchoolName: '',

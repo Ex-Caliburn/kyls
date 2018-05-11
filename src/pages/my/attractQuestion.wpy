@@ -24,14 +24,14 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="questionContent" placeholder="问题" style="height: 3.3em"/>
+            <textarea class="weui-textarea" @change="questionContent" placeholder="问题（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
           </view>
         </view>
       </view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="answerContent" placeholder="回答" style="height: 3.3em"/>
+            <textarea class="weui-textarea" @change="answerContent" placeholder="回答（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
           </view>
         </view>
       </view>

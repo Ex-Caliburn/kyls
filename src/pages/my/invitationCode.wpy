@@ -9,8 +9,8 @@
 </style>
 
 <template>
-  <view class="page">
-    <view class="invitation-code">{{invitationCode}}</view>
+  <view class="page" @tap="tap">
+    <text class="invitation-code" selectable>{{invitationCode}}</text>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -36,6 +36,19 @@
     }
 
     methods = {
+      // tap () {
+      //   try {
+      //     wepy.setClipboardData({
+      //       data: this.invitationCode
+      //     }).then(res => {
+      //       wepy.getClipboardData({})
+      //     }).catch(err => {
+      //       console.log(err)
+      //     })
+      //   } catch (err) {
+      //     console.log(err)
+      //   }
+      // }
     }
 
     onShow () {

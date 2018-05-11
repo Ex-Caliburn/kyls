@@ -24,6 +24,7 @@
 <template>
   <view class="page">
     <view class="page__bd">
+      <button class="radius share type_yellow" open-type="share">分享</button>
       <view hidden="{{!isGet}}" class="red center">恭喜你获得新勋章</view>
       <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
       <view class="center">已有XXX人获得</view>

@@ -55,7 +55,7 @@
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
-  import { post } from 'utils/service'
+  import { post, get } from 'utils/service'
   import { formatDate } from 'utils/common'
   // import db from 'utils/db'
 
@@ -83,13 +83,19 @@
     methods = {
       goAnswer (questionId) {
         if (this.userType > 2) {
-          this.ShowToast('请完善你的资料后再来答题')
+          wepy.showModal({
+            title: '提示',
+            content: '请完善你的资料后再来答题'
+          }).then(res => {
+            this.navigate('my/info')
+          }).catch(e => {
+          })
           return
         }
-        post({
+        get({
           apiName: 'wantAnswer',
           data: {
-            questionId: questionId
+            question_id: questionId
           }})
           .then((res) => {
             this.navigate('answerEdit?questionId=' + questionId)

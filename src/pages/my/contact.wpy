@@ -54,13 +54,16 @@
 
     methods = {
       previewImage() {
-        this.ShowToast('请保存图片到本地在扫二维码')
-        setTimeout(() => {
+        wepy.showModal({
+          title: '提示',
+          content: '请保存图片到本地再扫二维码'
+        }).then(res => {
           wepy.previewImage({
             current: QRCode, // 当前显示图片的http链接
             urls: [QRCode] // 需要预览的图片http链接列表
           })
-        }, 1000)
+        }).catch(e => {
+        })
       }
     }
 

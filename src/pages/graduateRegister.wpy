@@ -16,7 +16,7 @@
     border: 1px solid #09bb07;
     color: #09bb07;
     background-color: #fff;
-    padding: 0 5rpx;
+    padding: 0 20rpx;
   }
   .choose{
     border: 1px solid #fc5353;
@@ -130,7 +130,7 @@
 
         <view class="will">
           <view class="weui-label MB10">回答意愿*</view>
-          <view class="flex flex-around flex-wrap">
+          <view class="flex flex-between flex-wrap">
             <block wx:for-items="{{willTypes}}" wx:for-index="index" wx:for-item="item" wx:key="id">
               <view @tap="choose({{index}})" class="unChoose {{item.choose ? 'choose' : ''}}">{{item.txt}}</view>
             </block>
@@ -286,13 +286,13 @@
       majorIndex: '',
       willTypes: [
         {
-          txt: '13大学科',
-          value: '1',
+          txt: '院校及专业咨询',
+          value: '5',
           choose: false
         },
         {
-          txt: '公共科目类',
-          value: '2',
+          txt: '13大学科',
+          value: '1',
           choose: false
         },
         {
@@ -301,13 +301,18 @@
           choose: false
         },
         {
+          txt: '公共科目类',
+          value: '2',
+          choose: false
+        },
+        {
           txt: '考研四大选择题与考研规划问题',
           value: '4',
           choose: false
         },
         {
-          txt: '院校及专业咨询',
-          value: '5',
+          txt: '专业科目类',
+          value: '6',
           choose: false
         }
       ],
@@ -321,7 +326,7 @@
       grade: '', // 年级 1.准研究生、2.研一、3.研二、4.研三
       publicSubjectFirst: '', // 初试公共科目
       professionalSubjectFirst: '', // 初试专业科目，逗号分割
-      answerWill: false, //  回答意愿
+      answerWill: '', //  回答意愿
       isAgree: false
     }
 
@@ -369,9 +374,6 @@
       },
       bindMajorChange (e) {
         this.majorIndex = e.detail.value
-      },
-      switchChange: function (e) {
-        this.answerWill = e.detail.value
       },
       showTopTips () {
         this.submit()

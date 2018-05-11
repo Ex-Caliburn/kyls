@@ -1,296 +1,24 @@
-<style>
-  /* pages/wx-cropper/index.wxss */
-  .wx-content-info {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #000;
-  }
+<style lang="less">
+  @import '../../styles/cropper.less';
 
-  .wx-corpper {
-    position: absolute;
-    top: 100rpx;
-    overflow: hidden;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    box-sizing: border-box;
+  .unChoose{
+    margin-bottom: 20rpx;
+    line-height: 70rpx;
+    height: 70rpx;
+    border-radius: 10rpx;
+    text-align: center;
+    border: 1px solid #09bb07;
+    color: #09bb07;
+    background-color: #fff;
+    padding: 0 20rpx;
   }
-
-  .wx-corpper-content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  .choose{
+    border: 1px solid #fc5353;
+    color: #fc5353;
   }
-
-  .wx-corpper-content image {
-    display: block;
-    width: 100%;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: 100%;
-    min-height: 0 !important;
-    max-height: none !important;
-    image-orientation: 0deg !important;
-    margin: 0 auto;
-  }
-
-  /* 移动图片效果 */
-  .wx-cropper-drag-box {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    cursor: move;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1;
-  }
-
-  /* 内部的信息 */
-  .wx-corpper-crop-box {
-    position: absolute;
-    width: 500rpx;
-    height: 500rpx;
-    background: rgba(255, 255, 255, 0.3);
-    z-index: 2;
-  }
-
-  .wx-corpper-crop-box .wx-cropper-view-box {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    outline: 1px solid #69f;
-    outline-color: rgba(102, 153, 255, .75)
-  }
-
-  /* 横向虚线 */
-  .wx-cropper-dashed-h {
-    position: absolute;
-    top: 33.33333333%;
-    left: 0;
-    width: 100%;
-    height: 33.33333333%;
-    border-top: 1px dashed rgba(255, 255, 255, 0.5);
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
-  }
-
-  /* 纵向虚线 */
-  .wx-cropper-dashed-v {
-    position: absolute;
-    left: 33.33333333%;
-    top: 0;
-    width: 33.33333333%;
-    height: 100%;
-    border-left: 1px dashed rgba(255, 255, 255, 0.5);
-    border-right: 1px dashed rgba(255, 255, 255, 0.5);
-  }
-
-  /* 四个方向的线  为了之后的拖动事件*/
-  .wx-cropper-line-t {
-    position: absolute;
-    display: block;
-    width: 100%;
-    background-color: #69f;
-    top: 0;
-    left: 0;
-    height: 1px;
-    opacity: 0.1;
-    cursor: n-resize;
-  }
-
-  .wx-cropper-line-t::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 0rpx;
-    width: 100%;
-    -webkit-transform: translate3d(0, -50%, 0);
-    transform: translate3d(0, -50%, 0);
-    bottom: 0;
-    height: 41rpx;
-    background: transparent;
-    z-index: 11;
-  }
-
-  .wx-cropper-line-r {
-    position: absolute;
-    display: block;
-    background-color: #69f;
-    top: 0;
-    right: 0px;
-    width: 1px;
-    opacity: 0.1;
-    height: 100%;
-    cursor: e-resize;
-  }
-
-  .wx-cropper-line-r::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 41rpx;
-    -webkit-transform: translate3d(-50%, 0, 0);
-    transform: translate3d(-50%, 0, 0);
-    bottom: 0;
-    height: 100%;
-    background: transparent;
-    z-index: 11;
-  }
-
-  .wx-cropper-line-b {
-    position: absolute;
-    display: block;
-    width: 100%;
-    background-color: #69f;
-    bottom: 0;
-    left: 0;
-    height: 1px;
-    opacity: 0.1;
-    cursor: s-resize;
-  }
-
-  .wx-cropper-line-b::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 0rpx;
-    width: 100%;
-    -webkit-transform: translate3d(0, -50%, 0);
-    transform: translate3d(0, -50%, 0);
-    bottom: 0;
-    height: 41rpx;
-    background: transparent;
-    z-index: 11;
-  }
-
-  .wx-cropper-line-l {
-    position: absolute;
-    display: block;
-    background-color: #69f;
-    top: 0;
-    left: 0;
-    width: 1px;
-    opacity: 0.1;
-    height: 100%;
-    cursor: w-resize;
-  }
-
-  .wx-cropper-line-l::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 41rpx;
-    -webkit-transform: translate3d(-50%, 0, 0);
-    transform: translate3d(-50%, 0, 0);
-    bottom: 0;
-    height: 100%;
-    background: transparent;
-    z-index: 11;
-  }
-
-  .wx-cropper-point {
-    width: 5px;
-    height: 5px;
-    background-color: #69f;
-    opacity: .75;
-    position: absolute;
-    z-index: 3;
-  }
-
-  .point-t {
-    top: -3px;
-    left: 50%;
-    margin-left: -3px;
-    cursor: n-resize;
-  }
-
-  .point-tr {
-    top: -3px;
-    left: 100%;
-    margin-left: -3px;
-    cursor: n-resize;
-  }
-
-  .point-r {
-    top: 50%;
-    left: 100%;
-    margin-left: -3px;
-    margin-top: -3px;
-    cursor: n-resize;
-  }
-
-  .point-rb {
-    left: 100%;
-    top: 100%;
-    -webkit-transform: translate3d(-50%, -50%, 0);
-    transform: translate3d(-50%, -50%, 0);
-    cursor: n-resize;
-    width: 24rpx;
-    height: 24rpx;
-    background-color: #69f;
-    position: absolute;
-    z-index: 1112;
-    opacity: 1;
-  }
-
-  .point-b {
-    left: 50%;
-    top: 100%;
-    margin-left: -3px;
-    margin-top: -3px;
-    cursor: n-resize;
-  }
-
-  .point-bl {
-    left: 0%;
-    top: 100%;
-    margin-left: -3px;
-    margin-top: -3px;
-    cursor: n-resize;
-  }
-
-  .point-l {
-    left: 0%;
-    top: 50%;
-    margin-left: -3px;
-    margin-top: -3px;
-    cursor: n-resize;
-  }
-
-  .point-lt {
-    left: 0%;
-    top: 0%;
-    margin-left: -3px;
-    margin-top: -3px;
-    cursor: n-resize;
-  }
-
-  /* 裁剪框预览内容 */
-  .wx-cropper-viewer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .wx-cropper-viewer image {
-    position: absolute;
-    z-index: 2;
-  }
-  .avatar {
-    border-radius: 50%;
+  .will{
+    padding: 10rpx 30rpx;
+    border-top: 1px solid #eee;
   }
 </style>
 
@@ -331,10 +59,12 @@
             <input class="weui-input" placeholder="意向专业" @change="volunteerMajorInp" value="{{volunteerMajor}}"/>
           </view>
         </view>
-        <view hidden="{{!isPostgraduate}}" class="weui-cell weui-cell_switch">
-          <view class="weui-cell__bd">回答意愿</view>
-          <view class="weui-cell__ft">
-            <switch @change="switchChange" checked="{{answerWill}}"></switch>
+        <view class="will" hidden="{{!isPostgraduate}}">
+          <view class="weui-label MB10">回答意愿*</view>
+          <view class="flex flex-between flex-wrap">
+            <block wx:for-items="{{willTypes}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <view @tap="choose({{index}})" class="unChoose {{item.choose ? 'choose' : ''}}">{{item.txt}}</view>
+            </block>
           </view>
         </view>
       </view>
@@ -404,7 +134,7 @@
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { picturePrefix } from 'utils/config'
-  import { post, uploadPics } from 'utils/service'
+  import { post, get, uploadPics } from 'utils/service'
   import db from 'utils/db'
   import { EMAIL_RULE, USER_INFO } from 'utils/constant'
 
@@ -471,15 +201,47 @@
       cutL: 0,
       cutT: 0,
       qualityWidth: qualityWidth,
-      innerAspectRadio: innerAspectRadio
+      innerAspectRadio: innerAspectRadio,
+      willTypes: [
+        {
+          txt: '院校及专业咨询',
+          value: '5',
+          choose: false
+        },
+        {
+          txt: '13大学科',
+          value: '1',
+          choose: false
+        },
+        {
+          txt: '复试科目类问题咨询',
+          value: '3',
+          choose: false
+        },
+        {
+          txt: '公共科目类',
+          value: '2',
+          choose: false
+        },
+        {
+          txt: '考研四大选择题与考研规划问题',
+          value: '4',
+          choose: false
+        },
+        {
+          txt: '专业科目类',
+          value: '6',
+          choose: false
+        }
+      ]
     }
 
     methods = {
       updateInfo () {
         this._updateInfo()
       },
-      switchChange (e) {
-        this.answerWill = e.detail.value
+      choose (i) {
+        this.willTypes[i].choose = !this.willTypes[i].choose
       },
       emailInp (e) {
         this.email = e.detail.value.trim()
@@ -493,15 +255,21 @@
     }
 
     _updateInfo() {
-      let { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill } = this
-      answerWill = answerWill ? '1' : '0'
+      let { volunteerMajor, volunteerSchool, email, avatarUrl, willTypes } = this
+      let answerWill = []
+      willTypes.forEach(item => {
+        if (item.choose) {
+          answerWill.push(item.value)
+        }
+      })
       if (!email || !EMAIL_RULE.test(email)) {
         let errMsg = '请输入正确的邮箱'
         this.ShowToast(errMsg)
+        return
       }
       post({
         apiName: 'updateUserInfo',
-        data: { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill }
+        data: { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill: answerWill.join(',') }
       }).then((res) => {
         let userInfo = this.$parent.globalData.userInfo
         if (userInfo.avatarUrl !== avatarUrl) {

@@ -1,12 +1,30 @@
-<style>
+<style lang="less">
+  .navbar {
+    .page,
+    .page__bd {
+      height: 100%;
+    }
+
+    .page__bd {
+      padding-bottom: 0;
+    }
+    .weui-navbar__title{
+      margin: 0 auto;
+    }
+    .weui-tab__content {
+      text-align: center;
+    }
+  }
+
   .ellipsis {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .isAnswer{
-    background-color:  oldlace;
+
+  .isAnswer {
+    background-color: oldlace;
   }
   .list-container{
     padding: 20rpx 40rpx;
@@ -28,23 +46,54 @@
 </style>
 
 <template>
-  <view class="page">
+  <view class="page navbar">
     <view class="page__bd">
-      <view class="weui-panel">
-        <view class="weui-panel__bd">
-          <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between" hover-class="weui-cell_active">
-              <view class="pic-container flex flex-align-center" >
-                <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
-              </view>
-              <view>
-                <view class="">{{item.nickname}}</view>
-                <view class="">所属院校，所在专业</view>
-                <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
-                <view class="">{{item.askTime}}</view>
-              </view>
-            </navigator>
-          </block>
+      <view class="weui-tab">
+        <view class="weui-navbar">
+          <view wx:for="{{tabs}}" wx:key="*this" id="{{index}}"
+                class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" @tap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+          <view class="weui-navbar__slider"
+                style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+        </view>
+        <view class="weui-tab__panel">
+          <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+
+            <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between"
+                         hover-class="weui-cell_active">
+                <view class="pic-container flex flex-align-center">
+                  <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
+                </view>
+                <view>
+                  <view class="">{{item.nickname}}</view>
+                  <view class="">所属院校，所在专业</view>
+                  <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
+                  <view class="">{{item.askTime}}</view>
+                </view>
+              </navigator>
+            </block>
+
+          </view>
+          <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+
+            <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <navigator url="/pages/chat?id={{id}}" class="list-container border flex flex-between"
+                         hover-class="weui-cell_active">
+                <view class="pic-container flex flex-align-center">
+                  <image class="avatarUrl" src="{{avatarUrl}}" mode="aspectFill"></image>
+                </view>
+                <view>
+                  <view class="">{{item.nickname}}1</view>
+                  <view class="">所属院校，所在专业</view>
+                  <view class="ellipsis ellipsis-content">{{item.questionContent}}</view>
+                  <view class="">{{item.askTime}}</view>
+                </view>
+              </navigator>
+            </block>
+
+          </view>
         </view>
       </view>
     </view>
@@ -60,10 +109,11 @@
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
-  // import {get} from 'utils/service'
-  // import db from 'utils/db'
-  import {formatDate} from 'utils/common'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import { formatDate } from 'utils/common'
+  import { SYSTEM_INFO } from 'utils/constant'
+  import db from 'utils/db'
+
+  const sliderWidth = 94 // 需要设置slider的宽度，用于计算中间位置
 
   export default class answerHistory extends wepy.page {
     config = {
@@ -80,20 +130,33 @@
     mixins = [tabbar, navigate, reachBottom]
 
     data = {
+      tabs: ['进行中', '已解决'],
+      activeIndex: 1,
+      sliderOffset: 0,
+      sliderLeft: 0,
       avatarUrl: '',
       dataList: []
     }
 
     methods = {
-      goService () {
-        this.navigate('serviceList?id=' + this.id)
+      goService() {
+        this.navigate('chat?id=' + this.id)
+      },
+      tabClick(e) {
+        this.sliderOffset = e.currentTarget.offsetLeft
+        this.activeIndex = e.currentTarget.id
       }
     }
 
+    //   所属院校，所在专业
+    //
+    // “XX..X”
+    //
+    //   提问时间：2018-04-17 17：00
     //          姓名、志愿院校、志愿专业
     // 本科生信息问题及答案
     // 问题：××××××××……     >
-    fetchDate () {
+    fetchDate() {
       for (let i = 0; i < 10; i++) {
         let obj = {
           nickname: '李先生' + i,
@@ -117,11 +180,16 @@
       //     console.log(err)
       //   })
     }
-    onShow () {
+
+    onShow() {
       this.fetchDate()
     }
 
-    onLoad (params) {
+    onLoad(params) {
+      let sysInfo = db.get(SYSTEM_INFO)
+      this.sliderLeft = (sysInfo.windowWidth / this.tabs.length - sliderWidth) / 2
+      this.sliderOffset = sysInfo.windowWidth / this.tabs.length * this.activeIndex
+      this.$apply()
     }
   }
 </script>

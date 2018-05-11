@@ -44,7 +44,6 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <button class="radius share type_yellow" open-type="share">分享</button>
       <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
         <view @tap="choose({{index}})" class="{{index < 2 ? 'border model': 'model' }}">
           <view class="title {{item.color}}">{{item.title}}</view>

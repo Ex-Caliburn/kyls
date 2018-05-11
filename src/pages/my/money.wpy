@@ -31,7 +31,7 @@
             <view style="margin-left: 20rpx" class="income">{{money}}</view>
           </view>
         </view>
-        <navigator url="/pages/my/recharge" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator hidden="{{isPostgraduate}}" url="/pages/my/recharge" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">研贝充值</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -69,6 +69,7 @@
 
     data = {
       id: '',
+      isPostgraduate: '',
       money: 0
     }
 
@@ -76,6 +77,8 @@
     }
 
     onLoad (params) {
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.$apply()
     }
   }
 </script>
