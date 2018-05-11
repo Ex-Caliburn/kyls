@@ -97,7 +97,6 @@
   import {post} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
-  let img = 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0'
 
   export default class chat extends wepy.page {
     config = {
@@ -112,14 +111,13 @@
 
     data = {
       time: formatDate(new Date()),
+      avatarUrl: '',
       id: '',
       questionId: '',
       cost: 10,
       userId: '',
       isPostgraduate: true,
-      img,
       pics: [
-        img
       ]
     }
 
@@ -154,6 +152,9 @@
 
     onLoad(params) {
       console.log(params)
+      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
+      this.pics = this.pics.push(this.$parent.globalData.userInfo.avatarUrl)
+      console.log(this.$parent.globalData.userInfo.avatarUrl)
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.questionId = params.questionId
       this.answerUserId = params.answerUserId

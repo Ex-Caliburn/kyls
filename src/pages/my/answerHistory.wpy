@@ -110,7 +110,7 @@
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
   import { formatDate } from 'utils/common'
-  import { SYSTEM_INFO } from 'utils/constant'
+  import { SYSTEM_INFO, USER_INFO } from 'utils/constant'
   import db from 'utils/db'
 
   const sliderWidth = 94 // 需要设置slider的宽度，用于计算中间位置
@@ -187,6 +187,7 @@
 
     onLoad(params) {
       let sysInfo = db.get(SYSTEM_INFO)
+      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
       this.sliderLeft = (sysInfo.windowWidth / this.tabs.length - sliderWidth) / 2
       this.sliderOffset = sysInfo.windowWidth / this.tabs.length * this.activeIndex
       this.$apply()
