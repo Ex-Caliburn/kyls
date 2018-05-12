@@ -1,0 +1,27 @@
+<style lang="less" scoped>
+
+</style>
+<template>
+  <image src="{{url}}"></image>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class avatar extends wepy.component {
+    props = {
+      avatarUrl: {}
+    }
+
+    data = {
+      url: ''
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+      this.url = this.avatarUrl
+      this.$apply()
+    }
+  }
+</script>

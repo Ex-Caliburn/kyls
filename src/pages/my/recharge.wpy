@@ -44,14 +44,11 @@
         <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
           <view @tap="chooseMoney({{item}})" class="money {{item === amount ? 'money-choose' :''}}">{{item}}研贝</view>
         </block>
-        <!--<view class="money">166研贝</view>-->
-        <!--<view class="money">666研贝</view>-->
-        <!--<view class="money">1666研贝</view>-->
       </view>
 
       <view class="recharge flex flex-between">
         <view class="recharge-item" style="font-size: 30px">￥</view>
-        <input @input="moneyBind" class="recharge-item" type="text" placeholder="其它金额" value="{{moneyInp}}"/>
+        <input @input="moneyBind" class="recharge-item" type="number" placeholder="其它金额" value="{{moneyInp}}"/>
         <view class="recharge-item tr">研贝</view>
       </view>
 
@@ -76,9 +73,9 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import { post } from 'utils/service'
+  import { post, get } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -91,7 +88,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
       amount: '',
@@ -101,14 +98,21 @@
 
     methods = {
       moneyBind (e) {
-        this.amount = Number(e.detail.value)
-        this.moneyInp = Number(e.detail.value)
+        let value = e.detail.value
+        if (!value || value < 1) {
+          value = 1
+        }
+        this.amount = Number(value)
+        this.moneyInp = Number(value)
       },
       chooseMoney (val) {
         this.moneyInp = ''
         this.amount = Number(val)
       },
       async submit () {
+        if (!this.amount) {
+          this.ShowToast('请输入金额')
+        }
         try {
           let res = await post({
             apiName: 'order',
@@ -116,44 +120,37 @@
               amount: this.amount
             }
           })
-          if (res.data.prepay_id) {
-            res = await post({
-              apiName: 'getSign'
+          console.log(res)
+          res = await get({
+            apiName: 'getSign',
+            data: {
+              repay_id: res.data.package.split('=')[1]
+            }
+          })
+          console.log(res)
+          if (res.data.paySign) {
+            wepy.requestPayment({
+              timeStamp: res.data.timeStamp.toString(),
+              nonceStr: res.data.nonceStr,
+              package: res.data.package,
+              signType: res.data.signType,
+              paySign: res.data.paySign
+            }).then(res => {
+              this.$apply()
+            }).catch(res => {
+              if (res.errMsg.indexOf('requestPayment:fail cancel') === -1) {
+                console.log('wx', '微信支付接口调用失败')
+              } else {
+                console.log('cancel', '用户取消支付')
+              }
             })
-            console.log(res)
           }
         } catch (e) {
           console.log(e)
         }
-        // post({
-        //   apiName: 'order',
-        //   data: {
-        //     amount: this.amount
-        //   }
-        // }).then((data) => {
-        //   wepy.requestPayment({
-        //     timeStamp: data.timeStamp,
-        //     nonceStr: data.nonceStr,
-        //     package: data.package,
-        //     signType: data.signType,
-        //     paySign: data.paySign
-        //   }).then(res => {
-        //     this.publicTypes = res.data
-        //     this.$apply()
-        //   }).catch(res => {
-        //     if (res.errMsg.indexOf('requestPayment:fail cancel') === -1) {
-        //       console.log('wx', '微信支付接口调用失败')
-        //     } else {
-        //       console.log('cancel', '用户取消支付')
-        //     }
-        //   })
-        // }).catch(err => {
-        //   console.log(err)
-        // })
       }
     }
     onLoad (params) {
-      console.log(24)
     }
   }
 </script>

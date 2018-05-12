@@ -54,14 +54,14 @@
         <text>提现金额(免服务费):</text>
       </view>
       <view class="withdrawal margin">
-        <input class="input" type="number"/>
+        <input @input="money" class="input" type="number" maxlength="6"/>
         <text class="withdrawal-text">研贝</text>
       </view>
       <view class="margin">
-        <text>请填写验证码：</text>
+        <text>请填写验证码：</text><input class="input" type="number"/>
       </view>
       <view class="code">
-        <input class="code-input" type="number" maxlength="6"/>
+        <input @input="code" class="code-input" type="number" maxlength="6"/>
         <button @tap="getCode" class="weui-btn mini-btn" type="primary" size="mini">获取验证码</button>
       </view>
 
@@ -80,9 +80,9 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
+  import { post } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -95,7 +95,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
       money: '',
@@ -104,11 +104,40 @@
     }
 
     methods = {
-      submit() {
-        this.showGuide = !this.showGuide
+      async submit () {
+        let {money, code} = this
+        const CODE_RULE = /^\d{6}$/
+        if (!this.money) {
+          this.ShowToast('请输入金额')
+        }
+        if (!CODE_RULE.test(this.code)) {
+          this.ShowToast('验证码')
+        }
+        post({
+          apiName: 'sendMessage',
+          data: {money, code}
+        }).then((res) => {
+        }).catch(err => {
+          console.log(err)
+        })
       },
-      getCode() {
-        this.showGuide = !this.showGuide
+      money (e) {
+        let value = e.detail.value
+        if (!value || value < 1) {
+          value = 1
+        }
+        this.money = Number(value)
+      },
+      code (e) {
+        this.code = Number(e.detail.value)
+      },
+      getCode () {
+        post({
+          apiName: 'sendMessage'
+        }).then((res) => {
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
 

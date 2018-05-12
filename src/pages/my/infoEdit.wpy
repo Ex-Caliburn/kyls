@@ -134,7 +134,7 @@
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { picturePrefix } from 'utils/config'
-  import { post, get, uploadPics } from 'utils/service'
+  import { post, uploadPics } from 'utils/service'
   import db from 'utils/db'
   import { EMAIL_RULE, USER_INFO } from 'utils/constant'
 
