@@ -8,7 +8,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="silence" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
+            <textarea class="weui-textarea" maxlength="50" @input="silence" placeholder="内容任意，长度为30-50个汉字" style="height: 2.8em" value="{{silence}}"/>
           </view>
         </view>
       </view>
@@ -16,7 +16,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="opinion" placeholder="内容任意，长度为30-50个汉字" style="height: 3.3em"/>
+            <textarea class="weui-textarea" @input="opinion" maxlength="50" placeholder="内容任意，长度为30-50个汉字" value="{{opinion}}" style="height: 2.8em"/>
           </view>
         </view>
       </view>
@@ -24,14 +24,14 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="questionContent" placeholder="问题（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
+            <textarea class="weui-textarea" @input="questionContent" maxlength="120" value="{{questionContent}}" placeholder="问题（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
           </view>
         </view>
       </view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" @change="answerContent" placeholder="回答（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
+            <textarea class="weui-textarea" @input="answerContent" maxlength="120" value="{{answerContent}}" placeholder="回答（此处自主编辑内容与您的收益密切相关）" style="height: 3.3em"/>
           </view>
         </view>
       </view>
@@ -54,9 +54,9 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
-  import { post } from 'utils/service'
+  import { post, get } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -69,14 +69,13 @@
       toast: Toast
     }
 
-    mixins = [tabbar]
+    mixins = [tabbar, toast]
 
     data = {
       opinion: '',
       silence: '',
       questionContent: '',
-      answerContent: '',
-      dataList: []
+      answerContent: ''
     }
 
     methods = {
@@ -93,11 +92,11 @@
         this.answerContent = e.detail.value
       },
       submit() {
-        let { userId, opinion, questionContent, silence, answerContent } = this
+        let { opinion, questionContent, silence, answerContent } = this
         if (opinion && questionContent && silence && answerContent) {
           post({
             apiName: 'addPostGraduateQuestionInfo',
-            data: { userId, opinion, questionContent, answerContent, silence }
+            data: { opinion, questionContent, answerContent, silence }
           })
             .then((res) => {
             }).catch(err => {
@@ -107,6 +106,25 @@
           this.ShowToast('请补充完整信息')
         }
       }
+    }
+
+    getPgShowInfo() {
+      get({
+        apiName: 'getPgShowInfo'
+      }).then(res => {
+        console.log(res)
+        this.opinion = res.opinion || ''
+        this.silence = res.silence || ''
+        this.questionContent = res.questionContent || ''
+        this.answerContent = res.answerContent || ''
+        this.$apply()
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
+    onShow() {
+      this.getPgShowInfo()
     }
 
     onLoad() {

@@ -102,10 +102,10 @@
         data: {}
       })
         .then((res) => {
-          res.data.forEach((item) => {
+          res.forEach((item) => {
             item.askTime = formatDate(Date.now())
           })
-          this.dataList.push(res.data)
+          this.dataList.push(res)
           this.$apply()
         }).catch(err => {
           console.log(err)

@@ -123,7 +123,6 @@
     text-decoration:none;
     -webkit-tap-highlight-color:transparent;
     overflow:hidden;
-    text-align: left;
     padding-left: 5rpx;
   }
   .subTitle-special:nth-child(1){
@@ -156,14 +155,18 @@
           <view class="header-btn flex flex-around flex-align-center">
             <navigator url="/pages/my/money" class="navigate-btn flex1 fz26  " hover-class="none" open-type="navigate">
               <!--<view class="subTitle type_pink">我的研贝</view>-->
-              <button class="subTitle type_pink" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>我的研贝</button>
+              <button class="subTitle type_pink" form-type="submit" >我的研贝</button>
+              <!--<button class="subTitle type_pink" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>我的研贝</button>-->
             </navigator>
             <navigator url="/pages/my/medal" class="navigate-btn  flex1  fz26  " hover-class="none" open-type="navigate">
               <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
             <view class="navigate-btn flex1 fz26 ">
-              <view class="subTitle-special type_pink">我的信誉：60+1</view>
-              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：1星</view>
+              <view class="subTitle-special type_pink">我的信誉：{{creditScore}}
+                <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}">+ {{creditScoreStatus}}</text>
+                <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}">- {{creditScoreStatus}}</text>
+              </view>
+              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：{{starLevel}} 级</view>
             </view>
           </view>
         </view>
@@ -212,7 +215,7 @@
   import db from 'utils/db'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
-  import { getPhoneNumber, share } from 'utils/service'
+  import { getPhoneNumber, share, get } from 'utils/service'
   import { USER_INFO } from 'utils/constant'
 
   export default class Info extends wepy.page {
@@ -225,6 +228,9 @@
 
     data = {
       isPostgraduate: true,
+      creditScore: '',
+      creditScoreStatus: '',
+      starLevel: '',
       avatarUrl: '',
       nickName: '',
       bShowBind: false,
@@ -317,8 +323,30 @@
       this.nickName = userInfo.nickName
     }
 
+    getUserInfo () {
+      get({
+        apiName: 'getUserInfo'
+      }).then((res) => {
+        console.log(res)
+        this.creditScore = res.creditScore
+        this.creditScoreStatus = res.creditScoreStatus
+        this.starLevel = res.starLevel
+        db.set('inviteCode', res.inviteCode)
+      //   “inviteCode”: “qcacaa”, //用户邀请码，
+      // “creditScore”: 10, //信誉分
+      // “amountCount”: 0, //研呗
+      // “creditScoreStatus”: null,//当前信誉分的变化 给的字符串 null 就是没有的意思
+      // “starLevel”: 0, //星级 如果小于60 现在返回0
+      // “userType”: 1 //用户类型
+        this.$apply()
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
     onShow() {
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.getUserInfo()
       this.$apply()
     }
 

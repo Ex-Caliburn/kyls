@@ -1,6 +1,11 @@
 <style scope>
+  .title{
+    font-size: 40rpx
+  }
+  .page{
+    padding-top: 100rpx;
+  }
   .btn{
-    position:inherit;
     display:block;
     margin-left:auto;
     margin-right:auto;
@@ -15,33 +20,44 @@
     border-radius:0;
     -webkit-tap-highlight-color:transparent;
     overflow:hidden;
-    color:#000000;
-    background-color:#fff;
+    color:#fff;
+  }
+
+  .enter-btn{
+    margin-bottom: 35rpx;
+    height: 94rpx;
+    width: 500rpx;
+    line-height: 94rpx;
+    font-size: 36rpx;
+    border-radius: 50rpx;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.14), 0px 4px 2px 0px rgba(0, 0, 0, 0.04);
+  }
+  .operation{
+    position: absolute;
+    bottom: 150rpx;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 
 </style>
 
 <template>
   <view class="page">
-    <view class="page__bd">
-      <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell">
-          <view class="weui-cell__bd flex">
-            <view>研贝余额</view>
-            <view style="margin-left: 20rpx" class="income">{{money}}</view>
-          </view>
-        </view>
-        <!--hidden="{{isPostgraduate}}"-->
-        <navigator url="/pages/my/recharge" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">研贝充值</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
-        <navigator url="/pages/my/withdraw" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">研贝提现</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
+    <view class="page__bd flex flex-column flex-around">
+      <view class="tc fz32 title">研贝余额:
+        <text class="income">{{money}}</text>
       </view>
     </view>
+  </view>
+
+
+  <view class="operation">
+    <navigator url="/pages/my/recharge" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
+      研贝充值
+    </navigator>
+    <navigator url="/pages/my/withdraw" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
+      研贝提现
+    </navigator>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -54,7 +70,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get, post} from 'utils/service'
+  import { get } from 'utils/service'
   // import db from 'utils/db'
 
   export default class money extends wepy.page {
@@ -69,12 +85,27 @@
     mixins = [tabbar, navigate]
 
     data = {
-      id: '',
       isPostgraduate: '',
       money: 0
     }
 
     methods = {
+    }
+
+    getUserAmountCount () {
+      get({
+        apiName: 'getUserAmountCount'
+      })
+        .then((res) => {
+          this.money = res
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    onShow () {
+      this.getUserAmountCount()
     }
 
     onLoad (params) {

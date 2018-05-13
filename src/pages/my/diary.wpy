@@ -116,29 +116,10 @@
           pageNum
         }
       }).then((res) => {
-        res.data = [{
-          diaryId: 2,
-          userId: 2,
-          title: '我的考研日记2',
-          content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
-          diaryPictures: '',
-          status: '',
-          updatedAt: 1525179840480,
-          createdAt: 1525610856945
-        }, {
-          diaryId: 2,
-          userId: 2,
-          title: '我的考研日记1',
-          content: '未点击展开前，内容后只显示20字符，点击展开后显示全部内容且可编辑',
-          diaryPictures: '',
-          status: '',
-          updatedAt: 1525179840480,
-          createdAt: 1525610856945
-        }]
-        res.data.forEach(item => {
+        res.forEach(item => {
           item.time = formatDate(new Date(item.createdAt))
         })
-        this.dataList = res.data
+        this.dataList = res
         this.$apply()
       }).catch(err => {
         console.log(err)

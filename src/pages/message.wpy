@@ -114,8 +114,8 @@
         }
       })
         .then((res) => {
-          if (res.data.length > 0) {
-            this.dataList = this.dataList.concat(res.data)
+          if (res.length > 0) {
+            this.dataList = this.dataList.concat(res)
             this.$apply()
           }
         }).catch(err => {

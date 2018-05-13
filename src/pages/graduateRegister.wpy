@@ -52,6 +52,7 @@
             <!--<input class="weui-input" type="idcard" @change="idNumberInp" placeholder="请输入身份证号" value="{{idNumber}}"/>-->
           <!--</view>-->
         <!--</view>-->
+
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
             <view class="weui-label">邮箱*</view>
@@ -60,6 +61,26 @@
             <input class="weui-input" placeholder="请输入邮箱"  @change="emailInp" value="{{email}}"/>
           </view>
         </view>
+
+        <!--<view class="weui-cell weui-cell_input weui-cell_vcode">-->
+          <!--<view class="weui-cell__hd">-->
+            <!--<view class="weui-label">手机号</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<input class="weui-input" placeholder="请输入手机号" />-->
+          <!--</view>-->
+          <!--<view class="weui-cell__ft">-->
+            <!--<view class="weui-vcode-btn">获取验证码</view>-->
+          <!--</view>-->
+        <!--</view>-->
+        <!--<view class="weui-cell weui-cell_input weui-cell_vcode">-->
+          <!--<view class="weui-cell__hd">-->
+            <!--<view class="weui-label">验证码</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<input class="weui-input" placeholder="请输入验证码"/>-->
+          <!--</view>-->
+        <!--</view>-->
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
@@ -155,7 +176,8 @@
               </view>
               <view class="weui-uploader__hd">
                 <view class="weui-uploader__title fz22">
-                  在读研究生需上传学信网高等教育信息(本科与硕士)截图，准研究生需上传学信网高等教育信息本科截图和拟录取证明图片(拟录取名单截图或复试结果通知单照片)
+                  1.准研究生需上传 拟录取证明图片（拟录取名单截图 或者 通知短信 或者 通知邮件 或者 录取通知书）；
+                  2.在读研究生需上传学生证或者身份证。
                 </view>
               </view>
               <view class="weui-uploader__bd">
@@ -427,6 +449,7 @@
       } else {
         let errMsg
         let CN_RULE = /^[\u4E00-\u9FA5]/g
+        let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
         if (!userName || !CN_RULE.test(userName)) {
           errMsg = '请输入正确名字'
         // } else if (!idNumber || !ID_RULE.test(idNumber)) {

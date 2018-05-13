@@ -19,6 +19,25 @@
     display: block;
     margin: 0 auto;
   }
+  .radius{
+    position: absolute;
+    width: 75rpx;
+    height: 75rpx;
+    border-radius: 50rpx;
+    font-size: 20rpx;
+    text-align: center;
+    box-sizing: border-box;
+    top: 30rpx;
+  }
+
+  .share{
+    right: 30rpx;
+    color: #FFFFFF;
+    line-height: 75rpx;
+    padding: 0;
+    margin: 0;
+    background-color: #ff6a3c;
+  }
 </style>
 
 <template>
@@ -81,7 +100,7 @@
         }
       })
         .then((res) => {
-          this.ShowToast(res.data)
+          this.ShowToast(res)
           this.isGet = true
           this.$apply()
         }).catch(err => {

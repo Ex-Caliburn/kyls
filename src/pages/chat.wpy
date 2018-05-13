@@ -64,7 +64,7 @@
             <navigator url="/pages/questionFrom?id={{item.userId}}" hover-class="weui-cell_active">
               提问
             </navigator>
-            <image @tap="focus" class="love" src="../../icon/my/love.svg"></image>
+            <image @tap="love"  class="love ML20 MR20" src="{{icon}}"></image>
 
             <navigator url="/pages/my/feedbackEdit?id={{item.userId}}" hover-class="weui-cell_active">
               投诉
@@ -94,7 +94,8 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import {post} from 'utils/service'
+  import {post, get} from 'utils/service'
+  import { LOVE, UNLOVE } from 'utils/constant'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -110,19 +111,29 @@
     mixins = [tabbar, navigate]
 
     data = {
+      loveStatus: false,
+      icon: LOVE,
       time: formatDate(new Date()),
       avatarUrl: '',
       id: '',
       questionId: '',
       cost: 10,
-      userId: '',
       isPostgraduate: true,
       pics: [
       ]
     }
 
     methods = {
-      focus () {
+      love () {
+        if (this.loveStatus) {
+          this.icon = UNLOVE
+          this.undergraduatePraise()
+        } else {
+          this.icon = LOVE
+          this.undergraduatePraise()
+        }
+        this.loveStatus = !this.loveStatus
+        this.$apply()
       },
       continueAsk () {
         this.navigate('questionFrom?id=' + this.answerUserId)
@@ -145,6 +156,18 @@
         }})
         .then((res) => {
           console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    undergraduatePraise () {
+      get({
+        apiName: 'undergraduatePraise',
+        data: {
+          pg_user_id: this.answerUserId || 1
+        }})
+        .then((res) => {
         }).catch(err => {
           console.log(err)
         })

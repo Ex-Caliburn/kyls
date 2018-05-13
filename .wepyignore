@@ -3,3 +3,5 @@ dist
 .idea
 .DB_store
 *.wpy___jb_tmp___
+example
+images

@@ -58,7 +58,7 @@
         <text class="withdrawal-text">研贝</text>
       </view>
       <view class="margin">
-        <text>请填写验证码：</text><input class="input" type="number"/>
+        <text>请填写验证码：</text>
       </view>
       <view class="code">
         <input @input="code" class="code-input" type="number" maxlength="6"/>

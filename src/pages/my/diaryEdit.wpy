@@ -15,7 +15,7 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="weui-cells__title fz26">{{createdAt}}</view>
+      <view class="weui-cells__title fz26">{{time}}</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
@@ -33,7 +33,7 @@
       </view>
     </view>
   </view>
-  <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">增添日记</button>
+  <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">{{diaryId ? '修改' : '增添'}}日记</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -85,7 +85,7 @@
       },
       submit () {
         let {content, pictures, title, diaryId} = this
-        let apiName = diaryId ? 'addDiary' : 'editDiary'
+        let apiName = diaryId ? 'editDiary' : 'addDiary'
         post({
           apiName,
           data: {
@@ -112,7 +112,6 @@
       if (params.diaryId) {
         this.title = ''
         this.content = ''
-        this.content = ''
         this.createdAt = ''
       }
       let diaryEdit = this.$parent.globalData.diaryEdit
@@ -122,8 +121,7 @@
         }
         this.title = diaryEdit.title
         this.content = diaryEdit.content
-        this.content = diaryEdit.createdAt
-        this.createdAt = formatDate(new Date(diaryEdit.createdAt))
+        this.time = formatDate(new Date(diaryEdit.createdAt))
       }
       this.$apply()
     }

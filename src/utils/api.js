@@ -22,6 +22,11 @@ const api = {
   getPostgraduateInfo: user + 'getPostgraduateInfo',
   getPgShowInfo: user + 'getPgShowInfoByUserInfo',
   /*
+  * 我的
+  * */
+  getUserInfo: user + 'getUserInfo', // get
+  getUserAmountCount: user + 'getUserAmountCount', // get
+  /*
   * 支付
   * */
   wxNotify: 'pay/wxNotify', // get
@@ -37,6 +42,7 @@ const api = {
   sendMessage: user + 'sendMessage',
   addUserComplain: user + 'addUserComplain',
   addFeedback: user + 'addFeedback',
+  undergraduatePraise: user + 'undergraduatePraise',
   addPostGraduateQuestionInfo: user + 'addPostgraduteQuestionInfo',
   /*
   * 日记

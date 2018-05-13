@@ -48,7 +48,7 @@
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { post } from 'utils/service'
+  import { post, get } from 'utils/service'
   import { LOVE, UNLOVE } from 'utils/constant'
 
   export default class answerEdit extends wepy.page {
@@ -81,8 +81,10 @@
       love () {
         if (this.loveStatus) {
           this.icon = UNLOVE
+          this.undergraduatePraise()
         } else {
           this.icon = LOVE
+          this.undergraduatePraise()
         }
         this.loveStatus = !this.loveStatus
         this.$apply()
@@ -108,6 +110,19 @@
           })
       }
     }
+
+    undergraduatePraise () {
+      get({
+        apiName: 'undergraduatePraise',
+        data: {
+          pg_user_id: this.userId
+        }})
+        .then((res) => {
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
     onLoad (params) {
       this.answerUserId = params.answerUserId
       this.questionId = params.questionId

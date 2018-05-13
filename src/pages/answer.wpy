@@ -117,10 +117,10 @@
         data: {pageSize, pageNum}
       })
         .then((res) => {
-          res.data.forEach((item) => {
+          res.forEach((item) => {
             item.time = formatDate(new Date(item.createdAt))
           })
-          this.dataList = res.data
+          this.dataList = res
           this.$apply()
         }).catch(err => {
           console.log(err)

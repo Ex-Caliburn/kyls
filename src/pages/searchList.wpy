@@ -220,7 +220,7 @@
           [params]: this.inputVal.trim()
         }
       }).then(res => {
-        this.childList = res.data
+        this.childList = res
         this.$apply()
       }).catch(res => {
         tip.error(res.data)

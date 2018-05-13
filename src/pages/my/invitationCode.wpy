@@ -20,6 +20,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
+  import db from 'utils/db'
 
   export default class invitationCode extends wepy.page {
     config = {
@@ -36,26 +37,13 @@
     }
 
     methods = {
-      // tap () {
-      //   try {
-      //     wepy.setClipboardData({
-      //       data: this.invitationCode
-      //     }).then(res => {
-      //       wepy.getClipboardData({})
-      //     }).catch(err => {
-      //       console.log(err)
-      //     })
-      //   } catch (err) {
-      //     console.log(err)
-      //   }
-      // }
     }
 
     onShow () {
     }
 
     onLoad (params) {
-      this.invitationCode = this.$parent.globalData.invitationCode
+      this.invitationCode = db.get('inviteCode')
       this.$apply()
     }
   }

@@ -144,7 +144,7 @@
           science_type: 2
         }
       }).then(res => {
-        this.publicTypes = res.data
+        this.publicTypes = res
         this.$apply()
       }).catch(res => {
       })

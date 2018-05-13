@@ -79,10 +79,10 @@
         data: { scienceId, pageSize, pageNum }
       })
         .then((res) => {
-          res.data.forEach((item) => {
+          res.forEach((item) => {
             item.answerTime = formatDuration(item.avgAnswerTime).minutes + 'M'
           })
-          this.dataList = this.dataList.concat(res.data)
+          this.dataList = this.dataList.concat(res)
           this.$apply()
         }).catch(err => {
           console.log(err)

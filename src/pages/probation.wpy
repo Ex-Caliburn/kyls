@@ -25,9 +25,15 @@
             <view class="weui-article__p">
               回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
             </view>
+            <view class="weui-article__p">
+              回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
+            </view>
           </view>
           <view class="weui-article__section" hidden="{{!showAnswer}}">
             <view class="weui-article__h3 bold" >TA猜你想问</view>
+            <view class="weui-article__p">
+              回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
+            </view>
             <view class="weui-article__p">
               回答意愿下拉项包含：考研四大选择题与考研规划问题、十三大类学科咨询、院校及专业咨询、初试科目类问题咨询、复试科
             </view>
@@ -87,18 +93,23 @@
 
     getPgShowInfo() {
       get({
-        apiName: 'getPgShowInfo',
+        apiName: 'viewQuestion',
         data: {
-          answerUserId: this.id
+          answerUserId: 1
         }
       })
         .then((res) => {
+          this.opinion = res.opinion
+          this.silence = res.silence
+          this.questionContent = res.questionContent
+          this.answerContent = res.answerContent
         }).catch(err => {
           console.log(err)
         })
     }
 
     onShow() {
+      this.getPgShowInfo()
     }
 
     onLoad(params) {

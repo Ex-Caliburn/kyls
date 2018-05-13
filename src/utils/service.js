@@ -31,9 +31,9 @@ async function login() {
       decrypt_type: 'user'
     }
   }).then(res => {
-    db.set(USER_INFO, res.data)
-    let isPostgraduate = res.data.userType > 1
-    if (res.data.userType) {
+    db.set(USER_INFO, res)
+    let isPostgraduate = res.userType > 1
+    if (res.userType) {
       // todo 对于游客的处理
       // wepy.navigateTo({ url: '/chooseInterest' })
       //   .then((res) => {
@@ -45,7 +45,7 @@ async function login() {
     }
     wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
     db.set(IS_POSTGRADUATE, isPostgraduate)
-    wepy.$instance.globalData.userInfo = res.data
+    wepy.$instance.globalData.userInfo = res
   }).catch(err => {
     wepy.showToast({
       title: JSON.stringify(err),
@@ -70,7 +70,7 @@ async function uploadPics(data, success, fail) {
       }
     })
     try {
-      let resData = res.data && JSON.parse(res.data)
+      let resData = res && JSON.parse(res)
       if (res.statusCode === 200 && resData.code === 0) {
         success && success(resData.data)
       } else {
@@ -113,7 +113,7 @@ function addFormId(formId) {
       formId: formId
     }
   }).then((res) => {
-    console.log('addFormId' + res.data)
+    console.log('addFormId' + res)
   }).catch(err => {
     console.log(err)
   })
@@ -218,7 +218,7 @@ function request(options, onComplete) {
           db.set(TOKEN, res.header[SESSION_ID])
           console.log(res.header[SESSION_ID])
         }
-        resolve(res.data)
+        resolve(res.data.data)
       } else if (res.data.code === 101) {
         login()
       } else {
