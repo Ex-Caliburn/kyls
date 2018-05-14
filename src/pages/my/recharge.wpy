@@ -124,17 +124,17 @@
           res = await get({
             apiName: 'getSign',
             data: {
-              repay_id: res.data.package.split('=')[1]
+              repay_id: res.package.split('=')[1]
             }
           })
           console.log(res)
-          if (res.data.paySign) {
+          if (res.paySign) {
             wepy.requestPayment({
-              timeStamp: res.data.timeStamp.toString(),
-              nonceStr: res.data.nonceStr,
-              package: res.data.package,
-              signType: res.data.signType,
-              paySign: res.data.paySign
+              timeStamp: res.timeStamp.toString(),
+              nonceStr: res.nonceStr,
+              package: res.package,
+              signType: res.signType,
+              paySign: res.paySign
             }).then(res => {
               this.$apply()
             }).catch(res => {

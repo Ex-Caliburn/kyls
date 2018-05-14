@@ -8,19 +8,19 @@
         <view class="weui-cell">
           <view class="weui-cell__bd flex">
             <view>总可阅次数</view>
-            <view style="margin-left: 20rpx" class="income">{{totalNum}}</view>
+            <view style="margin-left: 20rpx" class="income">{{totalView}}</view>
           </view>
         </view>
         <view class="weui-cell">
           <view class="weui-cell__bd flex">
             <view>已阅次数</view>
-            <view style="margin-left: 20rpx" class="income">{{readNum}}</view>
+            <view style="margin-left: 20rpx" class="income">{{canView}}</view>
           </view>
         </view>
         <view class="weui-cell">
           <view class="weui-cell__bd flex">
             <view>剩余可阅次数</view>
-            <view style="margin-left: 20rpx" class="income">{{remainNum}}</view>
+            <view style="margin-left: 20rpx" class="income">{{canView}}</view>
           </view>
         </view>
       </view>
@@ -31,72 +31,43 @@
 
 <script>
   import wepy from 'wepy'
-  import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  import Tabbar from '@/components/tabbar'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import reachBottom from 'mixins/reachBottom'
-  // import {get} from 'utils/service'
-  // import db from 'utils/db'
-  import {formatDate} from 'utils/common'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import { get } from 'utils/service'
 
   export default class helpMe extends wepy.page {
     config = {
-      navigationBarTitleText: '我看过的',
-      window: {
-        enableOnReachBottom: true
-      }
+      navigationBarTitleText: '我看过的'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar, navigate, reachBottom]
+    mixins = [tabbar, navigate]
 
     data = {
-      avatarUrl: '',
-      readNum: 4,
-      remainNum: 6,
-      totalNum: 10,
-      dataList: []
+      canView: 0,
+      haveView: 0,
+      totalView: 0
     }
 
     methods = {
-      goService () {
-        this.navigate('serviceList?id=' + this.id)
-      }
     }
 
     fetchDate () {
-      for (let i = 0; i < 10; i++) {
-        let obj = {
-          userId: i,
-          nickname: '李先生' + i,
-          questionContent: '由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体',
-          askTime: formatDate(new Date())
-        }
-        this.dataList.push(obj)
-      }
-      this.$apply()
-      // get({
-      //   apiName: 'getPostgraduateInfo',
-      //   data: {}
-      // })
-      //   .then((res) => {
-      //     res.data.forEach((item) => {
-      //       item.askTime = formatDate(Date.now())
-      //     })
-      //     this.dataList.push(res.data)
-      //     this.$apply()
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
+      get({
+        apiName: 'viewQuestionCount'
+      }).then((res) => {
+        this.canView = res.canView
+        this.haveView = res.haveView
+        this.totalView = res.totalView
+        this.$apply()
+      }).catch(err => {
+        console.log(err)
+      })
     }
     onShow () {
-      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
       this.fetchDate()
     }
 

@@ -46,13 +46,13 @@
       <button class="radius share type_yellow" open-type="share">分享</button>
       <view hidden="{{!isGet}}" class="red center">恭喜你获得新勋章</view>
       <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
-      <view class="center">已有XXX人获得</view>
+      <view class="center">已有{{people}}人获得</view>
       <image class="icon" src="{{medalId ? (icon + medalId + '.jpg') : ''}}"/>
       <view class="center">勋章名称</view>
       <view class="center">勋章界面话语</view>
       <view class="center">勋章获得条件</view>
       <view class="center">勋章获得奖励：1000</view>
-      <view class="center">完成度：100</view>
+      <!--<view class="center">完成度：100</view>-->
     </view>
   </view>
   <button class="center" hidden="{{isGet}}" @tap="submit" class="weui-btn mini-btn type_yellow fz26">领取奖励</button>
@@ -83,7 +83,8 @@
     data = {
       icon: '../../icon/my/medal',
       isGet: false,
-      medalId: ''
+      medalId: '',
+      people: 100 + new Date().getMonth()
     }
 
     methods = {

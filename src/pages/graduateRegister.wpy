@@ -67,10 +67,10 @@
             <!--<view class="weui-label">手机号</view>-->
           <!--</view>-->
           <!--<view class="weui-cell__bd">-->
-            <!--<input class="weui-input" placeholder="请输入手机号" />-->
+            <!--<input class="weui-input" placeholder="请输入手机号" @input="phoneInp" value="{{phone}}" />-->
           <!--</view>-->
           <!--<view class="weui-cell__ft">-->
-            <!--<view class="weui-vcode-btn">获取验证码</view>-->
+            <!--<view class="weui-vcode-btn" @tap="getCode">获取验证码</view>-->
           <!--</view>-->
         <!--</view>-->
         <!--<view class="weui-cell weui-cell_input weui-cell_vcode">-->
@@ -78,7 +78,7 @@
             <!--<view class="weui-label">验证码</view>-->
           <!--</view>-->
           <!--<view class="weui-cell__bd">-->
-            <!--<input class="weui-input" placeholder="请输入验证码"/>-->
+            <!--<input class="weui-input" placeholder="请输入验证码" @input="codeInp" value="{{code}}"/>-->
           <!--</view>-->
         <!--</view>-->
 
@@ -238,7 +238,7 @@
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
-  import { post, addFormId } from '../utils/service'
+  import { post, get, addFormId } from '../utils/service'
   import db from 'utils/db'
   import { EMAIL_RULE, USER_INFO } from '../utils/constant'
   import navigate from 'mixins/navigate'
@@ -258,6 +258,8 @@
       files: [], // pic
       userName: '',
       email: '',
+      phone: '',
+      code: '',
       // idNumber: '',
       degrees: ['学术型', '专业型'],
       degreeIndex: '',
@@ -379,6 +381,12 @@
       emailInp (e) {
         this.email = e.detail.value.trim()
       },
+      phoneInp (e) {
+        this.phone = e.detail.value.trim()
+      },
+      codeInp (e) {
+        this.code = e.detail.value.trim()
+      },
       idNumberInp (e) {
         this.idNumber = e.detail.value.trim()
       },
@@ -399,6 +407,15 @@
       },
       showTopTips () {
         this.submit()
+      },
+      getCode () {
+        get({
+          apiName: 'sendMessage'
+        }).then((res) => {
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
       },
       deleteImage (i) {
         console.log(i)

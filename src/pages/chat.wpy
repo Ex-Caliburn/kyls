@@ -31,7 +31,20 @@
     text-align: right;
     margin: 0 auto;
   }
-
+  .more{
+    float: right;
+  }
+  .hideMsg{
+    height: 140rpx;
+    overflow: hidden;
+  }
+  .clamp{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 </style>
 
 <template>
@@ -42,11 +55,16 @@
           <view class="bold">本科生</view>
           <view class="blue">￥{{cost}}</view>
         </view>
-        <view class="content fz32">考研出来好找工作吗？我应该先考研还是先工作呢？</view>
-        <view class="pic-wrap flex flex-wrap">
-          <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
-          </block>
+        <view class="{{showMore ? '' : 'hideMsg'}}">
+          <view class="content fz32 tr">
+            <text class="{{showMore ? '' : 'clamp'}}">{{question}}</text>
+            <text class="blue tr more" @tap="showMore" hidden="{{showMore}}">展开更多</text>
+          </view>
+          <view class="pic-wrap flex flex-wrap" hidden="{{!showMore}}">
+            <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
+            </block>
+          </view>
         </view>
         <view class="time fz24">{{time}}</view>
         <navigator class="answer-btn fz24" url="/pages/answerEdit?questionId={{item.questionId}}" hover-class="weui-cell_active">
@@ -71,7 +89,7 @@
             </navigator>
           </view>
         </view>
-        <view class="content fz32">  怎么说呢，现在就业形势很严峻，由于高考的扩招，导致现在的本科生遍地走，刚毕业的本科生找工作很难，因为没什么优势，而且很多好的公司都明确要求211以上或研究生以上。至于先考研还是先工作，我建议是先考研，因为我们刚毕业的我们知识储备和学习能力还是很强的，周围的学习环节也是很好的，在这种条件下，我们可以选择好的院校去考，考上的概率也大点。但是工作了在考研就不一样了，身边的学习环节变了，周围的人大多都想着赚钱，而没有了学习的氛围，这个时候我们考研就比较难了，往往很难考名校，很多时候只能考个一般的学校。</view>
+        <view class="content fz32"> {{answer}}</view>
         <view class="pic-wrap flex flex-wrap">
           <block wx:for-items="{{pics}}" wx:for-index="index" wx:for-item="item" wx:key="id">
             <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
@@ -112,9 +130,12 @@
 
     data = {
       loveStatus: false,
+      showMore: false,
       icon: LOVE,
       time: formatDate(new Date()),
       avatarUrl: '',
+      question: '考研出来好找工作吗？我应该先考研还是先工作呢 考研出来好找工作吗？我应该先考研还是先工作呢考研出来好找工作吗？我应该先考研还是先工作呢？',
+      answer: '怎么说呢，现在就业形势很严峻，由于高考的扩招，导致现在的本科生遍地走，刚毕业的本科生找工作很难，因为没什么优势，而且很多好的公司都明确要求211以上或研究生以上。至于先考研还是先工作，我建议是先考研，因为我们刚毕业的我们知识储备和学习能力还是很强的，周围的学习环节也是很好的，在这种条件下，我们可以选择好的院校去考，考上的概率也大点。但是工作了在考研就不一样了，身边的学习环节变了，周围的人大多都想着赚钱，而没有了学习的氛围，这个时候我们考研就比较难了，往往很难考名校，很多时候只能考个一般的学校。',
       id: '',
       questionId: '',
       cost: 10,
@@ -124,6 +145,9 @@
     }
 
     methods = {
+      showMore () {
+        this.showMore = true
+      },
       love () {
         if (this.loveStatus) {
           this.icon = UNLOVE

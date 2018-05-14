@@ -26,6 +26,7 @@ const api = {
   * */
   getUserInfo: user + 'getUserInfo', // get
   getUserAmountCount: user + 'getUserAmountCount', // get
+  viewQuestionCount: 'viewQuestionRecord/viewQuestionCount', // get
   /*
   * 支付
   * */

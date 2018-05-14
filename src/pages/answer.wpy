@@ -1,6 +1,7 @@
 <style>
 .list-container{
   margin-bottom: 20rpx;
+  text-align: right;
 }
   .tip{
     padding: 0 20rpx;
@@ -33,7 +34,7 @@
               <text>{{item.content}}</text>
               <!--<view class="arrow weui-cell__ft weui-cell__ft_in-access"></view>-->
             </view>
-            <view class="red tr" size="mini" @tap="goAnswer({{item.questionId}})">我要回答</view>
+            <button class="red tr" size="mini" disabled="{{item.isLoked}}" @tap="goAnswer({{item.questionId}})">我要回答</button>
           </view>
         </block>
 
