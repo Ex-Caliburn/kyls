@@ -99,9 +99,9 @@
     methods = {
       moneyBind (e) {
         let value = e.detail.value
-        if (!value || value < 1) {
-          value = 1
-        }
+        // if (!value || value < 1) {
+        //   value = 1
+        // }
         this.amount = Number(value)
         this.moneyInp = Number(value)
       },

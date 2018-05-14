@@ -211,7 +211,7 @@ function request(options, onComplete) {
       dataType: options.dataType || 'json',
       responseType: options.responseType || 'text'
     }).then(res => {
-      console.log(res, api[options.apiName])
+      console.log(options.data, res, api[options.apiName])
       if (+res.statusCode === 200 && +res.data.code === 0) {
         if (res.header[SESSION_ID]) {
           wepy.$instance.globalData.token = res.header[SESSION_ID]

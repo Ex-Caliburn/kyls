@@ -71,9 +71,7 @@
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
-  import {formatDate} from 'utils/common'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class diary extends wepy.page {
     config = {
@@ -107,7 +105,6 @@
       this.fetchDate()
     }
     fetchDate () {
-      // { "code": 0, "error": "", "data": [ { "diaryId": 2, "userId": 2, "title": "1123121", "content": "dsajkgdashgkas", "diaryPictures": "我喜欢问问题", "status": 1, "updatedAt": 1525179840480, "createdAt": 1525179840000 } ] }
       let {pageSize, pageNum} = this
       post({
         apiName: 'getDiaryList',
@@ -117,10 +114,12 @@
         }
       }).then((res) => {
         res.forEach(item => {
-          item.time = formatDate(new Date(item.createdAt))
+          item.time = item.createdAt
         })
-        this.dataList = res
-        this.$apply()
+        if (res.length > 0) {
+          this.dataList = this.dataList.concat(res)
+          this.$apply()
+        }
       }).catch(err => {
         console.log(err)
       })
