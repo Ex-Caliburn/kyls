@@ -59,7 +59,6 @@
         'pages/my/withdraw',
         // 本科生我的
         'pages/my/questionHistory',
-        'pages/my/thousandQuestion1',
         'pages/my/thousandQuestion',
         'pages/my/answerHistory',
         'pages/my/peopleAsk',

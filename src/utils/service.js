@@ -4,6 +4,8 @@ import api from './api'
 import db from './db'
 import { IS_POSTGRADUATE, SESSION_ID, TOKEN, USER_INFO } from './constant'
 
+let flag = true
+
 export {
   getPhoneNumber,
   share,
@@ -16,6 +18,14 @@ export {
 }
 
 async function login() {
+  if (true) {
+    flag = false
+    setInterval(() => {
+      flag = true
+    }, 200)
+  } else {
+    return false
+  }
   let res = await wepy.login({ timeout: 30000 })
   console.log('code', res, res.code)
   // code用户登录凭证（有效期五分钟）

@@ -45,8 +45,8 @@
   <view class="page">
     <view class="page__bd">
       <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-        <view @tap="choose({{index}})" class="{{index < 2 ? 'border model': 'model' }}">
-          <view class="title {{item.color}}">{{item.title}}</view>
+        <view @tap="choose({{index}}, {{item.isReceiveReward}}, {{item.id}})" class="{{index < 2 ? 'border model': 'model' }}">
+          <view class="title" style="color: {{item.color}}">{{item.title}}</view>
           <view class="flex flex-between">
             <image class="icon" src="{{item.icon}}"/>
             <view class="flex1">{{item.content}}</view>
@@ -68,7 +68,8 @@
   import navigate from 'mixins/navigate'
   import {get, share} from 'utils/service'
   // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import {MEDAL_URL} from 'utils/constant'
+  import {G_MEDAL, PS_MEDAL} from 'utils/medal'
 
   export default class medal extends wepy.page {
     config = {
@@ -82,34 +83,13 @@
     mixins = [tabbar, navigate, toast]
 
     data = {
-      list: [
-        {
-          title: '升级勋章',
-          content: '为善于提问的你打call~',
-          color: 'red',
-          get: false,
-          icon: '../../icon/my/medal0.jpg'
-        },
-        {
-          title: '乐享勋章',
-          content: '有头，有脸，有身份！',
-          color: 'green',
-          get: false,
-          icon: '../../icon/my/medal1.jpg'
-        },
-        {
-          title: '大型勋章',
-          content: '恭喜您获得香港机票一张或同等价值奖励！',
-          color: 'blue',
-          get: false,
-          icon: '../../icon/my/medal2.jpg'
-        }
-      ]
+      isPostgraduate: '',
+      list: []
     }
 
     methods = {
-      choose (i) {
-        this.navigate('my/medalDetail?medalId=' + i)
+      choose (i, isGet, id) {
+        this.navigate('my/medalDetail?medalId=' + i + '&isGet=' + isGet + '&id=' + id)
       }
     }
 
@@ -118,6 +98,15 @@
         apiName: 'getUserMedal'
       })
         .then((res) => {
+          res.forEach((item) => {
+            item.icon = MEDAL_URL + item.id + '.png'
+            let info = this.medalInfo[item.id - 1]
+            item.title = info.title
+            item.content = info.content
+            item.color = info.color
+          })
+          this.list = res
+          this.$apply()
         }).catch(err => {
           console.log(err)
         })
@@ -127,6 +116,9 @@
       this.getUserMedal()
     }
     onLoad (params) {
+      let isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.medalInfo = isPostgraduate ? PS_MEDAL : G_MEDAL
+      this.$apply()
     }
     onShareAppMessage (res) {
       if (res.from === 'button') {

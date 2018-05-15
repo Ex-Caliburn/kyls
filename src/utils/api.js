@@ -24,6 +24,8 @@ const api = {
   /*
   * 我的
   * */
+
+  getCarousel: 'carouse/list', // post
   getUserInfo: user + 'getUserInfo', // get
   getUserAmountCount: user + 'getUserAmountCount', // get
   viewQuestionCount: 'viewQuestionRecord/viewQuestionCount', // get

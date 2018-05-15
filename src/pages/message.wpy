@@ -36,10 +36,7 @@
 
   export default class message extends wepy.page {
     config = {
-      navigationBarTitleText: '消息',
-      window: {
-        enableOnReachBottom: true
-      }
+      navigationBarTitleText: '消息'
     }
     components = {
       tabbar: Tabbar,
@@ -55,33 +52,7 @@
       // 恭喜您，您的信誉分等级升为“”（注：由于具体称呼一期上不了，此处一期之后再设置）
       // 3.当研究生用户信誉分降一个小级时，自动发布：
       // 您的信誉分等级降为“”
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      dataList: [{
-        'id': 1,
-        'userId': 2,
-        'title': null,
-        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
-        'createdAt': '2018-05-05 21:01',
-        'isRead': 1
-      },
-      {
-        'id': 1,
-        'userId': 2,
-        'title': null,
-        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
-        'createdAt': '2018-05-05 21:01',
-        'isRead': 1
-      },
-      {
-        'id': 1,
-        'userId': 2,
-        'title': null,
-        'content': '恭喜您！获得“1级举贤荐能”勋章，快去勋章墙查看吧~',
-        'createdAt': '2018-05-05 21:01',
-        'isRead': 1
-      }]
+      dataList: []
     }
 
     methods = {
