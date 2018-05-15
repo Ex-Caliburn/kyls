@@ -106,7 +106,7 @@ const G_MEDAL = [
     title: '抽丝剥茧',
     content: '为善于提问的你打call~',
     condition: '1级：提4个问题',
-    reward: '拿到这个勋章后才能够打电话'
+    reward: '能够打电话'
   },
   {
     color: '#ffce54',
@@ -129,7 +129,7 @@ const G_MEDAL = [
     title: '经世济民',
     content: '有头，有脸，有身份！',
     condition: '获得及奖励：把我们所要求的信息都完善了',
-    reward: '要获得这个勋章后才有权限打电话'
+    reward: '有权限打电话'
   },
   {
     color: '#48cfad',
@@ -163,7 +163,7 @@ const G_MEDAL = [
     title: '矢志不渝',
     content: '考研路上，我们一直陪着你~',
     condition: '1级：连续3天记日记',
-    reward: '达到1级了才有见面的权限'
+    reward: '有见面的权限'
   }
 ]
 
