@@ -12,7 +12,7 @@
         <view class="weui-article__section">
           <view class="weui-article__section">
             <video id="myVideo" src="{{video}}" controls></video>
-            <view class="weui-article__p">
+            <view class="weui-article__p MT20">
                      
               好像从年少时起，每个人的心里都埋着一个考入名校的梦想，只是我的这个梦想实现的过程异常艰辛。高考失利，进入一所四非大学，即“非985非211，非双一流学校”，“名校梦”还未开始就被残忍的现实击败。
             </view>

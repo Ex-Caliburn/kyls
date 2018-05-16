@@ -9,7 +9,6 @@ let flag = true
 export {
   getPhoneNumber,
   share,
-  createPayOrder,
   addFormId,
   uploadPics,
   login,
@@ -17,8 +16,8 @@ export {
   request as get
 }
 
-async function login() {
-  if (true) {
+async function login(isFirst) {
+  if (flag) {
     flag = false
     setInterval(() => {
       flag = true
@@ -43,19 +42,20 @@ async function login() {
   }).then(res => {
     db.set(USER_INFO, res)
     let isPostgraduate = res.userType > 1
-    if (res.userType) {
-      // todo 对于游客的处理
-      // wepy.navigateTo({ url: '/chooseInterest' })
-      //   .then((res) => {
-      //     console.log(res)
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
-    }
     wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
     db.set(IS_POSTGRADUATE, isPostgraduate)
     wepy.$instance.globalData.userInfo = res
+    // 第一次登陆
+    if (isFirst && res.userType > 0) {
+      let url = isPostgraduate ? '/pages/my/answerHistory' : '/pages/chooseInterest'
+      wepy.redirectTo({ url })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }).catch(err => {
     wepy.showToast({
       title: JSON.stringify(err),
@@ -139,65 +139,7 @@ function share(shareTickets) {
       console.log(res)
     }).catch(err => {
       console.log(err)
-  })
-}
-
-function createPayOrder(courseID, onSuccess, onFail, onComplete) {
-  const that = this
-  const fail = (errType, errMsg, errText) => {
-    typeof onFail === 'function' && onFail({
-      errType,
-      errMsg,
-      errText: errText || errMsg
     })
-  }
-
-  this.requestGet('user/order/create', { course_id: parseInt(courseID) },
-    (data) => {
-      this.util.hideToast()
-      wx.requestPayment({
-        timeStamp: data.timeStamp,
-        nonceStr: data.nonceStr,
-        package: data.package,
-        signType: data.signType,
-        paySign: data.paySign,
-        success: (res) => {
-          typeof onSuccess === 'function' && onSuccess(data.orderNo)
-        },
-        fail: (res) => {
-          if (res.errMsg.indexOf('requestPayment:fail cancel') === -1) {
-            fail('wx', '微信支付接口调用失败')
-          } else {
-            fail('cancel', '用户取消支付')
-          }
-        }
-      })
-    },
-    (jdkErr) => {
-      this.util.hideToast()
-      if (jdkErr.errType === 'code') {
-        switch (jdkErr.errMsg) {
-          case 417:
-            fail('code', '该课程不是收费课程', jdkErr.errText)
-            break
-          case 418:
-            fail('code', `418(${jdkErr.errText})`, jdkErr.errText)
-            break
-          case 420:
-            fail('code', '已支付过该课程', jdkErr.errText)
-            break
-          case 421:
-            fail('code', '不在支付时间内', jdkErr.errText)
-            break
-          default:
-            fail('code', jdkErr.errMsg, jdkErr.errText)
-        }
-      } else {
-        fail(jdkErr.errType, jdkErr.errMsg, jdkErr.errText)
-      }
-    },
-    onComplete
-  )
 }
 
 function request(options, onComplete) {

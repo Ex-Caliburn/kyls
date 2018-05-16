@@ -44,10 +44,10 @@
   <view class="container">
     <view class="content">
       <form report-submit="ture" @submit="getFormId">
-        <button disabled="{{isPostgraduate}}" class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">本科生入口</button>
-        <button disabled="{{!isPostgraduate}}" class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">研究生入口</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('2')" formType="submit" >考研里手故事</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit" >使用帮助</button>
+        <button disabled="{{userType > 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('0')" formType="submit" open-type="getUserInfo">本科生入口</button>
+        <button disabled="{{userType === 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('1')" formType="submit" open-type="getUserInfo">研究生入口</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo">考研里手故事</button>
+        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo" >使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
     </view>
@@ -57,7 +57,7 @@
 
 <script>
   import wepy from 'wepy'
-  import { addFormId } from '../utils/service'
+  import { addFormId, login } from '../utils/service'
   import navigate from 'mixins/navigate'
   import shareApp from 'mixins/shareApp'
 
@@ -70,7 +70,12 @@
     mixins = [navigate, shareApp]
 
     data = {
-      isPostgraduate: ''
+    }
+
+    computed = {
+      userType () {
+        return this.$parent.globalData.userInfo.userType
+      }
     }
 
     getPhoneNumber(e) {
@@ -94,17 +99,31 @@
     }
 
     methods = {
-      getUserInfo (e) {
+      getUserInfo (i, e) {
         console.log(e)
+        let userType = this.$parent.globalData.userInfo.userType
+        if (e.detail.errMsg !== 'getUserInfo:fail auth deny') {
+          if (!userType) {
+            login(true)
+          } else if (userType === 1) {
+            this.navigate('chooseInterest', 1)
+          } else if (userType === 2 || userType === 3) {
+            this.navigate('my/answerHistory', 1)
+          }
+        }
+      },
+      getUserInfoTwo (e) {
+        console.log(e)
+        if (e.detail.errMsg !== 'getUserInfo:fail auth deny' && !this.$parent.globalData.userInfo.userType) {
+          login()
+        }
       },
       getFormId (e) {
         addFormId(e.detail.formId)
       },
       jump(index) {
-        this.authorize()
+        // this.authorize()
         const route = [
-          'undergraduateRegister',
-          'graduateRegister',
           'materials/story',
           'materials/help'
         ]
@@ -113,8 +132,8 @@
     }
 
     onLoad() {
-      this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.$apply()
+      // this.userType = this.$parent.globalData.userType
+      // this.$apply()
       // if (userType === 1) {
       //   this.navigate('chooseInterest', 1)
       // } else if (userType === 2 || userType === 3) {
