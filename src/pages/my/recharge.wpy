@@ -121,13 +121,13 @@
             }
           })
           console.log(res)
-          res = await get({
-            apiName: 'getSign',
-            data: {
-              repay_id: res.package.split('=')[1]
-            }
-          })
-          console.log(res)
+          // res = await get({
+          //   apiName: 'getSign',
+          //   data: {
+          //     repay_id: res.package.split('=')[1]
+          //   }
+          // })
+          // console.log(res)
           if (res.paySign) {
             wepy.requestPayment({
               timeStamp: res.timeStamp.toString(),

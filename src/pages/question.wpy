@@ -64,7 +64,7 @@
           <view>请设置悬赏金额：</view>
           <view class="flex flex-around flex-wrap" style="margin:20rpx">
             <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-              <view @tap="chooseMoney({{item}})" class="money {{item === money ? 'money-choose' :''}}">{{item}}研贝</view>
+              <view @tap="chooseMoney({{item}})" class="money {{item === rewardMoney ? 'money-choose' :''}}">{{item}}研贝</view>
             </block>
             <input @input="moneyBind" class="money money-enter value={{moneyInp}} {{ entering ? 'money-choose' : '' }}" type="number" placeholder="自定义金额"/>
           </view>
@@ -115,20 +115,20 @@
       pictures: [],
       questionType: 1,
       msgList: [],
-      money: '',
+      rewardMoney: '',
       entering: false,
       moneyArr: [16, 36, 66, 86, 166]
     }
 
     methods = {
       submit() {
-        let { answerUserId, content, pictures, questionType, money } = this
+        let { answerUserId, content, pictures, questionType, rewardMoney } = this
         // { "userId":1, "answerUserId":2, //悬赏问题时不用传回答人id "content":"试试事实上", "pictures":"111.jsp", "questionType":1, "rewardMoney":100 //研贝，悬赏时传
         post({
           apiName: 'questionSubmit',
           data: {
             answerUserId,
-            money,
+            rewardMoney,
             content,
             pictures: pictures.join(','),
             questionType // 1.聊天类型，2：电话，3面聊
@@ -141,13 +141,13 @@
       },
       moneyBind(e) {
         this.entering = true
-        this.money = Number(e.detail.value)
+        this.rewardMoney = Number(e.detail.value)
         this.moneyInp = Number(e.detail.value)
       },
       chooseMoney(val) {
         this.moneyInp = ''
         this.entering = false
-        this.money = Number(val)
+        this.rewardMoney = Number(val)
       },
       getCode() {
         this.showGuide = !this.showGuide

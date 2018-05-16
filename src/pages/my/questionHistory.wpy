@@ -30,7 +30,7 @@
       <view class="weui-panel">
         <view class="weui-panel__bd">
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{id}}" class="list-container border " hover-class="weui-cell_active">
+            <navigator url="/pages/chat?id={{questionId}}" class="list-container border " hover-class="weui-cell_active">
               <view class="ellipsis ellipsis-content">问题:{{item.questionContent}}</view>
               <view class="ellipsis ellipsis-content">答案:{{item.answerContent || '暂无回答'}}</view>
               <view class="flex flex-between">
@@ -61,10 +61,7 @@
 
   export default class questionHistory extends wepy.page {
     config = {
-      navigationBarTitleText: '我的提问',
-      window: {
-        enableOnReachBottom: true
-      }
+      navigationBarTitleText: '我的提问'
     }
     components = {
       tabbar: Tabbar,
@@ -74,16 +71,13 @@
     mixins = [tabbar, navigate, reachBottom]
 
     data = {
-      pageSize: 10,
-      pageNum: 1,
-      avatarUrl: '',
       dataList: []
     }
 
     methods = {
-      // goService (id) {
-      //   this.navigate('chat?id=' + this.id)
-      // }
+      goService (id) {
+        this.navigate('chat?id=' + this.id)
+      }
     }
 
     fetchDate () {
@@ -96,10 +90,12 @@
         }
         this.dataList.push(obj)
       }
-      this.$apply()
       post({
         apiName: 'getPostgraduateInfo',
-        data: {}
+        data: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum
+        }
       })
         .then((res) => {
           res.forEach((item) => {
@@ -110,6 +106,7 @@
         }).catch(err => {
           console.log(err)
         })
+      this.$apply()
     }
     onShow () {
       this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl

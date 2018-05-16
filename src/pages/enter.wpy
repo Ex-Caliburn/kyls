@@ -44,8 +44,8 @@
   <view class="container">
     <view class="content">
       <form report-submit="ture" @submit="getFormId">
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">本科生入口</button>
-        <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">研究生入口</button>
+        <button disabled="{{isPostgraduate}}" class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">本科生入口</button>
+        <button disabled="{{!isPostgraduate}}" class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" @getuserinfo="getUserInfo" formType="submit" open-type="getUserInfo">研究生入口</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('2')" formType="submit" >考研里手故事</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('3')" formType="submit" >使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
@@ -69,7 +69,9 @@
 
     mixins = [navigate, shareApp]
 
-    data = {}
+    data = {
+      isPostgraduate: ''
+    }
 
     getPhoneNumber(e) {
       console.log(e.detail)
@@ -111,12 +113,13 @@
     }
 
     onLoad() {
-      let userType = this.$parent.globalData.userInfo.userType
-      if (userType === 1) {
-        this.navigate('chooseInterest', 1)
-      } else if (userType === 2 || userType === 3) {
-        this.navigate('chooseInterest', 1)
-      }
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.$apply()
+      // if (userType === 1) {
+      //   this.navigate('chooseInterest', 1)
+      // } else if (userType === 2 || userType === 3) {
+      //   this.navigate('chooseInterest', 1)
+      // }
     }
   }
 </script>

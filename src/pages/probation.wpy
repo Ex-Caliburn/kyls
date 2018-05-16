@@ -58,7 +58,7 @@
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
   import navigate from '../mixins/navigate'
-  import { get } from '../utils/service'
+  import { get, post } from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -76,7 +76,7 @@
     data = {
       showGuide: false,
       showAnswer: false,
-      id: ''
+      questionId: ''
     }
 
     methods = {
@@ -92,10 +92,10 @@
     }
 
     getPgShowInfo() {
-      get({
+      post({
         apiName: 'viewQuestion',
         data: {
-          answerUserId: 1
+          questionId: this.questionId
         }
       })
         .then((res) => {
@@ -114,7 +114,7 @@
 
     onLoad(params) {
       console.log('id', params.id)
-      this.id = params.id
+      this.questionId = params.questionId
       this.$apply()
     }
   }

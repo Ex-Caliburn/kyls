@@ -9,7 +9,9 @@
 
   export default class avatar extends wepy.component {
     props = {
-      avatarUrl: {}
+      avatarUrl: {
+        type: String
+      }
     }
 
     data = {
@@ -20,7 +22,12 @@
     }
 
     onLoad () {
-      this.url = this.avatarUrl
+      // src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKPPSrzVYf4q4Xs0t70It4l6s6s5J7pCSia2n8GibweNuE3n48GsPM4KzYnv4nItRwczJVFTogHMYDg/0"
+      let url = this.avatarUrl
+      if (url.indexOf('//wx') < 0) {
+        // url
+      }
+      this.url = url
       this.$apply()
     }
   }

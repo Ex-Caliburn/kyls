@@ -55,9 +55,12 @@
     <navigator url="/pages/my/recharge" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
       研贝充值
     </navigator>
-    <navigator url="/pages/my/withdraw" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
+    <navigator  class="weui-btn mini-btn enter-btn btn grey" hover-class="weui-cell_active">
       研贝提现
     </navigator>
+    <!--<navigator url="/pages/my/withdraw" class="grey weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">-->
+      <!--研贝提现-->
+    <!--</navigator>-->
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -97,7 +100,7 @@
         apiName: 'getUserAmountCount'
       })
         .then((res) => {
-          this.money = res
+          this.money = res > 0 ? res : 0
           this.$apply()
         }).catch(err => {
           console.log(err)

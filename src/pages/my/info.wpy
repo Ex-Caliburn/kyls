@@ -281,7 +281,7 @@
           title: '入驻测试(必须查看及通过测试)'
         },
         {
-          url: '/pages/my/questionHistory',
+          url: '/pages/my/answerHistory',
           icon: 'history.svg',
           title: '我的回答'
         },

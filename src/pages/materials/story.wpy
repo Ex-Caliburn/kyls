@@ -11,6 +11,7 @@
       <view class="weui-article">
         <view class="weui-article__section">
           <view class="weui-article__section">
+            <video id="myVideo" src="{{video}}" controls></video>
             <view class="weui-article__p">
                      
               好像从年少时起，每个人的心里都埋着一个考入名校的梦想，只是我的这个梦想实现的过程异常艰辛。高考失利，进入一所四非大学，即“非985非211，非双一流学校”，“名校梦”还未开始就被残忍的现实击败。
@@ -51,7 +52,6 @@
               过程是艰难苦涩的，结果也必然是美好的。最终我以复试第一的成绩通过审核进入了梦寐以求的学校，成绩出来的那一天，我想也没想就给考研里手的学长学姐打了电话。他们的帮助与祝福，是我这一路走来最大的动力。在这里我郑重向各位学弟学妹推荐考研里手，希望帮助过我的也能帮助到你们。也希望更多有实力的研究生学长学姐通过考研里手测评进入里手给想考研的学弟学妹进行高质量的答疑服务！
           </view>
             <view class="weui-article__p">
-              <video id="myVideo" src="{{video}}" controls></video>
           </view>
           </view>
         </view>
@@ -72,7 +72,8 @@
     mixins = []
 
     data = {
-      video: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/video/kylsvideo.mp4'
+      // video: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/video/kylsvideo.mp4'
+      video: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/video/kyls.mp4'
     }
 
     methods = {}

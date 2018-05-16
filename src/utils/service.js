@@ -79,15 +79,14 @@ async function uploadPics(data, success, fail) {
         file: data
       }
     })
-    try {
-      let resData = res && JSON.parse(res)
+    console.log(res)
+    if (res) {
+      let resData = JSON.parse(res.data)
       if (res.statusCode === 200 && resData.code === 0) {
         success && success(resData.data)
       } else {
         fail && fail(resData.data)
       }
-    } catch (err) {
-      console.log(err)
     }
   } catch (err) {
     console.log(err)

@@ -161,7 +161,7 @@
 
   export default class cropper extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '编辑个人信息'
     }
     components = {
       tabbar: Tabbar,
@@ -173,8 +173,8 @@
     data = {
       answerWill: '',
       isPostgraduate: '',
-      volunteerMajor: '',
-      volunteerSchool: '',
+      volunteerMajor: '1',
+      volunteerSchool: '1',
       email: '',
       avatarUrl: '',
       imageSrc: '',

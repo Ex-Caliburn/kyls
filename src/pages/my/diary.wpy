@@ -26,7 +26,7 @@
     height: 100rpx;
     padding: 20rpx;
     border-radius: 50rpx;
-    position: absolute;
+    position: fixed;
     bottom: 120rpx;
     right: 10rpx;
     background-color: #fff;

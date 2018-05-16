@@ -56,6 +56,8 @@ const api = {
   /*
   * 问答
   * */
+  getMasterAskList: 'question/listSchoolMaster ',
+  getMyAnswerList: 'answer/myAnswer',
   wantAnswer: 'question/doQuestion',  // 我要回答 （研究生回答问题）
   questionSubmit: 'question/submit',
   answerQuestion: 'answer/answerQuestion',

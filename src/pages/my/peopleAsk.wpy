@@ -8,10 +8,10 @@
   <view class="page">
     <view class="page__bd">
       <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-        <view @tap="goService({{item.id}})" class="list-container flex flex-between border">
-          <view>{{item.nickname}}</view>
-          <view>{{item.school}}</view>
-          <view>{{item.major}}</view>
+        <view @tap="goService({{item.questionId}})" class="list-container flex flex-between border">
+          <view>{{item.userName}}</view>
+          <view>{{item.schoolName}}</view>
+          <view>{{item.majorName}}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
       </block>
@@ -29,7 +29,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get, post} from 'utils/service'
+  import {post} from 'utils/service'
   // import db from 'utils/db'
 
   export default class peopleAsk extends wepy.page {
@@ -50,33 +50,24 @@
 
     methods = {
       goService () {
-        this.navigate('serviceList?id=' + this.id)
+        this.navigate('probation?questionId=' + this.questionId)
       }
     }
 
     fetchDate () {
-      for (let i = 0; i < 10; i++) {
-        let obj = {
-          nickname: '李先生' + i,
-          major: '土木',
-          school: '清华'
+      post({
+        apiName: 'getMasterAskList',
+        data: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum
         }
-        this.dataList.push(obj)
-      }
-      this.$apply()
-      // get({
-      //   apiName: 'getPostgraduateInfo',
-      //   data: {}
-      // })
-      //   .then((res) => {
-      //     res.data.forEach((item) => {
-      //       item.askTime = formatDate(Date.now())
-      //     })
-      //     this.dataList.push(res.data)
-      //     this.$apply()
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
+      })
+        .then((res) => {
+          this.dataList.concat(res)
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
     }
 
     onShow () {
