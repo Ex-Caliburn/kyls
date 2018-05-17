@@ -16,7 +16,7 @@ export {
   request as get
 }
 
-async function login(isFirst) {
+async function login(isFirst, pageIndex) {
   if (flag) {
     flag = false
     setInterval(() => {
@@ -48,6 +48,15 @@ async function login(isFirst) {
     // 第一次登陆
     if (isFirst && res.userType > 0) {
       let url = isPostgraduate ? '/pages/my/answerHistory' : '/pages/chooseInterest'
+      wepy.redirectTo({ url })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else if (isFirst) {
+      let url = pageIndex === '1' ? '/pages/graduateRegister' : '/pages/undergraduateRegister'
       wepy.redirectTo({ url })
         .then((res) => {
           console.log(res)
