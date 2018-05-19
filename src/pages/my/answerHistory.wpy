@@ -146,6 +146,7 @@
         this.activeIndex = e.currentTarget.id
         this.pageSize = 10
         this.pageNum = 1
+        this.dataList = []
         this.fetchDate()
       }
     }
@@ -153,7 +154,7 @@
       post({
         apiName: 'getMyAnswerList',
         data: {
-          answer_status: this.activeIndex + 1,
+          answerStatus: +this.activeIndex + 1,
           pageSize: this.pageSize,
           pageNum: this.pageNum
         }
@@ -162,19 +163,18 @@
           // res.forEach((item) => {
           //   item.askTime = formatDate(Date.now())
           // })
-          if (res[0].count) {
-            res.splice(0, 1)
-          }
           console.log(res)
-          this.dataList = this.dataList.concat(res)
-          this.$apply()
-          console.log(this.dataList)
+          if (res.list && res.list.length > 0) {
+            this.dataList = this.dataList.concat(res.list)
+            this.$apply()
+          }
         }).catch(err => {
           console.log(err)
         })
     }
 
     onShow() {
+      this.dataList = []
       this.fetchDate()
     }
 

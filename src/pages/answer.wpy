@@ -24,17 +24,18 @@
             <view class="flex flex-between">
               <view>
                 <text style="margin-right:20rpx">{{item.time}}</text>
-                <text>{{item.uestionType}}</text>
               </view>
               <view style="width: 100rpx">
                 ￥{{item.rewardMoney}}
               </view>
             </view>
-            <view class="content flex flex-between">
-              <text>{{item.content}}</text>
-              <!--<view class="arrow weui-cell__ft weui-cell__ft_in-access"></view>-->
-            </view>
-            <button class="red tr" size="mini" disabled="{{item.isLoked}}" @tap="goAnswer({{item.questionId}})">我要回答</button>
+            <view class="ellipsis ellipsis-content tl">问题{{item.content}}</view>
+
+            <!--<view class="content flex flex-between">-->
+              <!--<view>{{item.content}}</view>-->
+              <!--&lt;!&ndash;<view class="arrow weui-cell__ft weui-cell__ft_in-access"></view>&ndash;&gt;-->
+            <!--</view>-->
+            <button class="red tr" size="mini" disabled="{{item.isLoked}}" @tap.stop="goAnswer({{item.questionId}})">我要回答</button>
           </view>
         </block>
 
@@ -51,8 +52,8 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  // import Toast from 'wepy-com-toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
@@ -68,11 +69,10 @@
       }
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar, navigate, reachBottom]
+    mixins = [tabbar, toast, navigate, reachBottom]
 
     data = {
       pageSize: 10,
@@ -99,9 +99,10 @@
             question_id: questionId
           }})
           .then((res) => {
-            this.navigate('answerEdit?questionId=' + questionId)
+            this.navigate('chat?questionId=' + questionId)
             console.log(res)
           }).catch(err => {
+            this.ShowToast('已被他人先登一步')
             console.log(err)
           })
       }

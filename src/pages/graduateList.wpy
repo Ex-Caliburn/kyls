@@ -24,8 +24,8 @@
             <image class="faceUrl weui-media-box__thumb" src="{{item.faceUrl}}"/>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{item.nickName }}</view>
+              <view>{{item.schoolName}}</view>
               <view class="class=flex flex-between">
-                <view>{{item.schoolName}}</view>
                 <view>{{item.majorName}}</view>
                 <view>{{item.grade}}年级</view>
               </view>
@@ -69,14 +69,16 @@
     mixins = [tabbar, reachBottom]
 
     data = {
+      scienceId: '',
+      scienceType: '',
       dataList: []
     }
 
     fetchDate() {
-      let { scienceId, pageSize, pageNum } = this
+      let { scienceId, pageSize, pageNum, scienceType } = this
       post({
         apiName: 'getPostgraduateInfo',
-        data: { scienceId, pageSize, pageNum }
+        data: { scienceId, pageSize, pageNum, scienceType }
       })
         .then((res) => {
           res.forEach((item) => {
@@ -90,11 +92,14 @@
     }
 
     onLoad(params) {
-      console.log(params.id)
-      this.scienceId = params.id || 1
-      this.dataList = []
-      this.$apply()
-      this.fetchDate()
+      console.log(params)
+      if (params.id && params.scienceType) {
+        this.scienceId = params.id
+        this.scienceType = params.scienceType
+        this.dataList = []
+        this.$apply()
+        this.fetchDate()
+      }
     }
   }
 </script>

@@ -34,31 +34,46 @@
           <view class="weui-cell__bd"></view>
           <view class="weui-cell__ft weui-cell__ft_in-access">修改</view>
         </view>
+
+
+        <!--<view class="weui-cell weui-cell_input">-->
+          <!--<view class="weui-cell__hd">-->
+            <!--<view class="weui-label">邮箱</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<input class="weui-input" placeholder="请输入邮箱"  @change="emailInp" value="{{email}}"/>-->
+          <!--</view>-->
+        <!--</view>-->
+
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-            <view class="weui-label">邮箱</view>
+            <view class="weui-label">手机号</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入邮箱"  @change="emailInp" value="{{email}}"/>
+            <input class="weui-input" maxlength="11" type="number" placeholder="请输入手机号"  @change="phoneNumberInp" value="{{phoneNumber}}"/>
           </view>
         </view>
-        <view hidden="{{isPostgraduate}}" class="weui-cell weui-cell_input">
+
+        <navigator url="/pages/searchListReward" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">意向院校</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="意向院校" @change="volunteerSchoolInp" value="{{volunteerSchool}}"/>
+            <input class="weui-input" placeholder="" disabled value="{{postgraduateSchoolName}}"/>
           </view>
-        </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
 
-        <view hidden="{{isPostgraduate}}" class="weui-cell weui-cell_input">
+        <navigator url="/pages/searchListReward" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">意向专业</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="意向专业" @change="volunteerMajorInp" value="{{volunteerMajor}}"/>
+            <input class="weui-input" placeholder="" disabled value="{{postgraduateMajorName}}"/>
           </view>
-        </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
         <view class="will" hidden="{{!isPostgraduate}}">
           <view class="weui-label MB10">回答意愿*</view>
           <view class="flex flex-between flex-wrap">
@@ -136,7 +151,7 @@
   import { picturePrefix } from 'utils/config'
   import { post, uploadPics } from 'utils/service'
   import db from 'utils/db'
-  import { EMAIL_RULE, USER_INFO } from 'utils/constant'
+  import { USER_INFO } from 'utils/constant'
 
   // 手机的宽度
   var windowWRPX = 750
@@ -171,10 +186,15 @@
     mixins = [tabbar, toast]
 
     data = {
+      postgraduateSchoolId: '',
+      postgraduateSchoolName: '',
+      postgraduateMajorId: '',
+      postgraduateMajorName: '',
+      phoneNumber: '',
       answerWill: '',
       isPostgraduate: '',
-      volunteerMajor: '1',
-      volunteerSchool: '1',
+      // volunteerMajor: '',
+      // volunteerSchool: '',
       email: '',
       avatarUrl: '',
       imageSrc: '',
@@ -246,6 +266,9 @@
       emailInp (e) {
         this.email = e.detail.value.trim()
       },
+      phoneNumberInp (e) {
+        this.phoneNumber = e.detail.value.trim()
+      },
       volunteerMajorInp (e) {
         this.volunteerMajor = e.detail.value.trim()
       },
@@ -255,38 +278,65 @@
     }
 
     _updateInfo() {
-      let { volunteerMajor, volunteerSchool, email, avatarUrl, willTypes } = this
+      let { phoneNumber, avatarUrl, willTypes, postgraduateSchoolId, postgraduateMajorId } = this
       let answerWill = []
       willTypes.forEach(item => {
         if (item.choose) {
           answerWill.push(item.value)
         }
       })
-      if (!email || !EMAIL_RULE.test(email)) {
-        let errMsg = '请输入正确的邮箱'
+      let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
+      if (!phoneNumber || !PHONE_RULE.test(phoneNumber)) {
+        let errMsg = '请输入正确的手机'
         this.ShowToast(errMsg)
         return
       }
-      post({
-        apiName: 'updateUserInfo',
-        data: { volunteerMajor, volunteerSchool, email, avatarUrl, answerWill: answerWill.join(',') }
-      }).then((res) => {
-        let userInfo = this.$parent.globalData.userInfo
-        if (userInfo.avatarUrl !== avatarUrl) {
-          userInfo.avatarUrl = picturePrefix + avatarUrl
-          db.set(USER_INFO, userInfo)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      if (this.isPostgraduate) {
+        post({
+          apiName: 'updatePostgraduateUserInfo',
+          data: { phoneNumber, wxFaceUrl: avatarUrl, answerWill: answerWill.join(',') }
+        }).then((res) => {
+          let userInfo = this.$parent.globalData.userInfo
+          if (userInfo.avatarUrl !== avatarUrl) {
+            userInfo.avatarUrl = picturePrefix + avatarUrl
+            db.set(USER_INFO, userInfo)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        post({
+          apiName: 'updateUndergraduateUserInfo',
+          data: {
+            volunteerMajor: postgraduateMajorId,
+            volunteerSchool: postgraduateSchoolId,
+            phoneNumber,
+            wxFaceUrl: avatarUrl }
+        }).then((res) => {
+          let userInfo = this.$parent.globalData.userInfo
+          if (userInfo.avatarUrl !== avatarUrl) {
+            userInfo.avatarUrl = picturePrefix + avatarUrl
+            userInfo.phone = phoneNumber
+            db.set(USER_INFO, userInfo)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
 
     onLoad (params) {
-      this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
+    }
+    onShow () {
+      let gd = wepy.$instance.globalData
+      this.postgraduateSchoolId = gd.postgraduateSchoolId
+      this.postgraduateMajorId = gd.postgraduateMajorId
+      this.postgraduateSchoolName = gd.postgraduateSchoolName
+      this.postgraduateMajorName = gd.postgraduateMajorName
+      this.isPostgraduate = gd.isPostgraduate
+      this.avatarUrl = gd.userInfo.avatarUrl
       this.$apply()
     }
-
     getImage () {
       var _this = this
       wepy.chooseImage({

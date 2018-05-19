@@ -30,6 +30,7 @@
         'pages/answer',
         'pages/question',
         'pages/searchList',
+        'pages/searchListReward',
         'pages/serviceList',
         'pages/questionFrom',
         'pages/questionType',

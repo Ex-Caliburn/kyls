@@ -61,9 +61,7 @@
 
     onLoad () {
       let gd = wepy.$instance.globalData
-      console.log('isPostgraduate onLoad')
-      let isPostgraduate = db.get(IS_POSTGRADUATE)
-      this.isPostgraduate = isPostgraduate || gd.isPostgraduate
+      let isPostgraduate = gd.isPostgraduate || db.get(IS_POSTGRADUATE)
       // 2 答， 3问
       if (isPostgraduate) {
         gd.tabbar.list[0].show = false
@@ -73,11 +71,6 @@
         gd.tabbar.list[4].show = true
       }
       this.$apply()
-    }
-    watch = {
-    }
-
-    methods = {
     }
   }
 </script>

@@ -58,7 +58,7 @@
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
   import navigate from '../mixins/navigate'
-  import { get, post } from '../utils/service'
+  import { post } from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -95,7 +95,7 @@
       post({
         apiName: 'viewQuestion',
         data: {
-          questionId: this.questionId
+          ps_id: this.userId
         }
       })
         .then((res) => {
@@ -113,8 +113,11 @@
     }
 
     onLoad(params) {
-      console.log('id', params.id)
-      this.questionId = params.questionId
+      if (params.userId) {
+        this.userId = params.userId
+      } else {
+        this.navigate('', 2)
+      }
       this.$apply()
     }
   }

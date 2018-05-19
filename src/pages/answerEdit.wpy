@@ -63,6 +63,7 @@
     mixins = [tabbar, navigate]
 
     data = {
+      edit: '',
       loveStatus: false,
       icon: LOVE,
       content: '',
@@ -93,21 +94,36 @@
         this.content = e.detail.value
       },
       submit () {
-        let {userId, questionId, content, pictures} = this
-        post({
-          apiName: 'answerQuestion',
-          data: {
-            anserUserId: userId,
-            questionId,
-            content,
-            pictures: pictures.join(','),
-            questionType: 1 // 1.聊天类型，2：电话，3面聊
-          }})
-          .then((res) => {
-            this.navigate('my/info')
-          }).catch(err => {
-            console.log(err)
-          })
+        let {userId, questionId, content, pictures, edit, answerId} = this
+        if (edit) {
+          post({
+            apiName: 'answerQuestion',
+            data: {
+              anserUserId: userId,
+              questionId,
+              content,
+              pictures: pictures.join(','),
+              questionType: 1 // 1.聊天类型，2：电话，3面聊
+            }})
+            .then((res) => {
+              this.navigate('my/info')
+            }).catch(err => {
+              console.log(err)
+            })
+        } else {
+          get({
+            apiName: 'updateAnswer',
+            data: {
+              answerId,
+              content,
+              pictures: pictures.join(',')
+            }})
+            .then((res) => {
+              this.navigate('my/info')
+            }).catch(err => {
+              console.log(err)
+            })
+        }
       }
     }
 
@@ -124,8 +140,10 @@
     }
 
     onLoad (params) {
-      this.answerUserId = params.answerUserId
-      this.questionId = params.questionId
+      this.answerUserId = params.answerUserId || ''
+      this.questionId = params.questionId || ''
+      this.answerId = params.answerId || ''
+      this.edit = params.edit || ''
       console.log(params)
       this.$apply()
     }

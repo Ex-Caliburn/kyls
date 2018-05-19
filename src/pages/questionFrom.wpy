@@ -54,7 +54,7 @@
   // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { post } from 'utils/service'
+  import { get, post } from 'utils/service'
   import uploadPic from '@/components/uploadPic'
   // import { diff } from 'utils/common'
 
@@ -86,7 +86,6 @@
     methods = {
       submitQuestion () {
         let { answerUserId, content, pictures } = this
-        answerUserId = 1
         post({
           apiName: 'questionSubmit',
           data: {

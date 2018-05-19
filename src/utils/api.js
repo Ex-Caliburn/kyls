@@ -11,7 +11,8 @@ const api = {
   * */
   graduateRegister: user + 'postgraduateRegister',
   undergraduateRegister: user + 'undergraduateRegister',
-  updateUserInfo: user + 'updateUserInfo',
+  updatePostgraduateUserInfo: user + 'updatePostgraduateUserInfo',  // 修改研究生个人信息 post
+  updateUndergraduateUserInfo: user + 'updateUndergraduateUserInfo',  // 修改本科生个人信息 post
   /*
   * 研究生列表信息 根据询问问题类型
   * */
@@ -56,10 +57,13 @@ const api = {
   /*
   * 问答
   * */
-  getMasterAskList: 'question/listSchoolMaster ',
+  getMasterAskList: 'question/listSchoolMaster',
+  updateAnswer: 'answer/updateAnswer',
+  viewAttractQuestion: 'pgquestion/viewQuestion', // questionId
   getMyAnswerList: 'answer/myAnswer',
   wantAnswer: 'question/doQuestion',  // 我要回答 （研究生回答问题）
   questionSubmit: 'question/submit',
+  rewardQuestionSubmit: 'question/rewardsubmit',
   answerQuestion: 'answer/answerQuestion',
   viewQuestion: 'question/viewQuestion', // 问题一览 （浏览悬赏问题）
   getOfferQuestions: 'question/getOfferQuestions', // 获取悬赏问题列表并根据发布时间排序

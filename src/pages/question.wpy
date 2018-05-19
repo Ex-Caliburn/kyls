@@ -47,13 +47,13 @@
         </swiper>
 
         <navigator url="/pages/questionType" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">选择问题</view>
+          <view class="weui-cell__bd">选择回答对象</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea @input="questionInput" class="textarea weui-textarea" maxlength="-1" placeholder="输入你的内容" value="{{content}}"/>
+            <textarea @input="questionInput" class="textarea weui-textarea" maxlength="-1" placeholder="回答对象设置地越详细，我们越能为您精准地匹配到更优的回答者哟~" value="{{content}}"/>
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
@@ -66,7 +66,7 @@
             <block wx:for-items="{{moneyArr}}" wx:for-index="index" wx:for-item="item" wx:key="id">
               <view @tap="chooseMoney({{item}})" class="money {{item === rewardMoney ? 'money-choose' :''}}">{{item}}研贝</view>
             </block>
-            <input @input="moneyBind" class="money money-enter value={{moneyInp}} {{ entering ? 'money-choose' : '' }}" type="number" placeholder="自定义金额"/>
+            <input @input="moneyBind" value="{{moneyInp}}" class="money money-enter  {{ entering ? 'money-choose' : '' }}" type="number" placeholder="自定义金额"/>
           </view>
         </view>
 
@@ -88,10 +88,11 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  // import Toast from 'wepy-com-toast'
+  import toast from 'mixins/toast'
+  import tip from 'utils/tip'
   import tabbar from 'mixins/tabbar'
-  import {post} from 'utils/service'
+  import { get, post } from 'utils/service'
   import navigate from 'mixins/navigate'
   import uploadPic from '@/components/uploadPic'
   // import db from 'utils/db'
@@ -103,13 +104,14 @@
     }
     components = {
       tabbar: Tabbar,
-      uploadPic,
-      toast: Toast
+      uploadPic
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, toast]
 
     data = {
+      questionInfo: {
+      },
       moneyInp: '',
       content: '',
       pictures: [],
@@ -122,27 +124,16 @@
 
     methods = {
       submit() {
-        let { answerUserId, content, pictures, questionType, rewardMoney } = this
-        // { "userId":1, "answerUserId":2, //悬赏问题时不用传回答人id "content":"试试事实上", "pictures":"111.jsp", "questionType":1, "rewardMoney":100 //研贝，悬赏时传
-        post({
-          apiName: 'questionSubmit',
-          data: {
-            answerUserId,
-            rewardMoney,
-            content,
-            pictures: pictures.join(','),
-            questionType // 1.聊天类型，2：电话，3面聊
-          }})
-          .then((res) => {
-            this.navigate('my/info')
-          }).catch(err => {
-            console.log(err)
-          })
+        this.getUserAmountCount()
       },
       moneyBind(e) {
         this.entering = true
-        this.rewardMoney = Number(e.detail.value)
-        this.moneyInp = Number(e.detail.value)
+        let value = e.detail.value
+        if (!value || value < 8) {
+          value = 8
+        }
+        this.rewardMoney = Number(value)
+        this.moneyInp = Number(value)
       },
       chooseMoney(val) {
         this.moneyInp = ''
@@ -157,6 +148,68 @@
       }
     }
 
+    submitQuestion () {
+      let { content, pictures, questionType, rewardMoney } = this
+      let questionInfo = {}
+      if (this.questionInfo) {
+        let { postgraduateSchoolId, postgraduateMajorId, degreeIndex, studyModeIndex, publicSubjectId } = this.questionInfo
+        console.log(typeof publicSubjectId)
+        questionInfo = {
+          schoolId: postgraduateSchoolId || '' + '',
+          majorId: postgraduateMajorId || '' + '',
+          degreeNature: degreeIndex ? +degreeIndex + 1 : '',
+          studyMode: studyModeIndex ? +studyModeIndex + 1 : '',
+          publicSubjectId
+        }
+      }
+      // degreeNature 学位性质 1学术型、2专业型
+      // studyMode 1:全日制、2:非全日制
+      // publicSubjectId
+      // schoolId, //学校id
+      //   majorId //专业id
+      post({
+        apiName: 'rewardQuestionSubmit',
+        data: {
+          ...questionInfo,
+          rewardMoney,
+          content,
+          pictures: pictures.join(','),
+          questionType // 1.聊天类型，2：电话，3面聊
+        }})
+        .then((res) => {
+          this.navigate('my/info?answer=1')
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    getUserAmountCount () {
+      if (!this.content) {
+        this.ShowToast('请输入问题内容')
+        return
+      }
+      console.log(this.rewardMoney)
+      if (this.rewardMoney < 8) {
+        this.ShowToast('最低悬赏金额8元')
+        return
+      }
+      get({
+        apiName: 'getUserAmountCount'
+      })
+        .then((res) => {
+          if (res >= this.rewardMoney) {
+            this.submitQuestion()
+          } else {
+            tip.confirm('余额不足，请去充值')
+              .then(res => {
+                this.navigate('my/recharge')
+              }).catch(err => {
+                console.log(err)
+              })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+    }
     getCarousel () {
       post({
         apiName: 'getCarousel',
@@ -172,8 +225,8 @@
     }
     onLoad (params) {
       this.getCarousel()
-      let gd = wepy.$instance.globalData
-      this.questionType = gd.questionType
+      this.questionInfo = wepy.$instance.globalData.questionInfo
+      console.log(wepy.$instance.globalData.questionInfo)
       this.$apply()
     }
   }

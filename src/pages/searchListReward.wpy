@@ -163,7 +163,7 @@
   import { get } from 'utils/service'
   import navigate from 'mixins/navigate'
 
-  export default class searchList extends wepy.page {
+  export default class searchListReward extends wepy.page {
     config = {
       navigationBarTitleText: '院校选择'
     }
@@ -192,13 +192,13 @@
       rootList: [
         {
           id: '0',
-          name: '本科院校*',
-          active: true,
+          name: '硕士院校*',
+          active: false,
           selected: false
         },
         {
           id: '1',
-          name: '本科专业*',
+          name: '硕士专业*',
           active: false,
           selected: false
         }
@@ -210,8 +210,8 @@
     getChildCate (id) {
       let i = id || this.index
       console.log(id, this.index)
-      const apiArr = ['getUndergraduateSchool', 'getUndergraduateMajor', 'getPostgraduateSchool', 'getPostgraduateMajor']
-      const paramsArr = ['u_school_name', 'u_major_name', 'p_school_name', 'p_major_name']
+      const apiArr = ['getPostgraduateSchool', 'getPostgraduateMajor']
+      const paramsArr = ['p_school_name', 'p_major_name']
       let params = paramsArr[i]
       let apiName = apiArr[i]
       if (!this.inputVal.trim()) {
@@ -255,18 +255,10 @@
         this.rootList[this.index].selected = true
         switch (Number(this.index)) {
           case 0:
-            this.undergraduateSchoolId = id
-            this.undergraduateSchoolName = name
-            break
-          case 1:
-            this.undergraduateMajorId = id
-            this.undergraduateMajorName = name
-            break
-          case 2:
             this.postgraduateSchoolId = id
             this.postgraduateSchoolName = name
             break
-          case 3:
+          case 1:
             this.postgraduateMajorId = id
             this.postgraduateMajorName = name
             break
@@ -279,15 +271,9 @@
         let name
         switch (Number(id)) {
           case 0:
-            name = this.undergraduateSchoolName || ''
-            break
-          case 1:
-            name = this.undergraduateMajorName || ''
-            break
-          case 2:
             name = this.postgraduateSchoolName || ''
             break
-          case 3:
+          case 1:
             name = this.postgraduateMajorName || ''
             break
           default:
@@ -342,20 +328,6 @@
     }
 
     onLoad (params) {
-      if (params.isPostgraduate) {
-        this.rootList.push({
-          id: '2',
-          name: '硕士院校*',
-          active: false,
-          selected: false
-        },
-          {
-            id: '3',
-            name: '硕士专业*',
-            active: false,
-            selected: false
-          })
-      }
       let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
       this.windowHeight = systemInfo.windowHeight
       this.$apply()

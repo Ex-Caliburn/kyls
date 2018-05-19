@@ -44,8 +44,8 @@
   <view class="container">
     <view class="content">
       <form report-submit="ture" @submit="getFormId">
-        <button disabled="{{userType > 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('0')" formType="submit" open-type="getUserInfo">本科生入口</button>
-        <button disabled="{{userType === 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('1')" formType="submit" open-type="getUserInfo">研究生入口</button>
+        <button disabled="{{userType > 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('0')" formType="submit" open-type="getUserInfo">求助者入口</button>
+        <button disabled="{{userType === 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('1')" formType="submit" open-type="getUserInfo">解惑者入口</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo">考研里手故事</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo" >使用帮助</button>
         <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->

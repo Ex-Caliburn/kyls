@@ -163,8 +163,8 @@
             </navigator>
             <view class="navigate-btn flex1 fz26 ">
               <view class="subTitle-special type_pink">我的信誉：{{creditScore}}
-                <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}">+ {{creditScoreStatus}}</text>
-                <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}">- {{creditScoreStatus}}</text>
+                <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}" class="green">+ {{creditScoreStatus}}</text>
+                <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}" class="red">- {{creditScoreStatus}}</text>
               </view>
               <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：{{starLevel}} 级</view>
             </view>

@@ -25,54 +25,59 @@ async function login(isFirst, pageIndex) {
   } else {
     return false
   }
-  let res = await wepy.login({ timeout: 30000 })
-  console.log('code', res, res.code)
-  // code用户登录凭证（有效期五分钟）
-  let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
-  console.log(wxUserInfo)
-  db.set('wxUserInfo', wxUserInfo.userInfo)
-  post({
-    apiName: 'login',
-    data: {
-      code: res.code,
-      iv: wxUserInfo.iv,
-      encryptedData: wxUserInfo.encryptedData,
-      decrypt_type: 'user'
-    }
-  }).then(res => {
-    db.set(USER_INFO, res)
-    let isPostgraduate = res.userType > 1
-    wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
-    db.set(IS_POSTGRADUATE, isPostgraduate)
-    wepy.$instance.globalData.userInfo = res
-    // 第一次登陆
-    if (isFirst && res.userType > 0) {
-      let url = isPostgraduate ? '/pages/my/answerHistory' : '/pages/chooseInterest'
-      wepy.redirectTo({ url })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    } else if (isFirst) {
-      let url = pageIndex === '1' ? '/pages/graduateRegister' : '/pages/undergraduateRegister'
-      wepy.redirectTo({ url })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  }).catch(err => {
-    wepy.showToast({
-      title: JSON.stringify(err),
-      icon: 'none',
-      duration: 1000
+  try {
+    let res = await wepy.login({ timeout: 30000 })
+    console.log('code', res, res.code)
+    // code用户登录凭证（有效期五分钟）
+    let wxUserInfo = await wepy.getUserInfo({ withCredentials: true })
+    console.log(wxUserInfo)
+    db.set('wxUserInfo', wxUserInfo.userInfo)
+    post({
+      apiName: 'login',
+      data: {
+        code: res.code,
+        iv: wxUserInfo.iv,
+        encryptedData: wxUserInfo.encryptedData,
+        decrypt_type: 'user'
+      }
+    }).then(res => {
+      db.set(USER_INFO, res)
+      let isPostgraduate = res.userType > 1
+      wepy.$instance.globalData[IS_POSTGRADUATE] = isPostgraduate
+      db.set(IS_POSTGRADUATE, isPostgraduate)
+      wepy.$instance.globalData.userInfo = res
+      // 第一次登陆
+      console.log(isFirst && res.userType > 0)
+      if (isFirst && res.userType > 0) {
+        let url = isPostgraduate ? '/pages/my/answerHistory' : '/pages/chooseInterest'
+        wepy.redirectTo({ url })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else if (isFirst) {
+        let url = pageIndex === '1' ? '/pages/graduateRegister' : '/pages/undergraduateRegister'
+        wepy.navigate({ url })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    }).catch(err => {
+      wepy.showToast({
+        title: JSON.stringify(err),
+        icon: 'none',
+        duration: 1000
+      })
+      console.log(err)
     })
+  } catch (err) {
     console.log(err)
-  })
+  }
 }
 
 async function uploadPics(data, success, fail) {
@@ -171,7 +176,7 @@ function request(options, onComplete) {
       dataType: options.dataType || 'json',
       responseType: options.responseType || 'text'
     }).then(res => {
-      console.log(options.data, res, api[options.apiName])
+      console.log(options.method || 'GET', options.data, res, api[options.apiName])
       if (+res.statusCode === 200 && +res.data.code === 0) {
         if (res.header[SESSION_ID]) {
           wepy.$instance.globalData.token = res.header[SESSION_ID]
@@ -191,9 +196,10 @@ function request(options, onComplete) {
         reject(res.data.error)
       }
     }, err => {
-      console.log(err, api[options.apiName])
+      console.log(err, options.method || 'GET', options.data, api[options.apiName])
       reject(err)
     }).catch(err => {
+      console.log(err)
       reject(err)
     })
   })

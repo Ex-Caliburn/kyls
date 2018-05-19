@@ -29,12 +29,22 @@
     <view class="page__bd">
       <view class="weui-panel">
         <view class="weui-panel__bd">
+          <!--“questionId”: 43,-->
+          <!--“question”: “试试事实上”,-->
+          <!--“answer”: null,-->
+          <!--“majorName”: “微生物与生化药学\t078005”,-->
+          <!--“userName”: “每天学霸”,-->
+          <!--“schoolName”: “沈阳药科大学”-->
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
             <navigator url="/pages/chat?id={{questionId}}" class="list-container border " hover-class="weui-cell_active">
-              <view class="ellipsis ellipsis-content">问题:{{item.questionContent}}</view>
-              <view class="ellipsis ellipsis-content">答案:{{item.answerContent || '暂无回答'}}</view>
-              <view class="flex flex-between">
-                <view class="fz22">{{item.askTime}}</view>
+              <view class="flex flex-between fz26">
+                <text>{{item.userName}}</text>
+                <text>{{item.schoolName}}</text>
+                <text>{{item.majorName}}</text>
+              </view>
+              <view class="ellipsis ellipsis-content fz26">问题:{{item.answer}}</view>
+              <view class="flex flex-between fz26">
+                <view class="ellipsis ellipsis-content">答案:{{item.question || '暂无回答'}}</view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               </view>
             </navigator>
@@ -56,7 +66,7 @@
   import reachBottom from 'mixins/reachBottom'
   import {post} from 'utils/service'
   // import db from 'utils/db'
-  import { formatDate } from 'utils/common'
+  // import { formatDate } from 'utils/common'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class questionHistory extends wepy.page {
@@ -81,27 +91,15 @@
     }
 
     fetchDate () {
-      for (let i = 0; i < 10; i++) {
-        let obj = {
-          questionId: i,
-          questionContent: '由各种物质组成的巨型球状天体由各种物质组成的巨型球状天体组成的巨型球状天体',
-          answerContent: '由各种物质组成体',
-          askTime: formatDate(new Date())
-        }
-        this.dataList.push(obj)
-      }
       post({
-        apiName: 'getPostgraduateInfo',
+        apiName: 'getMasterAskList',
         data: {
           pageSize: this.pageSize,
           pageNum: this.pageNum
         }
       })
         .then((res) => {
-          res.forEach((item) => {
-            item.askTime = formatDate(Date.now())
-          })
-          this.dataList.push(res)
+          this.dataList = this.dataList.concat(res.list)
           this.$apply()
         }).catch(err => {
           console.log(err)
@@ -109,7 +107,8 @@
       this.$apply()
     }
     onShow () {
-      this.avatarUrl = this.$parent.globalData.userInfo.avatarUrl
+      this.dataList = []
+      this.$apply()
       this.fetchDate()
     }
 

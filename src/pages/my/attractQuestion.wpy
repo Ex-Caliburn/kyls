@@ -57,8 +57,6 @@
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { post, get } from 'utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class attractQuestion extends wepy.page {
     config = {

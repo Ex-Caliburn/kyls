@@ -40,16 +40,6 @@ const videoPrefixMap = {
   prod: 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/'
 }
 
-// 语音资源主机
-// const voicePrefixMap = {
-//   dev: 'https://jdk3t-voice.oss-cn-shanghai.aliyuncs.com/backend_voice/',
-//   production: 'https://cdn-qiye-voice.jingdaka.com/'
-// };
-
-// let voiceFileFront = 'https://jdk3t-voice.oss-cn-shanghai.aliyuncs.com/backend_voice/';
-// let pictureFileFront = 'https://jdk3t-qiye.oss-cn-shanghai.aliyuncs.com/backend_pic/dst/poster/';
-// let videoFileFront = 'https://jdk3t-video.oss-cn-shanghai.aliyuncs.com/video/';
-
 module.exports = {
   env,
   version,

@@ -114,7 +114,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import { post, addFormId } from '../utils/service'
   import db from 'utils/db'
-  import { EMAIL_RULE, USER_INFO } from '../utils/constant'
+  import { EMAIL_RULE, USER_INFO, IS_POSTGRADUATE } from '../utils/constant'
 
   export default class undergraduateRegister extends wepy.page {
     config = {
@@ -218,6 +218,12 @@
         gd.isPostgraduate = false
         gd.userInfo.userType = 1
         db.set(USER_INFO, gd.userInfo)
+        db.set(IS_POSTGRADUATE, false)
+
+        wepy.showModal({
+          title: '使用声明',
+          content: '使用声明各位小可爱，大家目前平台正在加紧推广中，根据解惑者的注册数量，我们将会逐步开放问答功能，预期将在六月底将开放问答所有功能；根据大家求助者的注册数量，预期将在9月份开放神秘功能！希望大家帮忙推荐给身边有需要的闺蜜和基友，推荐有礼哦！你的每一次推荐，都将会助力平台功能开放一步！'
+        })
         this.navigate('my/info')
       }).catch(res => {
       })

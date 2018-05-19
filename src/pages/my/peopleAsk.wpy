@@ -7,14 +7,18 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-        <view @tap="goService({{item.questionId}})" class="list-container flex flex-between border">
-          <view>{{item.userName}}</view>
-          <view>{{item.schoolName}}</view>
-          <view>{{item.majorName}}</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      <view wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+        <view @tap="goService({{item.questionId}})" class="list-container border">
+          <view class="flex flex-between">
+            <view>{{item.userName}}</view>
+            <view>{{item.schoolName}}</view>
+          </view>
+          <view class="flex flex-between">
+            <view>{{item.majorName}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
         </view>
-      </block>
+      </view>
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -29,7 +33,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import {post} from 'utils/service'
+  import { post } from 'utils/service'
   // import db from 'utils/db'
 
   export default class peopleAsk extends wepy.page {
@@ -61,22 +65,23 @@
           pageSize: this.pageSize,
           pageNum: this.pageNum
         }
+      }).then((res) => {
+        console.log(res.list)
+        this.dataList = this.dataList.concat(res.list)
+        this.$apply()
+      }).catch(err => {
+        console.log(err)
       })
-        .then((res) => {
-          this.dataList.concat(res)
-          this.$apply()
-        }).catch(err => {
-          console.log(err)
-        })
     }
 
     onShow () {
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.dataList = []
+      this.$apply()
       this.fetchDate()
     }
 
     onLoad (params) {
-      this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.$apply()
     }
   }
 </script>

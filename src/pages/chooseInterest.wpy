@@ -77,7 +77,7 @@
     </swiper>
     <view class="content" >
       <form report-submit="ture" @submit="getFormId">
-        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('4')"  disabled formType="submit">考研四大选择题与考研规划问题</button>
+        <button class="weui-btn mini-btn enter-btn btn" @tap="jump('4')"  disabled formType="submit">考研原因与规划</button>
         <button class="weui-btn mini-btn enter-btn btn" @tap="jump('1')"  disabled formType="submit">十三大类学科咨询</button>
         <button class="weui-btn mini-btn enter-btn btn" @tap="jump('5')"  disabled formType="submit">院校及专业咨询</button>
         <picker class="enter-btn " @change="jump('2')" value="{{publicIndex}}" range="{{publicTypes}}" range-key="science_name">
@@ -123,7 +123,7 @@
         console.log(i)
         if (this.publicTypes.length > 0) {
           let id = this.publicTypes[i].id
-          this.navigate('graduateList?id=' + id + '&science_type=' + i)
+          this.navigate('graduateList?id=' + id + '&scienceType=' + i)
         } else {
           this.getScienceInfoByType()
         }

@@ -21,26 +21,48 @@
 
         <view class="weui-cell weui-cell_select">
           <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">问题大类</view>
+            <view class="weui-label">学习方式</view>
           </view>
           <view class="weui-cell__bd">
-            <picker @change="question" value="{{questionIndex}}" range="{{questionTypes}}">
-              <view class="weui-select weui-select_in-select-after">{{questionTypes[questionIndex]}}</view>
+            <picker @change="bindStudyModeChange" value="{{studyModeIndex}}" range="{{studyModes}}">
+              <view class="weui-select weui-select_in-select-after">{{studyModes[studyModeIndex]}}</view>
             </picker>
           </view>
         </view>
-
 
         <view class="weui-cell weui-cell_select">
           <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">专业大类</view>
+            <view class="weui-label">学位性质</view>
           </view>
           <view class="weui-cell__bd">
-            <picker @change="bindMajor" value="{{majorIndex}}" range="{{majorTypes}}">
-              <view class="weui-select weui-select_in-select-after">{{majorTypes[majorIndex]}}</view>
+            <picker @change="bindDegreeChange" value="{{degreeIndex}}" range="{{degrees}}">
+              <view class="weui-select weui-select_in-select-after">{{degrees[degreeIndex]}}</view>
             </picker>
           </view>
         </view>
+
+
+        <!--<view class="weui-cell weui-cell_select">-->
+          <!--<view class="weui-cell__hd weui-cell__hd_in-select-after">-->
+            <!--<view class="weui-label">问题大类</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<picker @change="question" value="{{questionIndex}}" range="{{questionTypes}}">-->
+              <!--<view class="weui-select weui-select_in-select-after">{{questionTypes[questionIndex]}}</view>-->
+            <!--</picker>-->
+          <!--</view>-->
+        <!--</view>-->
+
+        <!--<view class="weui-cell weui-cell_select">-->
+          <!--<view class="weui-cell__hd weui-cell__hd_in-select-after">-->
+            <!--<view class="weui-label">专业大类</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<picker @change="bindMajor" value="{{majorIndex}}" range="{{majorTypes}}">-->
+              <!--<view class="weui-select weui-select_in-select-after">{{majorTypes[majorIndex]}}</view>-->
+            <!--</picker>-->
+          <!--</view>-->
+        <!--</view>-->
 
         <view class="weui-cell weui-cell_select">
           <view class="weui-cell__hd weui-cell__hd_in-select-after">
@@ -53,22 +75,22 @@
           </view>
         </view>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchListReward" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
-            <view class="weui-label">院校</view>
+            <view class="weui-label">硕士院校</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="" disabled value="{{undergraduateSchoolName}}"/>
+            <input class="weui-input" placeholder="" disabled value="{{postgraduateSchoolName}}"/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchListReward" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
-            <view class="weui-label">专业</view>
+            <view class="weui-label">硕士专业</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="" disabled value="{{undergraduateMajorName}}"/>
+            <input class="weui-input" placeholder="" disabled value="{{postgraduateMajorName}}"/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
@@ -86,7 +108,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get, post} from 'utils/service'
+  import {get} from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -102,16 +124,20 @@
     mixins = [tabbar, navigate]
 
     data = {
-      undergraduateSchoolId: '',
-      undergraduateSchoolName: '',
-      undergraduateMajorId: '',
-      undergraduateMajorName: '',
-      questionIndex: '',
-      majorIndex: '',
+      postgraduateSchoolId: '',
+      postgraduateSchoolName: '',
+      postgraduateMajorId: '',
+      postgraduateMajorName: '',
+      degrees: ['学术型', '专业型'],
+      degreeIndex: '',
+      studyModes: ['全日制', '非全日制'],
+      studyModeIndex: '',
+      // questionIndex: '',
+      // majorIndex: '',
+      // questionTypes: ['考研四大选择题与考研规划问题', '十三大类学科咨询', '院校及专业咨询', '初试科目类问题咨询', '复试科目类问题咨询'],
+      // majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
+      //   '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
       commonIndex: '',
-      questionTypes: ['考研四大选择题与考研规划问题', '十三大类学科咨询', '院校及专业咨询', '初试科目类问题咨询', '复试科目类问题咨询'],
-      majorTypes: ['哲学', '经济学', '法学', '教育学', '文学', '历史学',
-        '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学'],
       commonTypes: [
         '政治',
         '英语一',
@@ -127,18 +153,26 @@
     methods = {
       submit (e) {
         let {
-          undergraduateSchoolId,
-          undergraduateMajorId,
-          questionIndex,
-          majorIndex,
-          commonIndex
+          postgraduateSchoolId,
+          postgraduateMajorId,
+          degreeIndex,
+          commonIndex,
+          studyModeIndex
         } = this
+        let publicSubjectId = this.commonTypes[commonIndex].id
         let gd = wepy.$instance.globalData
-        gd.questionType = {undergraduateSchoolId,
-          undergraduateMajorId,
-          questionIndex,
-          majorIndex,
-          commonIndex}
+        // degreeNature 学位性质 1学术型、2专业型
+        // studyMode 1:全日制、2:非全日制
+        // publicSubjectId
+        // schoolId, //学校id
+        //   majorId //专业id
+        gd.questionInfo = {
+          postgraduateSchoolId,
+          postgraduateMajorId,
+          degreeIndex,
+          publicSubjectId,
+          studyModeIndex
+        }
         this.navigate('question')
       },
       bindCommon (e) {
@@ -147,17 +181,43 @@
       bindMajor (e) {
         this.majorIndex = e.detail.value
       },
+      bindDegreeChange (e) {
+        this.degreeIndex = e.detail.value
+      },
+      bindStudyModeChange (e) {
+        this.studyModeIndex = e.detail.value
+      },
       question (e) {
         this.questionIndex = e.detail.value
       }
     }
 
+    getScienceInfoByType () {
+      // 1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询 6 专业科目类
+      get({
+        apiName: 'getScienceInfoByType',
+        data: {
+          science_type: 2
+        }
+      }).then(res => {
+        this.commonTypes = res
+        this.$apply()
+      }).catch(res => {
+      })
+    }
+
     onShow() {
       let gd = wepy.$instance.globalData
-      this.undergraduateSchoolId = gd.undergraduateSchoolId
-      this.undergraduateMajorId = gd.undergraduateMajorId
-      this.undergraduateSchoolName = gd.undergraduateSchoolName
-      this.undergraduateMajorName = gd.undergraduateMajorName
+      this.postgraduateSchoolId = gd.postgraduateSchoolId
+      this.postgraduateMajorId = gd.postgraduateMajorId
+      this.postgraduateSchoolName = gd.postgraduateSchoolName
+      this.postgraduateMajorName = gd.postgraduateMajorName
+      if (gd.questionInfo) {
+        let { degreeIndex, studyModeIndex, commonIndex } = gd.questionInfo
+        this.degreeIndex = degreeIndex || ''
+        this.commonIndex = commonIndex || ''
+        this.studyModeIndex = studyModeIndex || ''
+      }
       this.$apply()
     }
     onLoad(params) {

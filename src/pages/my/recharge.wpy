@@ -99,9 +99,9 @@
     methods = {
       moneyBind (e) {
         let value = e.detail.value
-        // if (!value || value < 1) {
-        //   value = 1
-        // }
+        if (!value || value < 1) {
+          value = 1
+        }
         this.amount = Number(value)
         this.moneyInp = Number(value)
       },
@@ -121,13 +121,13 @@
             }
           })
           console.log(res)
-          // res = await get({
-          //   apiName: 'getSign',
-          //   data: {
-          //     repay_id: res.package.split('=')[1]
-          //   }
-          // })
-          // console.log(res)
+          res = await get({
+            apiName: 'getSign',
+            data: {
+              repay_id: res.package.split('=')[1]
+            }
+          })
+          console.log(res)
           if (res.paySign) {
             wepy.requestPayment({
               timeStamp: res.timeStamp.toString(),
@@ -136,7 +136,9 @@
               signType: res.signType,
               paySign: res.paySign
             }).then(res => {
-              this.$apply()
+              if (this.answer) {
+                this.navigate('', 2)
+              }
             }).catch(res => {
               if (res.errMsg.indexOf('requestPayment:fail cancel') === -1) {
                 console.log('wx', '微信支付接口调用失败')
@@ -151,6 +153,8 @@
       }
     }
     onLoad (params) {
+      this.answer = params.answer || ''
+      this.$apply()
     }
   }
 </script>
