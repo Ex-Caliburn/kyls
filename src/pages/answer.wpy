@@ -101,14 +101,30 @@
           .then((res) => {
             this.navigate('chat?questionId=' + questionId)
             console.log(res)
-          }).catch(err => {
-            this.ShowToast('已被他人先登一步')
-            console.log(err)
+          }).catch(res => {
+            if (res.code === 109) {
+              wepy.showModal({
+                title: '提示',
+                content: res.error
+              }).then((res) => {
+                if (res.confirm) {
+                  this.navigate('my/checkout')
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              })
+                .catch(err => {
+                  console.log(err)
+                })
+            } else if (res.code === 100) {
+              this.ShowToast(res.error)
+            }
           })
       }
     }
 
     onShow () {
+      this.dataList = []
       this.fetchDate()
     }
 

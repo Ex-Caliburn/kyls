@@ -42,7 +42,7 @@
                 <text>{{item.schoolName}}</text>
                 <text>{{item.majorName}}</text>
               </view>
-              <view class="ellipsis ellipsis-content fz26">问题:{{item.answer}}</view>
+              <!--<view class="ellipsis ellipsis-content fz26">问题:{{item.answer}}</view>-->
               <view class="flex flex-between fz26">
                 <view class="ellipsis ellipsis-content">答案:{{item.question || '暂无回答'}}</view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>

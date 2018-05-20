@@ -1,8 +1,15 @@
+import { picturePrefix } from 'utils/config'
+
 export {
   formatDuration,
+  formatPng,
   diff,
   current,
   formatDate
+}
+
+function formatPng (url) {
+  return (url && url.indexOf('//wx') < 0 && url.indexOf('kyls-test') < 0) ? (picturePrefix + url) : url
 }
 
 // 获取系统当前时间2017-01-20T14:08:51+08:00

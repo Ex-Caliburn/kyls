@@ -217,13 +217,16 @@
   import tabbar from 'mixins/tabbar'
   import { getPhoneNumber, share, get } from 'utils/service'
   import { USER_INFO } from 'utils/constant'
+  import { formatPng } from 'utils/common'
+  import pic from '@/components/pic'
 
   export default class Info extends wepy.page {
     config = {
       navigationBarTitleText: '我的'
     }
     components = {
-      tabbar: Tabbar
+      tabbar: Tabbar,
+      pic
     }
 
     data = {
@@ -318,8 +321,9 @@
     mixins = [tabbar]
 
     onLoad() {
-      let userInfo = db.get(USER_INFO)
-      this.avatarUrl = userInfo.avatarUrl
+      let userInfo = wepy.$instance.globalData.userInfo
+      // this.avatarUrl = userInfo.avatarUrl
+      this.avatarUrl = formatPng(userInfo.avatarUrl)
       this.nickName = userInfo.nickName
     }
 

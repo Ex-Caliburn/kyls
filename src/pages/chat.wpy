@@ -62,12 +62,12 @@
           </view>
           <view class="pic-wrap flex flex-wrap" hidden="{{!showMore}}">
             <block wx:for-items="{{questionPic}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-              <image @tap="previewImage({{item}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
+              <image @tap="previewImage({{item}},{{0}})" id="{{}}" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
             </block>
           </view>
         </view>
         <view class="time fz24">{{time}}</view>
-        <navigator hidden="{{!isPostgraduate}}" class="answer-btn fz24" url="/pages/answerEdit?questionId={{questionId}}" hover-class="weui-cell_active">
+        <navigator hidden="{{!isPostgraduate && !answerContent}}" class="answer-btn fz24" url="/pages/answerEdit?questionId={{questionId}}" hover-class="weui-cell_active">
           回答
         </navigator>
       </view>
@@ -75,7 +75,7 @@
       <view class="answer">
         <view class="title fz30 flex flex-between">
           <view class="bold">{{answerName}}</view>
-          <navigator hidden="{{!isPostgraduate}}" url="/pages/answerEdit?edit=1&answerId={{answererId}}" hover-class="weui-cell_active">
+          <navigator hidden="{{!isPostgraduate && answerContent}}" url="/pages/answerEdit?edit=1&answerId={{answererId}}" hover-class="weui-cell_active">
             编辑
           </navigator>
           <view hidden="{{isPostgraduate}}" class="flex">
@@ -92,7 +92,7 @@
         <view class="content fz32"> {{answerContent}}</view>
         <view class="pic-wrap flex flex-wrap">
           <block wx:for-items="{{answerPic}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <image @tap="previewImage({{item}})" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
+            <image @tap="previewImage({{item}},{{1}})" class="pic" src="{{item}}" mode="aspectFill" alt=""/>
           </block>
         </view>
         <view class="time fz24">{{time}}</view>
@@ -108,7 +108,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  import { formatDate } from 'utils/common'
+  import { formatDate, formatPng } from 'utils/common'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
@@ -138,12 +138,12 @@
       questionId: '', // 提问id
       questionerId: '', // 提问者id
       questionerName: '', // 提答者姓名
-      questionPic: '',
+      questionPic: [],
       questionContent: '',
       answerId: '', // 回答id
       answererId: '', // 回答者id
       answerName: '', // 回答者姓名
-      answerPic: '',
+      answerPic: [],
       answerContent: ''
     }
 
@@ -165,10 +165,16 @@
       continueAsk () {
         this.navigate('questionFrom?id=' + this.answerUserId)
       },
-      previewImage(img) {
+      previewImage(img, i) {
+        let urls
+        if (i === 1) {
+          urls = this.answerPic
+        } else {
+          urls = this.questionPic
+        }
         wepy.previewImage({
           current: img, // 当前显示图片的http链接
-          urls: this.pics // 需要预览的图片http链接列表
+          urls: urls // 需要预览的图片http链接列表
         })
       }
     }
@@ -179,12 +185,22 @@
           questionId
         }})
         .then((res) => {
-          this.questionContent = res.questionContent
-          this.questionPic = res.questionPic.split(',')
-          this.questionContent = res.questionContent
-          this.answerId = res.answerId
-          this.answerPic = res.answerPic.split(',')
-          this.answerContent = res.answerContent
+          this.cost = res.cost
+          this.questionerId = res.questionerId || ''
+          this.questionerName = res.questionerName || ''
+          this.answererId = res.answererId || ''
+          this.answerName = res.answerName || ''
+          this.questionContent = res.questionContent || ''
+          let questionPic = res.questionPic ? res.questionPic.split(',') : []
+          let answerPic = res.answerPic ? res.answerPic.split(',') : []
+          questionPic = questionPic.map((item) => formatPng(item))
+          answerPic = answerPic.map((item) => formatPng(item))
+          this.questionPic = questionPic
+          this.answerPic = answerPic
+
+          this.questionContent = res.questionContent || ''
+          this.answerId = res.answerId || ''
+          this.answerContent = res.answerContent || ''
           this.time = formatDate(new Date(res.createdAt))
           this.$apply()
         }).catch(err => {

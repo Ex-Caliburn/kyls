@@ -102,6 +102,7 @@
     }
 
     onShow () {
+      this.dataList = []
       this.fetchDate()
     }
     fetchDate () {

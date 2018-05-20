@@ -6,12 +6,16 @@
           <view class="weui-uploader__title bold">{{tips}}</view>
           <view class="weui-uploader__info">{{files.length}}/8</view>
         </view>
+
+        <slot name="content">
+        </slot>
+
         <view class="weui-uploader__bd">
           <view class="weui-uploader__files" id="uploaderFiles">
             <block wx:for="{{files}}" wx:for-index="index" wx:key="*this">
-              <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+              <view class="weui-uploader__file" @tap="previewImage" id="{{picturePrefix + item}}">
                 <icon class="icon-cancel" @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
-                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                <image class="weui-uploader__img" src="{{picturePrefix + item}}" mode="aspectFill"/>
               </view>
             </block>
           </view>
@@ -57,7 +61,8 @@
     data = {
       imgCount: 8,
       filesTask: [], // pic
-      failTask: []
+      failTask: [],
+      picturePrefix
     }
 
     methods = {
@@ -98,7 +103,7 @@
             that.filesTask.slice(i)
           }
         }
-        that.files.push(picturePrefix + imgUrl)
+        that.files.push(imgUrl)
         that.$apply()
       }
 

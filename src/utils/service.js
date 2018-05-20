@@ -59,7 +59,7 @@ async function login(isFirst, pageIndex) {
           })
       } else if (isFirst) {
         let url = pageIndex === '1' ? '/pages/graduateRegister' : '/pages/undergraduateRegister'
-        wepy.navigate({ url })
+        wepy.navigateTo({ url })
           .then((res) => {
             console.log(res)
           })
@@ -193,7 +193,7 @@ function request(options, onComplete) {
         //   icon: 'none',
         //   duration: 1000
         // })
-        reject(res.data.error)
+        reject(res.data)
       }
     }, err => {
       console.log(err, options.method || 'GET', options.data, api[options.apiName])

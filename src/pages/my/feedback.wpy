@@ -5,8 +5,16 @@
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
-        <navigator url="/pages/my/helpCenter" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">帮助中心</view>
+        <!--<navigator url="/pages/my/helpCenter" class="weui-cell weui-cell_access" hover-class="weui-cell_active">-->
+          <!--<view class="weui-cell__bd">帮助中心</view>-->
+          <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
+        <!--</navigator>-->
+        <navigator url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">本科生使用帮助</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">研究生使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
         <navigator url="/pages/my/feedbackEdit" class="weui-cell weui-cell_access" hover-class="weui-cell_active">

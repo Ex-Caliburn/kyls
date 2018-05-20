@@ -66,10 +66,10 @@
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import {get, share} from 'utils/service'
+  import { get, share } from 'utils/service'
   // import db from 'utils/db'
-  import {MEDAL_URL} from 'utils/constant'
-  import {G_MEDAL, PS_MEDAL} from 'utils/medal'
+  import { MEDAL_URL } from 'utils/constant'
+  import { G_MEDAL, PS_MEDAL } from 'utils/medal'
 
   export default class medal extends wepy.page {
     config = {
@@ -101,9 +101,11 @@
           res.forEach((item) => {
             item.icon = MEDAL_URL + item.id + '.png'
             let info = this.medalInfo[item.id - 1]
-            item.title = info.title
-            item.content = info.content
-            item.color = info.color
+            if (info && info.title) {
+              item.title = info.title
+              item.content = info.content
+              item.color = info.color
+            }
           })
           this.list = res
           this.$apply()

@@ -42,8 +42,9 @@ attract
   import Tabbar from '@/components/tabbar' // alias example
   // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
+  import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
-  import { post } from 'utils/service'
+  import { post, get } from 'utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -55,11 +56,11 @@ attract
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, toast, navigate]
 
     data = {
       answer: [],
-      trueArr: [0, 2, 3, 2, 2, 0, 1, 0, 1, 1],
+      trueArr: [0, 2, 3, 2, 2, 0, 1, 0, 1, 1, 1, 0],
       list: [
         {
           title: '小程序里注册成为考研里手用户之后，还要关注考研里手公众号吗？',
@@ -137,6 +138,20 @@ attract
             {name: '0', value: 'A.没啥影响'},
             {name: '1', value: 'B.需重新完成研究生测试题并获得最低要求分数'}
           ]
+        },
+        {
+          title: '研究生通过邀请码请人入驻成为用户，有啥奖励吗？',
+          question: [
+            {name: '0', value: 'A.做好事，不留名~'},
+            {name: '1', value: 'B.获得6个研贝的奖励'}
+          ]
+        },
+        {
+          title: '如果被本科生问问题，自己不懂该怎么办呢？',
+          question: [
+            {name: '0', value: 'A.想下自己有什么资源，找身边知道的人多问下再回答本科生'},
+            {name: '1', value: 'B.忽悠忽悠，瞎答一通'}
+          ]
         }
       ]
     }
@@ -156,8 +171,8 @@ attract
           this.ShowToast('答题有误,请认真审题')
           return
         }
-        post({
-          apiName: 'addDiary'
+        get({
+          apiName: 'updateUserQuestionTestStatus'
         })
           .then((res) => {
             this.navigate('', 2)

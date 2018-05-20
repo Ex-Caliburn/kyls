@@ -15,7 +15,8 @@
   <view class="weui-panel">
     <view class="weui-panel__bd">
       <repeat for="{{dataList}}" key="item.userId" index="index" item="item">
-        <navigator  url="/pages/probation?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">
+        <navigator  url="/pages/serviceList?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">
+        <!--<navigator  url="/pages/probation?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">-->
           <view class="flex flex-between">
             <view>{{(index + 1)}}</view>
             <view>￥{{item.cost || 0}}</view>
@@ -52,9 +53,10 @@
   import Toast from 'wepy-com-toast'
   // import toast from '../mixins/toast'
   import reachBottom from 'mixins/reachBottom'
+  import pic from '@/components/pic'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
-  import { formatDuration } from 'utils/common'
+  import { formatDuration, formatPng } from 'utils/common'
   // import db from 'utils/db'
 
   export default class graduateList extends wepy.page {
@@ -63,7 +65,8 @@
     }
     components = {
       tabbar: Tabbar,
-      toast: Toast
+      toast: Toast,
+      pic
     }
 
     mixins = [tabbar, reachBottom]
@@ -83,6 +86,7 @@
         .then((res) => {
           res.forEach((item) => {
             item.answerTime = formatDuration(item.avgAnswerTime).minutes + 'M'
+            item.faceUrl = formatPng(item.faceUrl)
           })
           this.dataList = this.dataList.concat(res)
           this.$apply()

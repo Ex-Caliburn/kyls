@@ -1,0 +1,52 @@
+<style lang="less" scoped>
+
+</style>
+
+<template>
+  <view>
+    <!--<image src="{{(url && url.indexOf('//wx') > -1) ? ( picturePrefix + url ) : url }}" mode="aspectFill"></image>-->
+    <!--<text>{{(url && url.indexOf('//wx') > -1)}}</text>-->
+    <!--<text ><{{url.indexOf('//wx') > -1 ? picturePrefix+url : url }}</text>-->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { picturePrefix } from 'utils/config'
+
+  export default class pic extends wepy.component {
+    props = {
+      url: {
+        type: String,
+        default: ''
+      }
+    }
+
+    data = {
+      imgUrl: '',
+      picturePrefix
+    }
+
+    // computed = {
+    //   imgUrl () {
+    //     // console.log(this)
+    //     console.log(this.url)
+    //     let url = ''
+    //     if (this.url && this.url.indexOf('//wx') < 0) {
+    //       url = picturePrefix + this.url
+    //     } else {
+    //       url = this.url
+    //     }
+    //     return url
+    //   }
+    // }
+
+    methods = {
+    }
+
+    onShow () {
+    }
+    onLoad () {
+    }
+  }
+</script>

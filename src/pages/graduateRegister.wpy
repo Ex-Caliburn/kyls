@@ -176,36 +176,14 @@
           </view>
         </view>
 
-        <view class="weui-cell">
-          <view class="weui-cell__bd">
-            <view class="weui-uploader">
-              <view class="weui-uploader__hd">
-                <view class="weui-uploader__title">请上传您的学历证明*</view>
-                <view class="weui-uploader__info">{{files.length}}/2</view>
-              </view>
-              <view class="weui-uploader__hd">
-                <view class="weui-uploader__title fz22">
-                  1.准研究生需上传 拟录取证明图片（拟录取名单截图 或者 通知短信 或者 通知邮件 或者 录取通知书）；
-                  2.在读研究生需上传学生证或者身份证。
-                </view>
-              </view>
-              <view class="weui-uploader__bd">
-                <view class="weui-uploader__files" id="uploaderFiles">
-                  <block wx:for="{{files}}" wx:key="*this">
-                    <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
-                      <icon class="icon-cancel"  @tap.stop="deleteImage({{index}})" type="cancel" size="20"></icon>
-                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
-                    </view>
-                  </block>
-                </view>
-                <view class="weui-uploader__input-box">
-                  <view class="weui-uploader__input" @tap="chooseImage"></view>
-                </view>
-              </view>
+        <uploadPic :files.sync="pictures" :tips.sync="tips">
+          <view class="weui-uploader__hd" slot="content">
+            <view class="weui-uploader__title fz22">
+              1.准研究生需上传 拟录取证明图片（拟录取名单截图 或者 通知短信 或者 通知邮件 或者 录取通知书）；
+              2.在读研究生需上传学生证或者身份证。
             </view>
           </view>
-        </view>
-
+        </uploadPic>
 
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
@@ -243,6 +221,7 @@
 
 <script>
   import wepy from 'wepy'
+  import uploadPic from '@/components/uploadPic'
   // import tip from 'utils/tip'
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
@@ -258,14 +237,16 @@
       navigationBarTitleText: '信息录入'
     }
     components = {
-      tabbar: Tabbar
+      tabbar: Tabbar,
+      uploadPic
     }
 
     mixins = [toast, navigate]
 
     data = {
+      tips: '请上传您的学历证明*',
       invitationCode: '',
-      files: [], // pic
+      pictures: [], // pic
       userName: '',
       email: '',
       phoneNumber: '',
@@ -426,25 +407,6 @@
         }).catch(err => {
           console.log(err)
         })
-      },
-      deleteImage (i) {
-        console.log(i)
-        this.files.splice(i, 1)
-        this.$apply()
-      },
-      async chooseImage (e) {
-        let res = await wepy.chooseImage({
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
-        })
-        this.files = this.files.concat(res.tempFilePaths)
-        this.$apply()
-      },
-      previewImage (e) {
-        wepy.previewImage({
-          current: e.currentTarget.id, // 当前显示图片的http链接
-          urls: this.data.files // 需要预览的图片http链接列表
-        })
       }
     }
 
@@ -454,7 +416,7 @@
         userName, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
         postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willTypes,
-         publicSubjectFirstArr, professionalSubjectFirst, invitationCode, phoneNumber, files
+         publicSubjectFirstArr, professionalSubjectFirst, invitationCode, phoneNumber, pictures
       } = this
       let answerWill = []
       willTypes.forEach(item => {
@@ -471,7 +433,7 @@
       if (phoneNumber && userName && undergraduateSchoolId && undergraduateMajorId &&
         postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && answerWill.length > 0 &&
         publicSubjectFirst.length > 0 && (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
-        professionalSubjectFirst && isAgree && files.length > 0) {
+        professionalSubjectFirst && isAgree && pictures.length > 0) {
       } else {
         let errMsg
         let CN_RULE = /^[\u4E00-\u9FA5]/g
@@ -502,7 +464,7 @@
           errMsg = '请输入初试公共科目'
         } else if (answerWill.length === 0) {
           errMsg = '请选择回答意愿'
-        } else if (files.length === 0) {
+        } else if (pictures.length === 0) {
           errMsg = '请上传学历证明图片'
         } else {
           errMsg = '请阅读并同意协议'
@@ -529,7 +491,7 @@
           publicSubjectFirst: publicSubjectFirst.join(), // 初试公共科目
           professionalSubjectFirst: professionalSubjectFirst, // 初试专业科目，逗号分割
           answerWill: answerWill.join(','), //  回答意愿   1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
-          educationPicture: files.join(',') // 学历证明图片 这个时参数
+          educationPicture: pictures.join(',') // 学历证明图片 这个时参数
         }
       }).then(res => {
         let gd = this.$parent.globalData

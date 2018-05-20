@@ -35,7 +35,7 @@
             </view>
             <view class="weui-media-box__desc">保证至少三小时总通话时间</view>
             <view class="weui-media-box__info">
-              <view class="weui-media-box__info__meta fz22">五六月份开发</view>
+              <view class="weui-media-box__info__meta fz22">开发中</view>
             </view>
           </view>
         </view>
@@ -48,7 +48,7 @@
               <view class="cost bold">消耗1000研贝</view>
             </view>
             <view class="weui-media-box__info">
-              <view class="weui-media-box__info__meta fz22">五六月份开发</view>
+              <view class="weui-media-box__info__meta fz22">开发中</view>
             </view>
           </view>
         </view>
@@ -63,10 +63,11 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
+  import tip from 'utils/tip'
   // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {post} from '../utils/service'
+  import {get, post} from '../utils/service'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -91,12 +92,31 @@
 
     methods = {
       chooseService (index) {
-        console.log(index)
-        const route = [
-          'questionFrom?answerUserId=' + this.answerUserId
-        ]
-        this.navigate(route[index])
+        this.getUserAmountCount(index)
       }
+    }
+
+    getUserAmountCount (index) {
+      get({
+        apiName: 'getUserAmountCount'
+      })
+        .then((res) => {
+          if (res >= this.cost) {
+            const route = [
+              'questionFrom?answerUserId=' + this.answerUserId
+            ]
+            this.navigate(route[index])
+          } else {
+            tip.confirm('余额不足，请去充值')
+              .then(res => {
+                this.navigate('my/recharge?back=1')
+              }).catch(err => {
+                console.log(err)
+              })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
     }
 
     onShow () {

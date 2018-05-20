@@ -25,10 +25,12 @@ const api = {
   /*
   * 我的
   * */
-
+  getUserPraiseList: user + 'getUserPraiseList',
+  getUserCollectionLis: user + 'getUserCollectionLis',
   getCarousel: 'carouse/list', // post
   getUserInfo: user + 'getUserInfo', // get
   getUserAmountCount: user + 'getUserAmountCount', // get
+  updateUserQuestionTestStatus: user + 'updateUserQuestionTestStatus', // get
   viewQuestionCount: 'viewQuestionRecord/viewQuestionCount', // get
   /*
   * 支付

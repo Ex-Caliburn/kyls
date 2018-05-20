@@ -30,7 +30,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get, post} from 'utils/service'
+  import { get, post } from 'utils/service'
   // import db from 'utils/db'
 
   export default class collection extends wepy.page {
@@ -56,31 +56,35 @@
     }
 
     fetchDate () {
-      for (let i = 0; i < 10; i++) {
-        let obj = {
-          nickname: '李先生' + i,
-          major: '土木',
-          school: '清华'
+      // for (let i = 0; i < 10; i++) {
+      //   let obj = {
+      //     nickname: '李先生' + i,
+      //     major: '土木',
+      //     school: '清华'
+      //   }
+      //   this.dataList.push(obj)
+      // }
+      // this.$apply()
+      let apiName = this.thisPostgraduate ? 'getUserCollectionLis' : 'getUserPraiseList'
+      post({
+        apiName,
+        data: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum
         }
-        this.dataList.push(obj)
-      }
-      this.$apply()
-      // get({
-      //   apiName: 'getPostgraduateInfo',
-      //   data: {}
-      // })
-      //   .then((res) => {
-      //     res.data.forEach((item) => {
-      //       item.askTime = formatDate(Date.now())
-      //     })
-      //     this.dataList.push(res.data)
-      //     this.$apply()
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
+      })
+        .then((res) => {
+          if (res && res.length > 0) {
+            this.dataList = this.dataList.concat(res)
+            this.$apply()
+          }
+        }).catch(err => {
+          console.log(err)
+        })
     }
 
     onShow () {
+      this.dataList = []
       this.fetchDate()
     }
 

@@ -105,7 +105,8 @@
 
 <script>
   import wepy from 'wepy'
-  import Tabbar from '@/components/tabbar' // alias example
+  import Tabbar from '@/components/tabbar'
+  import { formatPng } from 'utils/common'
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
@@ -160,11 +161,11 @@
         }
       })
         .then((res) => {
-          // res.forEach((item) => {
-          //   item.askTime = formatDate(Date.now())
-          // })
           console.log(res)
           if (res.list && res.list.length > 0) {
+            res.list.forEach((item) => {
+              item.faceUrl = formatPng(item.faceUrl)
+            })
             this.dataList = this.dataList.concat(res.list)
             this.$apply()
           }
