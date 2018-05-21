@@ -28,7 +28,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view @tap="getImage" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
-            <image src="{{avatarUrl}}" class="avatar"
+            <image src="{{avatarUrlShow}}" class="avatar"
                    style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
           </view>
           <view class="weui-cell__bd"></view>
@@ -197,6 +197,7 @@
       // volunteerSchool: '',
       email: '',
       avatarUrl: '',
+      avatarUrlShow: '',
       imageSrc: '',
       isShowImg: false,
       // 初始化的宽高
@@ -300,8 +301,11 @@
             userInfo.avatarUrl = avatarUrl
             db.set(USER_INFO, userInfo)
           }
-        }).catch(err => {
-          console.log(err)
+        }).catch(res => {
+          console.log(res)
+          if (res.code === 100) {
+            this.ShowToast(res.error)
+          }
         })
       } else {
         post({
@@ -334,7 +338,8 @@
       this.postgraduateSchoolName = gd.postgraduateSchoolName
       this.postgraduateMajorName = gd.postgraduateMajorName
       this.isPostgraduate = gd.isPostgraduate
-      this.avatarUrl = formatPng(gd.userInfo.avatarUrl)
+      this.avatarUrlShow = formatPng(gd.userInfo.avatarUrl)
+      this.avatarUrl = gd.userInfo.avatarUrl
       this.$apply()
     }
     getImage () {
@@ -471,7 +476,8 @@
       let that = this
       // let userInfo = this.$parent.globalData.userInfo
       function success (imgUrl) {
-        that.avatarUrl = picturePrefix + imgUrl
+        that.avatarUrl = imgUrl
+        that.avatarUrlShow = picturePrefix + imgUrl
         that.imageSrc = ''
         // userInfo.avatarUrl = picturePrefix + imgUrl
         // db.set(USER_INFO, userInfo)

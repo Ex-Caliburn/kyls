@@ -59,6 +59,7 @@
   import tabbar from '../mixins/tabbar'
   import navigate from '../mixins/navigate'
   import { post } from '../utils/service'
+  import tip from 'utils/tip'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
 
@@ -87,15 +88,24 @@
         this.showGuide = !this.showGuide
       },
       showAnswer() {
-        this.showAnswer = !this.showAnswer
+        if (this.canView === 0) {
+          tip.confirm('查看次数不足，请去充值')
+            .then(res => {
+              this.navigate('my/recharge?back=1')
+            }).catch(err => {
+              console.log(err)
+            })
+        } else {
+          this.showAnswer = !this.showAnswer
+        }
       }
     }
 
     getPgShowInfo() {
       post({
-        apiName: 'viewQuestion',
+        apiName: 'viewPostgraduateCustomQuestion',
         data: {
-          ps_id: this.userId
+          pg_user_id: this.userId
         }
       })
         .then((res) => {
@@ -103,6 +113,7 @@
           this.silence = res.silence
           this.questionContent = res.questionContent
           this.answerContent = res.answerContent
+          this.canView = res.canView
         }).catch(err => {
           console.log(err)
         })

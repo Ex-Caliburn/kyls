@@ -1,11 +1,27 @@
 import { picturePrefix } from 'utils/config'
+import wepy from 'wepy'
 
 export {
+  redirect,
   formatDuration,
   formatPng,
   diff,
   current,
   formatDate
+}
+
+function redirect (url) {
+  wepy.redirectTo({ url })
+    .then((res) => {
+      this.isNavigate = true
+      this.$apply()
+      console.log(res)
+    })
+    .catch(err => {
+      this.isNavigate = true
+      this.$apply()
+      console.log(err)
+    })
 }
 
 function formatPng (url) {

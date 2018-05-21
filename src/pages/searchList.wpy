@@ -252,8 +252,9 @@
       choose (id, name) {
         console.log(name)
         this.name = name
-        this.rootList[this.index].selected = true
-        switch (Number(this.index)) {
+        let i = this.index
+        this.rootList[i].selected = true
+        switch (Number(i)) {
           case 0:
             this.undergraduateSchoolId = id
             this.undergraduateSchoolName = name
@@ -273,38 +274,16 @@
           default:
             break
         }
+        if (i < this.rootList.length - 1) {
+          i++
+          this.index = i
+          this.$apply()
+          this.changeSub(i + '')
+        }
       },
       changeCate (e) {
         let id = e.currentTarget.dataset.id
-        let name
-        switch (Number(id)) {
-          case 0:
-            name = this.undergraduateSchoolName || ''
-            break
-          case 1:
-            name = this.undergraduateMajorName || ''
-            break
-          case 2:
-            name = this.postgraduateSchoolName || ''
-            break
-          case 3:
-            name = this.postgraduateMajorName || ''
-            break
-          default:
-            break
-        }
-        this.name = name
-        // 设置一级分类的选中状态
-        for (var i = 0; i < this.rootList.length; i++) {
-          var root = this.rootList[i]
-          root.active = false
-          if (root.id === id) {
-            root.active = true
-            this.index = root.id
-          }
-        }
-        this.$apply()
-        this.getChildCate(id)
+        this.changeSub(id)
       },
       confirm () {
         let flag = true
@@ -327,6 +306,37 @@
       }
     }
 
+    changeSub (id) {
+      let name
+      switch (Number(id)) {
+        case 0:
+          name = this.undergraduateSchoolName || ''
+          break
+        case 1:
+          name = this.undergraduateMajorName || ''
+          break
+        case 2:
+          name = this.postgraduateSchoolName || ''
+          break
+        case 3:
+          name = this.postgraduateMajorName || ''
+          break
+        default:
+          break
+      }
+      this.name = name
+      // 设置一级分类的选中状态
+      for (var i = 0; i < this.rootList.length; i++) {
+        var root = this.rootList[i]
+        root.active = false
+        if (root.id === id) {
+          root.active = true
+          this.index = root.id
+        }
+      }
+      this.$apply()
+      this.getChildCate(id)
+    }
     beforeLeave () {
       let gd = wepy.$instance.globalData
       gd.undergraduateSchoolId = this.undergraduateSchoolId

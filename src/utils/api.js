@@ -26,6 +26,7 @@ const api = {
   * 我的
   * */
   getUserPraiseList: user + 'getUserPraiseList',
+  viewPostgraduateCustomQuestion: user + 'viewPostgraduateCustomQuestion', // 本科生查看研究生的自定义问题 get
   getUserCollectionLis: user + 'getUserCollectionLis',
   getCarousel: 'carouse/list', // post
   getUserInfo: user + 'getUserInfo', // get

@@ -110,8 +110,13 @@
           </view>
         </view>
 
-        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">院校信息*</view>
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">院校信息*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择院校" disabled value="{{undergraduateSchoolName ? '已选' : ''}}"/>
+          </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
@@ -226,10 +231,9 @@
   // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
-  import { post, get, addFormId } from '../utils/service'
-  import tip from 'utils/tip'
+  import { addFormId, get, post } from '../utils/service'
   import db from 'utils/db'
-  import { USER_INFO, IS_POSTGRADUATE } from '../utils/constant'
+  import { IS_POSTGRADUATE, USER_INFO } from '../utils/constant'
   import navigate from 'mixins/navigate'
 
   export default class graduateRegister extends wepy.page {
@@ -251,6 +255,7 @@
       email: '',
       phoneNumber: '',
       code: '',
+      undergraduateSchoolName: '',
       // idNumber: '',
       degrees: ['学术型', '专业型'],
       degreeIndex: '',
@@ -512,14 +517,15 @@
 
     onShow () {
       let gd = wepy.$instance.globalData
-      this.undergraduateSchoolId = gd.undergraduateSchoolId
-      this.undergraduateMajorId = gd.undergraduateMajorId
-      this.postgraduateSchoolId = gd.postgraduateSchoolId
-      this.postgraduateMajorId = gd.postgraduateMajorId
-      this.undergraduateSchoolName = gd.undergraduateSchoolName
-      this.undergraduateMajorName = gd.undergraduateMajorName
-      this.postgraduateSchoolName = gd.postgraduateSchoolName
-      this.postgraduateMajorName = gd.postgraduateMajorName
+      console.log(gd)
+      this.undergraduateSchoolId = gd.undergraduateSchoolId || ''
+      this.undergraduateMajorId = gd.undergraduateMajorId || ''
+      this.postgraduateSchoolId = gd.postgraduateSchoolId || ''
+      this.postgraduateMajorId = gd.postgraduateMajorId || ''
+      this.undergraduateSchoolName = gd.undergraduateSchoolName || ''
+      this.undergraduateMajorName = gd.undergraduateMajorName || ''
+      this.postgraduateSchoolName = gd.postgraduateSchoolName || ''
+      this.postgraduateMajorName = gd.postgraduateMajorName || ''
       this.$apply()
     }
 

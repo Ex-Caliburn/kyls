@@ -29,12 +29,6 @@
     <view class="page__bd">
       <view class="weui-panel">
         <view class="weui-panel__bd">
-          <!--“questionId”: 43,-->
-          <!--“question”: “试试事实上”,-->
-          <!--“answer”: null,-->
-          <!--“majorName”: “微生物与生化药学\t078005”,-->
-          <!--“userName”: “每天学霸”,-->
-          <!--“schoolName”: “沈阳药科大学”-->
           <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
             <navigator url="/pages/chat?id={{questionId}}" class="list-container border " hover-class="weui-cell_active">
               <view class="flex flex-between fz26">

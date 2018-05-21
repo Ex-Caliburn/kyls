@@ -1,4 +1,5 @@
 import wepy from 'wepy'
+import { redirect } from 'utils/common'
 
 export default class navigate extends wepy.mixin {
   data = {
@@ -22,23 +23,12 @@ export default class navigate extends wepy.mixin {
             console.log(res)
           })
           .catch(err => {
-            this.isNavigate = true
-            this.$apply()
+            redirect(url)
             console.log(err)
           })
         break
       case 1:
-        wepy.redirectTo({ url })
-          .then((res) => {
-            this.isNavigate = true
-            this.$apply()
-            console.log(res)
-          })
-          .catch(err => {
-            this.isNavigate = true
-            this.$apply()
-            console.log(err)
-          })
+        redirect(url)
         break
       case 2:
         wepy.navigateBack({ delta: 1 })

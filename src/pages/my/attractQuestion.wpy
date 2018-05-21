@@ -55,6 +55,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
+  import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
   import { post, get } from 'utils/service'
 
@@ -67,7 +68,7 @@
       toast: Toast
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, toast, navigate]
 
     data = {
       opinion: '',
@@ -97,6 +98,15 @@
             data: { opinion, questionContent, answerContent, silence }
           })
             .then((res) => {
+              wepy.showToast({
+                title: '设置成功',
+                icon: 'success',
+                mask: true,
+                duration: 500
+              })
+              setTimeout(res => {
+                this.navigate('', 2)
+              }, 500)
             }).catch(err => {
               console.log(err)
             })

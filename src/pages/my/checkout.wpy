@@ -175,7 +175,15 @@ attract
           apiName: 'updateUserQuestionTestStatus'
         })
           .then((res) => {
-            this.navigate('', 2)
+            wepy.showToast({
+              title: '成功通过审核',
+              icon: 'success',
+              mask: true,
+              duration: 500
+            })
+            setTimeout(res => {
+              this.navigate('', 2)
+            }, 500)
           }).catch(err => {
             console.log(err)
           })
