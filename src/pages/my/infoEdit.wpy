@@ -277,14 +277,67 @@
       }
     }
 
-    _updateInfo() {
-      let { phoneNumber, avatarUrl, willTypes, postgraduateSchoolId, postgraduateMajorId } = this
+    psUpdateInfo () {
+      let {phoneNumber, avatarUrl, willTypes} = this
       let answerWill = []
       willTypes.forEach(item => {
         if (item.choose) {
           answerWill.push(item.value)
         }
       })
+      if (answerWill.length === 0) {
+        let errMsg = '请选择意愿'
+        this.ShowToast(errMsg)
+        return
+      }
+      post({
+        apiName: 'updatePostgraduateUserInfo',
+        data: { phoneNumber, wxFaceUrl: avatarUrl, answerWill: answerWill.join(',') }
+      }).then((res) => {
+        let userInfo = this.$parent.globalData.userInfo
+        if (userInfo.avatarUrl !== avatarUrl) {
+          userInfo.avatarUrl = avatarUrl
+          db.set(USER_INFO, userInfo)
+        }
+        this.ShowToast(res)
+      }).catch(res => {
+        console.log(res)
+        if (res.code === 100) {
+          this.ShowToast(res.error)
+        }
+      })
+    }
+    uUpdateInfo () {
+      let { phoneNumber, avatarUrl, postgraduateSchoolId, postgraduateMajorId } = this
+      if (postgraduateSchoolId === '' || postgraduateMajorId === '') {
+        let errMsg = '选择学校和专业'
+        this.ShowToast(errMsg)
+        return
+      }
+      post({
+        apiName: 'updateUndergraduateUserInfo',
+        data: {
+          volunteerMajor: postgraduateMajorId,
+          volunteerSchool: postgraduateSchoolId,
+          phoneNumber,
+          wxFaceUrl: avatarUrl }
+      }).then((res) => {
+        let userInfo = this.$parent.globalData.userInfo
+        if (userInfo.avatarUrl !== avatarUrl) {
+          userInfo.avatarUrl = avatarUrl
+          userInfo.phone = phoneNumber
+          db.set(USER_INFO, userInfo)
+        }
+        this.ShowToast(res)
+      }).catch(res => {
+        console.log(res)
+        if (res.code === 100) {
+          this.ShowToast(res.error)
+        }
+      })
+    }
+    _updateInfo() {
+      let { phoneNumber } = this
       let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
       if (!phoneNumber || !PHONE_RULE.test(phoneNumber)) {
         let errMsg = '请输入正确的手机'
@@ -292,39 +345,9 @@
         return
       }
       if (this.isPostgraduate) {
-        post({
-          apiName: 'updatePostgraduateUserInfo',
-          data: { phoneNumber, wxFaceUrl: avatarUrl, answerWill: answerWill.join(',') }
-        }).then((res) => {
-          let userInfo = this.$parent.globalData.userInfo
-          if (userInfo.avatarUrl !== avatarUrl) {
-            userInfo.avatarUrl = avatarUrl
-            db.set(USER_INFO, userInfo)
-          }
-        }).catch(res => {
-          console.log(res)
-          if (res.code === 100) {
-            this.ShowToast(res.error)
-          }
-        })
+        this.psUpdateInfo()
       } else {
-        post({
-          apiName: 'updateUndergraduateUserInfo',
-          data: {
-            volunteerMajor: postgraduateMajorId,
-            volunteerSchool: postgraduateSchoolId,
-            phoneNumber,
-            wxFaceUrl: avatarUrl }
-        }).then((res) => {
-          let userInfo = this.$parent.globalData.userInfo
-          if (userInfo.avatarUrl !== avatarUrl) {
-            userInfo.avatarUrl = avatarUrl
-            userInfo.phone = phoneNumber
-            db.set(USER_INFO, userInfo)
-          }
-        }).catch(err => {
-          console.log(err)
-        })
+        this.uUpdateInfo()
       }
     }
 

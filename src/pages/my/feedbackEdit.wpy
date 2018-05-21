@@ -63,6 +63,7 @@
 
     data = {
       content: '',
+      isPostgraduate: '',
       complainType: '',
       pictures: [],
       tips: '提供相关问题的截图或照片',
@@ -102,17 +103,23 @@
         this.ShowToast('填写必要的信息')
         return
       }
+      let feedbackType
+      if (!this.id) {
+        feedbackType = complainType
+      }
       post({
         apiName: this.id ? 'addUserComplain' : 'addFeedback',
-        data: { content, pictures: pictures.join(','), complainType }
+        data: { content, pictures: pictures.join(','), complainType, feedbackType }
       }).then((res) => {
         this.ShowToast('提交成功')
       }).catch(err => {
+        this.ShowToast('提交失败')
         console.log(err)
       })
     }
 
     onLoad(params) {
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.id = params.id
       if (params.id) {
         this.complainTypes = this.suePostgraduateTypes

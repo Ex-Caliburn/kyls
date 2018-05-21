@@ -7,7 +7,7 @@
 <template>
   <view class="page">
     <view class="page__bd">
-      <view class="tc title">{{isPostgraduate > 1 ? '我所关注的学弟学妹' : '我赞过的学长学姐'}}</view>
+      <view class="tc title">{{isPostgraduate ? '我关注的本科生' : '我赞过的学长学姐'}}</view>
         <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
           <view @tap="goService({{item.id}})" class="list-container flex flex-between border">
             <view>{{item.nickname}}</view>

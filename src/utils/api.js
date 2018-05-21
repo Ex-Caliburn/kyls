@@ -25,8 +25,10 @@ const api = {
   /*
   * 我的
   * */
+  getPgUserChatYbCount: user + 'getPgUserChatYbCount',
   getUserPraiseList: user + 'getUserPraiseList',
   viewPostgraduateCustomQuestion: user + 'viewPostgraduateCustomQuestion', // 本科生查看研究生的自定义问题 get
+  getPostduateOpinionAndSilence: user + 'getPostduateOpinionAndSilence', // 本科生查看研究生的自定义问题 get
   getUserCollectionLis: user + 'getUserCollectionLis',
   getCarousel: 'carouse/list', // post
   getUserInfo: user + 'getUserInfo', // get
@@ -42,6 +44,7 @@ const api = {
   /*
   * 操作类上传
   * */
+  postgraduateAttention: user + 'postgraduateAttention',
   share: 'share/share',
   upload: '/upload/image',
   setUserPhone: '/wx/setUserPhone', // post setUserPhone

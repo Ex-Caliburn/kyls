@@ -3,7 +3,7 @@
     display: inline-block;
     width: 79px;
     height: 79px;
-    margin-right:4px;
+    margin:5rpx 4px 0 0;
   }
   .question,.answer{
     background-color: #fff;
@@ -53,7 +53,8 @@
       <view class="question">
         <view class="title fz30 flex flex-between">
           <view class="bold">{{questionerName}}</view>
-          <view class="blue">￥{{cost}}</view>
+          <!--<view class="blue">￥{{cost}}</view>-->
+          <image @tap="focus" hidden="{{!isPostgraduate}}" class="love ML20 MR20" src="{{icon}}"></image>
         </view>
         <view class="{{showMore ? '' : 'hideMsg'}}">
           <view class="content fz32 tr">
@@ -67,7 +68,7 @@
           </view>
         </view>
         <view class="time fz24">{{time}}</view>
-        <navigator hidden="{{!isPostgraduate && !answerContent}}" class="answer-btn fz24" url="/pages/answerEdit?questionId={{questionId}}" hover-class="weui-cell_active">
+        <navigator hidden="{{!isPostgraduate || answerContent}}" class="answer-btn fz24" url="/pages/answerEdit?questionId={{questionId}}" hover-class="weui-cell_active">
           回答
         </navigator>
       </view>
@@ -75,13 +76,13 @@
       <view class="answer">
         <view class="title fz30 flex flex-between">
           <view class="bold">{{answerName}}</view>
-          <navigator hidden="{{!isPostgraduate && answerContent}}" url="/pages/answerEdit?edit=1&answerId={{answererId}}" hover-class="weui-cell_active">
+          <navigator hidden="{{!isPostgraduate || !answerContent}}" url="/pages/answerEdit?edit=1&questionId={{questionId}}" hover-class="weui-cell_active">
             编辑
           </navigator>
           <view hidden="{{isPostgraduate}}" class="flex">
-            <navigator url="/pages/questionFrom?id={{answererId}}" hover-class="weui-cell_active">
-              提问
-            </navigator>
+            <!--<navigator url="/pages/questionFrom?id={{answererId}}" hover-class="weui-cell_active">-->
+              <!--提问-->
+            <!--</navigator>-->
             <image @tap="love"  class="love ML20 MR20" src="{{icon}}"></image>
 
             <navigator url="/pages/my/feedbackEdit?id={{answererId}}" hover-class="weui-cell_active">
@@ -112,7 +113,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { get, post } from 'utils/service'
+  import { get } from 'utils/service'
   import { LOVE, UNLOVE } from 'utils/constant'
   // import db from 'utils/db'
   // import { IS_POSTGRADUATE } from 'utils/constant'
@@ -130,10 +131,10 @@
 
     data = {
       showMore: false,
-      icon: LOVE,
+      icon: UNLOVE,
       isPostgraduate: '',
       loveStatus: false, // 本科生是否对研究生点赞
-      // loveStatus: false, // 研究生是否对本科生点赞
+      focusStatus: false, // 研究生是否对本科生关注
       cost: 10,
       questionId: '', // 提问id
       questionerId: '', // 提问者id
@@ -160,6 +161,17 @@
           this.undergraduatePraise()
         }
         this.loveStatus = !this.loveStatus
+        this.$apply()
+      },
+      focus () {
+        if (this.focusStatus) {
+          this.icon = UNLOVE
+          this.postgraduatePraise()
+        } else {
+          this.icon = LOVE
+          this.postgraduatePraise()
+        }
+        this.focusStatus = !this.focusStatus
         this.$apply()
       },
       continueAsk () {
@@ -212,7 +224,18 @@
       get({
         apiName: 'undergraduatePraise',
         data: {
-          pg_user_id: this.answerUserId || 1
+          pg_user_id: this.answererId
+        }})
+        .then((res) => {
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    postgraduatePraise () {
+      get({
+        apiName: 'postgraduateAttention',
+        data: {
+          under_user_id: this.questionerId
         }})
         .then((res) => {
         }).catch(err => {
@@ -223,8 +246,6 @@
     onLoad(params) {
       console.log(params)
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.answerUserId = params.answerUserId
-      // test
       if (params.questionId) {
         this.questionId = params.questionId
         this.viewQuestion(params.questionId)

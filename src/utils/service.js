@@ -188,11 +188,11 @@ function request(options, onComplete) {
         login()
       } else {
         console.log(res.statusCode + ':  ' + res.data.data + ', ' + res.data.error)
-        // wepy.showToast({
-        //   title: res.statusCode + ':  ' + res.data.data,
-        //   icon: 'none',
-        //   duration: 1000
-        // })
+        wepy.showToast({
+          title: res.data.data || res.data.error || '',
+          icon: 'none',
+          duration: 2000
+        })
         reject(res.data)
       }
     }, err => {

@@ -52,7 +52,7 @@
 
 
   <view class="operation">
-    <navigator url="/pages/my/recharge" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
+    <navigator hidden="{{isPostgraduate}}"  url="/pages/my/recharge" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
       研贝充值
     </navigator>
     <navigator  class="weui-btn mini-btn enter-btn btn grey" hover-class="weui-cell_active">

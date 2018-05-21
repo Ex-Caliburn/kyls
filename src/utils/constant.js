@@ -7,10 +7,10 @@ const IS_POSTGRADUATE = 'isPostgraduate'
 const USER_INFO = 'userInfo'
 const SYSTEM_INFO = 'systemInfo'
 
-const MEDAL_URL = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/medal/medal'
-const LOVE = '../../icon/my/love.svg'
+const MEDAL_URL = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com'
+const UNLOVE = '../../icon/my/love.svg'
 const Document = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/document/6def6ad04b260a70e2669a8ef1476117.docx'
-const UNLOVE = '../../icon/my/love1.svg'
+const LOVE = '../../icon/my/love1.svg'
 const QRCode = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/ac7565d809334b0385ab57481cb11aa7.jpg'
 const avatarUrl = 'https://kyls-test.oss-cn-hangzhou.aliyuncs.com/image/2018/5/7/d3c9bf9d42ee4d2f95d2d838e918bcd1.jpg'
 

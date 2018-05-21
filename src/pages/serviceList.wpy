@@ -20,7 +20,7 @@
           <view class="weui-media-box weui-media-box_text">
             <view class="weui-media-box__title weui-media-box__title_in-text">
               通过聊天界面求助
-              <view class="cost bold">消耗100研贝</view>
+              <view class="cost bold">消耗{{cost}}研贝</view>
             </view>
           </view>
         </view>
@@ -85,7 +85,7 @@
     data = {
       showGuide: false,
       showAnswer: false,
-      answerUserId: '',
+      userId: '',
       cost: '',
       dataList: []
     }
@@ -98,12 +98,15 @@
 
     getUserAmountCount (index) {
       get({
-        apiName: 'getUserAmountCount'
+        apiName: 'getUserAmountCount',
+        data: {
+          pg_user_id: this.userId
+        }
       })
         .then((res) => {
           if (res >= this.cost) {
             const route = [
-              'questionFrom?answerUserId=' + this.answerUserId
+              'questionFrom?userId=' + this.userId
             ]
             this.navigate(route[index])
           } else {
@@ -118,14 +121,28 @@
           console.log(err)
         })
     }
+    getPgUserChatYbCount () {
+      get({
+        apiName: 'getPgUserChatYbCount',
+        data: {
+          pg_user_id: this.userId
+        }
+      })
+        .then((res) => {
+          this.cost = res
+          this.$apply()
+        }).catch(err => {
+          console.log(err)
+        })
+    }
 
     onShow () {
+      this.getPgUserChatYbCount()
     }
 
     onLoad (params) {
-      console.log(params.id)
-      this.answerUserId = params.id
-      this.cost = params.cost
+      console.log(params.userId)
+      this.userId = params.userId
       this.$apply()
     }
   }

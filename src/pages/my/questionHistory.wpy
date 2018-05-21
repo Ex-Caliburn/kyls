@@ -1,9 +1,30 @@
-<style>
+<style lang="less">
+  .navbar {
+    .page,
+    .page__bd {
+      height: 100%;
+    }
+
+    .page__bd {
+      padding-bottom: 0;
+    }
+    .weui-navbar__title{
+      margin: 0 auto;
+    }
+    .weui-tab__content {
+      text-align: center;
+    }
+  }
+
   .ellipsis {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .isAnswer {
+    background-color: oldlace;
   }
   .list-container{
     padding: 20rpx 40rpx;
@@ -13,7 +34,7 @@
     margin-right: 40rpx;
   }
   .ellipsis-content{
-    width: 700rpx;
+    width: 500rpx;
   }
 
   .avatarUrl {
@@ -25,24 +46,56 @@
 </style>
 
 <template>
-  <view class="page">
+  <view class="page navbar">
     <view class="page__bd">
-      <view class="weui-panel">
-        <view class="weui-panel__bd">
-          <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-            <navigator url="/pages/chat?id={{questionId}}" class="list-container border " hover-class="weui-cell_active">
-              <view class="flex flex-between fz26">
-                <text>{{item.userName}}</text>
-                <text>{{item.schoolName}}</text>
-                <text>{{item.majorName}}</text>
-              </view>
-              <!--<view class="ellipsis ellipsis-content fz26">问题:{{item.answer}}</view>-->
-              <view class="flex flex-between fz26">
-                <view class="ellipsis ellipsis-content">答案:{{item.question || '暂无回答'}}</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-              </view>
-            </navigator>
-          </block>
+      <view class="weui-tab">
+        <view class="weui-navbar">
+          <view wx:for="{{tabs}}" wx:key="*this" id="{{index}}"
+                class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" @tap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+          <view class="weui-navbar__slider"
+                style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+        </view>
+        <view class="weui-tab__panel">
+          <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+
+            <view wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <navigator url="/pages/chat?questionId={{item.questionId}}" class="list-container border flex flex-between"
+                         hover-class="weui-cell_active">
+                <view class="pic-container flex flex-align-center">
+                  <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
+                </view>
+                <view>
+                  <view class="tl">{{item.userName}}</view>
+                  <view class="tl">{{item.schoolName}}</view>
+                  <view class="tl">{{item.majorName}}</view>
+                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
+                  <!--<view class="">{{item.askTime}}</view>-->
+                </view>
+              </navigator>
+            </view>
+
+          </view>
+          <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+
+            <view wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+              <navigator url="/pages/chat?questionId={{item.questionId}}" class="list-container border flex flex-between"
+                         hover-class="weui-cell_active">
+                <view class="pic-container flex flex-align-center">
+                  <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
+                </view>
+                <view>
+                  <view class="tl">{{item.userName}}</view>
+                  <view class="tl">{{item.schoolName}}</view>
+                  <view class="tl">{{item.majorName}}</view>
+                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
+                  <!--<view class="">{{item.askTime}}</view>-->
+                </view>
+              </navigator>
+            </view>
+
+          </view>
         </view>
       </view>
     </view>
@@ -53,15 +106,18 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar'
+  import { formatPng } from 'utils/common'
   import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
-  import {post} from 'utils/service'
-  // import db from 'utils/db'
   // import { formatDate } from 'utils/common'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
+  import { post } from 'utils/service'
+  import { SYSTEM_INFO } from 'utils/constant'
+  import db from 'utils/db'
+
+  const sliderWidth = 94 // 需要设置slider的宽度，用于计算中间位置
 
   export default class questionHistory extends wepy.page {
     config = {
@@ -75,16 +131,27 @@
     mixins = [tabbar, navigate, reachBottom]
 
     data = {
+      tabs: ['进行中', '待评分（近期开放）'],
+      activeIndex: 0,
+      sliderOffset: 0,
+      sliderLeft: 0,
       dataList: []
     }
 
     methods = {
-      goService (id) {
+      goService() {
         this.navigate('chat?id=' + this.id)
+      },
+      tabClick(e) {
+        // this.sliderOffset = e.currentTarget.offsetLeft
+        // this.activeIndex = e.currentTarget.id
+        // this.pageSize = 10
+        // this.pageNum = 1
+        // this.dataList = []
+        // this.fetchDate()
       }
     }
-
-    fetchDate () {
+    fetchDate() {
       post({
         apiName: 'getMasterAskList',
         data: {
@@ -93,20 +160,29 @@
         }
       })
         .then((res) => {
-          this.dataList = this.dataList.concat(res.list)
-          this.$apply()
+          console.log(res)
+          if (res.list && res.list.length > 0) {
+            res.list.forEach((item) => {
+              item.faceUrl = formatPng(item.faceUrl)
+            })
+            this.dataList = this.dataList.concat(res.list)
+            this.$apply()
+          }
         }).catch(err => {
           console.log(err)
         })
-      this.$apply()
     }
-    onShow () {
+
+    onShow() {
       this.dataList = []
-      this.$apply()
       this.fetchDate()
     }
 
-    onLoad (params) {
+    onLoad(params) {
+      let sysInfo = db.get(SYSTEM_INFO)
+      this.sliderLeft = (sysInfo.windowWidth / this.tabs.length - sliderWidth) / 2
+      this.sliderOffset = sysInfo.windowWidth / this.tabs.length * this.activeIndex
+      this.$apply()
     }
   }
 </script>

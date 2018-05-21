@@ -8,7 +8,7 @@
   <view class="page">
     <view class="page__bd">
       <view wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-        <view @tap="goService({{item.questionId}})" class="list-container border">
+        <view @tap="goService({{item.answerUserId}})" class="list-container border">
           <view class="flex flex-between">
             <view>{{item.userName}}</view>
             <view>{{item.schoolName}}</view>
@@ -53,8 +53,8 @@
     }
 
     methods = {
-      goService () {
-        this.navigate('probation?questionId=' + this.questionId)
+      goService (userId) {
+        this.navigate('probation?userId=' + userId)
       }
     }
 

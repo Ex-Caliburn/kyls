@@ -23,8 +23,8 @@
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
         <view class="flex flex-between title">
-          <view>聊天对象信息</view>
-          <image @tap="love" class="love" src="{{icon}}"></image>
+          <!--<view>聊天对象信息</view>-->
+          <!--<image @tap="love" class="love" src="{{icon}}"></image>-->
         </view>
         <view class="weui-cell">
           <view class="weui-cell__bd">
@@ -69,6 +69,7 @@
       content: '',
       pictures: [],
       questionId: '',
+      answerId: '',
       questionType: 1
     }
 
@@ -94,24 +95,23 @@
         this.content = e.detail.value
       },
       submit () {
-        let {userId, questionId, content, pictures, edit, answerId} = this
-        if (edit) {
+        let {questionId, content, pictures, edit, answerId} = this
+        if (!edit) {
           post({
             apiName: 'answerQuestion',
             data: {
-              anserUserId: userId,
               questionId,
               content,
               pictures: pictures.join(','),
               questionType: 1 // 1.聊天类型，2：电话，3面聊
             }})
             .then((res) => {
-              this.navigate('my/info')
+              this.navigate('answer')
             }).catch(err => {
               console.log(err)
             })
         } else {
-          get({
+          post({
             apiName: 'updateAnswer',
             data: {
               answerId,
@@ -119,7 +119,7 @@
               pictures: pictures.join(',')
             }})
             .then((res) => {
-              this.navigate('my/info')
+              this.navigate('answer')
             }).catch(err => {
               console.log(err)
             })
@@ -140,10 +140,9 @@
     }
 
     onLoad (params) {
-      this.answerUserId = params.answerUserId || ''
       this.questionId = params.questionId || ''
-      this.answerId = params.answerId || ''
       this.edit = params.edit || ''
+      this.answerId = this.$parent.globalData.userInfo.userId
       console.log(params)
       this.$apply()
     }

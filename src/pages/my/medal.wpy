@@ -44,6 +44,10 @@
 <template>
   <view class="page">
     <view class="page__bd">
+      <view class="tc center" hidden="{{list.length > 0}}">
+        暂无勋章，快去完善个人信息吧
+      </view>
+
       <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
         <view @tap="choose({{index}}, {{item.isReceiveReward}}, {{item.id}})" class="{{index < 2 ? 'border model': 'model' }}">
           <view class="title" style="color: {{item.color}}">{{item.title}}</view>
@@ -98,16 +102,28 @@
         apiName: 'getUserMedal'
       })
         .then((res) => {
-          res.forEach((item) => {
-            item.icon = MEDAL_URL + item.id + '.png'
-            let info = this.medalInfo[item.id - 1]
-            if (info && info.title) {
-              item.title = info.title
-              item.content = info.content
-              item.color = info.color
-            }
-          })
-          this.list = res
+          if (res.length > 0) {
+            res.forEach((item) => {
+                // {
+                //   'medalId': 28,
+                //   'userId': 12,
+                //   'isReceiveReward': 1,
+                //   'medalName': '赏金猎人',
+                //   'medalImage': '/medal/sjlr.png',
+                //   'userType': 2,
+                //   'medalLevel': 1,
+                //   'isReward': 1
+                // }
+              item.icon = MEDAL_URL + item.medalImage
+              item.title = item.medalName
+              let info = this.medalInfo[item.id - 1]
+              if (info && info.title) {
+                item.content = info.content
+                item.color = info.color
+              }
+            })
+            this.list = res
+          }
           this.$apply()
         }).catch(err => {
           console.log(err)

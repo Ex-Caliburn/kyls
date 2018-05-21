@@ -57,11 +57,11 @@
 
     methods = {
       operation(id) {
-        const route = [
-          'chat'
-        ]
         this._readMessage(id)
-        this.navigate(route[0] + '?questionId=' + id)
+        // const route = [
+        //   'chat'
+        // ]
+        // this.navigate(route[0] + '?questionId=' + id)
       }
     }
 

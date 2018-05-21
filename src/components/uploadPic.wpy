@@ -109,7 +109,6 @@
 
       function fail(imgUrl) {
         that.failTask.push(imgUrl)
-        console.log(this.failTask)
         that.$apply()
       }
 

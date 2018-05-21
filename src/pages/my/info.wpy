@@ -131,7 +131,15 @@
   .subTitle-special:nth-child(2){
     border-radius:10px ;
   }
-
+  .tl{
+    text-align: left;
+  }
+  .noPadding {
+    padding: 0;
+  }
+.isPostgraduate{
+  margin-left: 10rpx;
+}
 
 </style>
 
@@ -161,12 +169,13 @@
             <navigator url="/pages/my/medal" class="navigate-btn  flex1  fz26  " hover-class="none" open-type="navigate">
               <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
-            <view class="navigate-btn flex1 fz26 ">
-              <view class="subTitle-special type_pink">我的信誉：{{creditScore}}
+            <view class="navigate-btn flex1 fz26 {{isPostgraduate ? 'isPostgraduate' : '' }}">
+              <view class="subTitle-special flex flex-bewteen {{isPostgraduate ? '' : 'type_pink noPadding' }}">
+                <text>信誉：{{creditScore}}</text>
                 <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}" class="green">+ {{creditScoreStatus}}</text>
                 <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}" class="red">- {{creditScoreStatus}}</text>
               </view>
-              <view hidden="{{!isPostgraduate}}" class="subTitle-special type_pink MT10">我的星级：{{starLevel}} 级</view>
+              <view hidden="{{!isPostgraduate}}" class="subTitle-special MT10 {{isPostgraduate ? 'tl' : '' }}">星级：{{starLevel}} 级</view>
             </view>
           </view>
         </view>
@@ -216,7 +225,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import tabbar from 'mixins/tabbar'
   import { getPhoneNumber, share, get } from 'utils/service'
-  import { USER_INFO } from 'utils/constant'
+  // import { USER_INFO } from 'utils/constant'
   import { formatPng } from 'utils/common'
   import pic from '@/components/pic'
 

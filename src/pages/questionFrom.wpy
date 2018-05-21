@@ -72,6 +72,7 @@
 
     data = {
       content: '',
+      rewardMoney: '',
       pictures: [],
       answerUserId: '',
       questionType: 1
@@ -85,12 +86,13 @@
 
     methods = {
       submitQuestion () {
-        let { answerUserId, content, pictures } = this
+        let { answerUserId, content, pictures, rewardMoney } = this
         post({
           apiName: 'questionSubmit',
           data: {
             answerUserId,
             content,
+            rewardMoney,
             pictures: pictures.join(','),
             questionType: 1 // 1.聊天类型，2：电话，3面聊
           }})
@@ -106,8 +108,9 @@
     }
 
     onLoad (params) {
-      this.answerUserId = params.answerUserId
       console.log(params)
+      this.answerUserId = params.userId || ''
+      this.rewardMoney = params.rewardMoney || ''
       this.$apply()
     }
   }

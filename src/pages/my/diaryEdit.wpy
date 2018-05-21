@@ -121,7 +121,7 @@
       } else {
         let diaryEdit = this.$parent.globalData.diaryEdit
 
-        if (diaryEdit.diaryPictures) {
+        if (diaryEdit && diaryEdit.diaryPictures) {
           this.pictures = diaryEdit.diaryPictures.split(',')
         }
         this.title = diaryEdit.title

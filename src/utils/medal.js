@@ -5,7 +5,18 @@ const PS_MEDAL = [
     title: '宾客临门',
     content: '你的智慧声名远扬！',
     condition: '1级：被查看10次',
-    reward: '每被一个人使用免费查看权力查看，信誉分+0.1分'
+    reward: '每被一个人使用免费查看权力查看，信誉分+0.1分',
+    children: [
+      {
+        condition: '1级：被查看10次'
+      },
+      {
+        condition: '2级：被查看100次'
+      },
+      {
+        condition: '3级：被查看600次'
+      }
+    ]
   },
   {
     // id: 2,
@@ -42,7 +53,15 @@ const PS_MEDAL = [
     title: '经世济民',
     content: '赠人玫瑰，手有余香。',
     condition: '分享一次，1天分享上限为3次',
-    reward: '奖励0.1信誉分'
+    reward: '奖励0.1信誉分',
+    children: [
+      {
+        title: '经世济民',
+        content: '赠人玫瑰，手有余香。',
+        condition: '分享一次，1天分享上限为3次',
+        reward: '奖励0.1信誉分'
+      }
+    ]
   },
   {
     color: '#a0d468',
