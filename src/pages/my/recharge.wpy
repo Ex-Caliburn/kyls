@@ -92,9 +92,9 @@
     mixins = [tabbar, toast, navigate]
 
     data = {
-      amount: '',
+      amount: '666',
       back: '',
-      moneyInp: '',
+      moneyInp: '666',
       moneyArr: [166, 666, 1666]
     }
 
@@ -114,6 +114,7 @@
       async submit () {
         if (!this.amount) {
           this.ShowToast('请输入金额')
+          return
         }
         try {
           let res = await post({

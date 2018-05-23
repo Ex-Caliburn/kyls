@@ -8,6 +8,11 @@ export default class navigate extends wepy.mixin {
     if (!this.isNavigate) {
       return
     }
+    // let pages = this.getCurrentPages()
+    // pages.splice(1, 0)
+    // console.log(this.getCurrentPages())
+    // if (pages.length === 10) {
+    // }
     this.isNavigate = false
     this.$apply()
     if (url) {
