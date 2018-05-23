@@ -73,12 +73,12 @@
         </navigator>
       </view>
 
-      <view class="answer">
-        <view class="title fz30 flex flex-between">
+      <view class="answer" hidden="{{!answerContent}}">
+        <view class="title fz30 flex flex-between" >
           <view class="bold">{{answerName}}</view>
-          <navigator hidden="{{!isPostgraduate || !answerContent}}" url="/pages/answerEdit?edit=1&questionId={{questionId}}" hover-class="weui-cell_active">
+          <view @tap="edit" hidden="{{!isPostgraduate || !answerContent}}"  hover-class="weui-cell_active">
             编辑
-          </navigator>
+          </view>
           <view hidden="{{isPostgraduate}}" class="flex">
             <!--<navigator url="/pages/questionFrom?id={{answererId}}" hover-class="weui-cell_active">-->
               <!--提问-->
@@ -174,6 +174,14 @@
         this.focusStatus = !this.focusStatus
         this.$apply()
       },
+      edit () {
+        this.$parent.globalData.editInfo = {
+          answerContent: this.answerContent,
+          answerPictures: this.answerPic
+        }
+        this.$apply()
+        this.navigate('answerEdit?answerId=' + this.answerId)
+      },
       continueAsk () {
         this.navigate('questionFrom?id=' + this.answerUserId)
       },
@@ -232,7 +240,7 @@
         })
     }
     postgraduatePraise () {
-      get({
+      post({
         apiName: 'postgraduateAttention',
         data: {
           under_user_id: this.questionerId

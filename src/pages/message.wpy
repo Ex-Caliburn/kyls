@@ -59,7 +59,8 @@
       operation(id) {
         this._readMessage(id)
         // const route = [
-        //   'chat'
+        //   'chat',
+        //   'medalDetail'
         // ]
         // this.navigate(route[0] + '?questionId=' + id)
       }

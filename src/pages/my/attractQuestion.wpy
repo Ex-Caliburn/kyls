@@ -1,4 +1,12 @@
-<style>
+<style scoped>
+  .tip{
+    padding-bottom:200rpx ;
+  }
+  .btn{
+    position: fixed;
+    bottom: 500rpx;
+    width: 100%;
+  }
 </style>
 
 <template>
@@ -45,7 +53,7 @@
     <view class="fz22">3、以上自主编辑内容将与您的收益密切相关；</view>
     <view class="fz22">4、考研典型问题及回答被本科生查看一次，您的信誉分将提升0.1分。</view>
   </view>
-  <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">确定</button>
+  <button @tap="submit" class="btn weui-btn mini-btn type_yellow fz26">确定</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 

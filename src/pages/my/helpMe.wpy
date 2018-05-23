@@ -11,7 +11,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
         <navigator  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">电话沟通过的学长学姐（五六月份开发</view>
+          <view class="weui-cell__bd">电话沟通过的学长学姐（五六月份开发)</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
         <navigator  class="weui-cell weui-cell_access" hover-class="weui-cell_active">

@@ -168,7 +168,7 @@ attract
           }
         }
         if (flag > 2) {
-          this.ShowToast('答题有误,请认真审题')
+          this.ShowToast('您错了不止一题，请认真审题哦~')
           return
         }
         get({

@@ -27,7 +27,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的求助信息" value="{{content}}"/>
+            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的回答" value="{{content}}"/>
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
@@ -51,10 +51,10 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
+  import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { get, post } from 'utils/service'
+  import { post } from 'utils/service'
   import uploadPic from '@/components/uploadPic'
   // import { diff } from 'utils/common'
 
@@ -68,7 +68,7 @@
       uploadPic
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, toast]
 
     data = {
       content: '',
@@ -87,6 +87,10 @@
     methods = {
       submitQuestion () {
         let { answerUserId, content, pictures, rewardMoney } = this
+        if (!content) {
+          this.ShowToast('请输入回答内容')
+          return
+        }
         post({
           apiName: 'questionSubmit',
           data: {

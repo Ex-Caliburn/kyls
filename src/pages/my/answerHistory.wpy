@@ -14,6 +14,9 @@
     .weui-tab__content {
       text-align: center;
     }
+    .weui-bar__item_on .weui-navbar__title{
+      color: red;
+    }
   }
 
   .ellipsis {

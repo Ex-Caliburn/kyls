@@ -87,7 +87,7 @@
   .personConfig{
     right: 150rpx;
     color: #FFFFFF;
-    padding: 8rpx;
+    padding: 7rpx 7rpx 7rpx 8rpx;
     margin: 0;
     color: white;
     background-color: #ff6a3c;
@@ -123,14 +123,14 @@
     text-decoration:none;
     -webkit-tap-highlight-color:transparent;
     overflow:hidden;
-    padding-left: 5rpx;
+    /*padding-left: 5rpx;*/
   }
-  .subTitle-special:nth-child(1){
-    border-radius:10px ;
-  }
-  .subTitle-special:nth-child(2){
-    border-radius:10px ;
-  }
+  /*.subTitle-special:nth-child(1){*/
+    /*border-radius:10px ;*/
+  /*}*/
+  /*.subTitle-special:nth-child(2){*/
+    /*border-radius:10px ;*/
+  /*}*/
   .tl{
     text-align: left;
   }
@@ -140,6 +140,11 @@
 .isPostgraduate{
   margin-left: 10rpx;
 }
+  .navigate-btn-special{
+    border-radius: 20rpx;
+    box-sizing: border-box;
+    padding-left:10rpx;
+  }
 
 </style>
 
@@ -169,13 +174,13 @@
             <navigator url="/pages/my/medal" class="navigate-btn  flex1  fz26  " hover-class="none" open-type="navigate">
               <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
-            <view class="navigate-btn flex1 fz26 {{isPostgraduate ? 'isPostgraduate' : '' }}">
-              <view class="subTitle-special flex flex-bewteen {{isPostgraduate ? '' : 'type_pink noPadding' }}">
-                <text>信誉：{{creditScore}}</text>
-                <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}" class="green">+ {{creditScoreStatus}}</text>
-                <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}" class="red">- {{creditScoreStatus}}</text>
+            <view class="navigate-btn navigate-btn-special flex1 fz26  type_pink {{isPostgraduate ? 'isPostgraduate' : '' }}">
+              <view class="subTitle-special flex flex-bewteen {{isPostgraduate ? '' : 'noPadding' }}">
+                <text class="white">信誉：{{creditScore}}</text>
+                <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}" class="green ML10">+ {{creditScoreStatus}}</text>
+                <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}" class="red ML10">- {{creditScoreStatus}}</text>
               </view>
-              <view hidden="{{!isPostgraduate}}" class="subTitle-special MT10 {{isPostgraduate ? 'tl' : '' }}">星级：{{starLevel}} 级</view>
+              <view hidden="{{!isPostgraduate}}" class="white subTitle-special MT10 {{isPostgraduate ? 'tl' : '' }}">星级：{{starLevel}} 级</view>
             </view>
           </view>
         </view>
@@ -341,8 +346,8 @@
         apiName: 'getUserInfo'
       }).then((res) => {
         console.log(res)
-        this.creditScore = res.creditScore
-        this.creditScoreStatus = res.creditScoreStatus
+        this.creditScore = res.creditScore && 20
+        this.creditScoreStatus = res.creditScoreStatus || 20
         this.starLevel = res.starLevel
         db.set('inviteCode', res.inviteCode)
       //   “inviteCode”: “qcacaa”, //用户邀请码，
@@ -358,6 +363,7 @@
     }
 
     onShow() {
+      // console.log(this, wepy.$instance, wepy.$wxpage)
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.getUserInfo()
       this.$apply()

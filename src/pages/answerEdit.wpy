@@ -22,13 +22,13 @@
   <view class="page">
     <view class="page__bd">
       <view class="weui-cells weui-cells_after-title">
-        <view class="flex flex-between title">
+        <!--<view class="flex flex-between title">-->
           <!--<view>聊天对象信息</view>-->
           <!--<image @tap="love" class="love" src="{{icon}}"></image>-->
-        </view>
+        <!--</view>-->
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的求助信息" value="{{content}}"/>
+            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的回答" value="{{content}}"/>
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
@@ -45,10 +45,10 @@
   import Tabbar from '@/components/tabbar' // alias example
   import Toast from 'wepy-com-toast'
   import uploadPic from '@/components/uploadPic'
-  // import toast from '../mixins/toast'
+  import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { post, get } from 'utils/service'
+  import { get, post } from 'utils/service'
   import { LOVE, UNLOVE } from 'utils/constant'
 
   export default class answerEdit extends wepy.page {
@@ -60,7 +60,7 @@
       toast: Toast,
       uploadPic
     }
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, toast]
 
     data = {
       edit: '',
@@ -96,6 +96,10 @@
       },
       submit () {
         let {questionId, content, pictures, edit, answerId} = this
+        if (!content) {
+          this.ShowToast('请输入回答内容')
+          return
+        }
         if (!edit) {
           post({
             apiName: 'answerQuestion',
@@ -106,7 +110,7 @@
               questionType: 1 // 1.聊天类型，2：电话，3面聊
             }})
             .then((res) => {
-              this.navigate('answer')
+              this.navigate('my/answerHistory')
             }).catch(err => {
               console.log(err)
             })
@@ -115,11 +119,11 @@
             apiName: 'updateAnswer',
             data: {
               answerId,
-              content,
-              pictures: pictures.join(',')
+              answerContent: content,
+              answerPictures: pictures.join(',')
             }})
             .then((res) => {
-              this.navigate('answer')
+              this.navigate('my/answerHistory')
             }).catch(err => {
               console.log(err)
             })
@@ -142,7 +146,14 @@
     onLoad (params) {
       this.questionId = params.questionId || ''
       this.edit = params.edit || ''
-      this.answerId = this.$parent.globalData.userInfo.userId
+      if (params.answerId) {
+        this.answerId = Number(params.answerId)
+        this.edit = true
+        let editInfo = this.$parent.globalData.editInfo
+        this.content = editInfo.answerContent
+        this.pictures = editInfo.answerPictures
+        console.log(editInfo.answerPictures)
+      }
       console.log(params)
       this.$apply()
     }

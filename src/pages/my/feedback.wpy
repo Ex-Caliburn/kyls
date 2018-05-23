@@ -12,12 +12,12 @@
           <!--<view class="weui-cell__bd">帮助中心</view>-->
           <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
         <!--</navigator>-->
-        <navigator url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">本科生使用帮助</view>
+        <navigator hidden="{{isPostgraduate}}" url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
-        <navigator url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">研究生使用帮助</view>
+        <navigator hidden="{{!isPostgraduate}}" url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
         <navigator url="/pages/my/feedbackEdit" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -52,13 +52,16 @@
     mixins = []
 
     data = {
-      icon: '../../icon/my/customerServices.svg'
+      icon: '../../icon/my/customerServices.svg',
+      isPostgraduate: false
     }
 
     methods = {
     }
 
     onLoad () {
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
+      this.$apply()
     }
   }
 </script>

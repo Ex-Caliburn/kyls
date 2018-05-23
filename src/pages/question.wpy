@@ -150,6 +150,10 @@
 
     submitQuestion () {
       let { content, pictures, questionType, rewardMoney } = this
+      if (!content) {
+        this.ShowToast('请输入回答内容')
+        return
+      }
       let questionInfo = {}
       if (this.questionInfo) {
         let { postgraduateSchoolId, postgraduateMajorId, degreeIndex, studyModeIndex, publicSubjectId } = this.questionInfo

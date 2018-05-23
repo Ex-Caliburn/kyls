@@ -43,6 +43,9 @@
     border-radius: 1000px;
     display: block;
   }
+  .weui-bar__item_on .weui-navbar__title{
+    color: red;
+  }
 </style>
 
 <template>
