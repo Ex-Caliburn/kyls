@@ -101,7 +101,7 @@
             questionType: 1 // 1.聊天类型，2：电话，3面聊
           }})
           .then((res) => {
-            this.navigate('my/info')
+            this.navigate('my/answerHistory')
           }).catch(err => {
             console.log(err)
           })

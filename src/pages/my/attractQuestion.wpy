@@ -1,11 +1,9 @@
 <style scoped>
-  .tip{
-    padding-bottom:200rpx ;
-  }
   .btn{
-    position: fixed;
-    bottom: 500rpx;
-    width: 100%;
+    /*position: fixed;*/
+    /*bottom: 500rpx;*/
+    /*width: 100%;*/
+   margin-bottom:200rpx ;
   }
 </style>
 
@@ -114,7 +112,7 @@
               })
               setTimeout(res => {
                 this.navigate('', 2)
-              }, 500)
+              }, 1000)
             }).catch(err => {
               console.log(err)
             })

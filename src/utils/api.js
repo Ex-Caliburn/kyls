@@ -18,6 +18,8 @@ const api = {
   * */
   getMedalAward: 'medal/getMedalAward',
   getUserMedal: 'medal/getUserMedal',
+  getMedalInfoList: 'medal/getMedalInfoList',
+  getMedalInfoByMedal: 'medal/getMedalInfoByMedal',
   getUserMessage: 'message/getUserMessage',
   readMessage: 'message/readMessage', // /message/readMessage 请求方式：GET 参数：{"id":1} 返
   getPostgraduateInfo: user + 'getPostgraduateInfo',

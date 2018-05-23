@@ -5,7 +5,7 @@
   .page__bd{
     text-align: center;
   }
-  .center{
+  .item{
     padding-bottom: 50rpx;
   }
   .mini-btn{
@@ -44,18 +44,19 @@
   <view class="page">
     <view class="page__bd">
       <button class="radius share type_red" open-type="share">分享</button>
-      <view hidden="{{!isGet}}" class="red center">恭喜你获得新勋章</view>
+      <view hidden="{{!isGet}}" class="red item">恭喜你获得新勋章</view>
       <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
-      <view class="center">已有{{people}}人获得</view>
-      <image class="icon" src="{{icon}}"/>
-      <view class="center" style="color: {{color}}">{{title}}</view>
-      <view class="center">{{content}}</view>
-      <view class="center">{{condition}}</view>
-      <view class="center">勋章获得奖励：{{reward}}</view>
-      <!--<view class="center">完成度：100</view>-->
+      <view class="item">已有{{people}}人获得</view>
+      <image class="icon" src="{{MEDAL_URL + medalImage}}"/>
+      <view class="item" style="color: {{color}}">{{medalName}}</view>
+      <view class="item">{{welcome}}</view>
+      <view class="item">勋章获得条件：{{medalCondition}}</view>
+      <view class="item">勋章获得奖励：{{award || remark}}</view>
+      <!--<view class="item">备注：{{remark}}</view>-->
+      <!--<view class="item">完成度：100</view>-->
     </view>
   </view>
-  <button class="center" hidden="{{isGet}}" @tap="submit" class="weui-btn mini-btn type_yellow fz26">领取奖励</button>
+  <button class="item" hidden="{{isGet}}" @tap="submit" class="weui-btn mini-btn type_yellow fz26">领取奖励</button>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -63,33 +64,33 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
+  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { get } from 'utils/service'
-  import {MEDAL_URL} from 'utils/constant'
-  import {G_MEDAL, PS_MEDAL} from 'utils/medal'
+  import { MEDAL_URL } from 'utils/constant'
+
+  const colorArr = ['#ed5565', '#fc6e51', '#ffce54', '#a0d468', '#48cfad', '#4fc1e9', '#ed5565', '#fc6e51', '#ffce54', '#a0d468', '#48cfad', '#4fc1e9', '#ac92ec', '#ec87d9']
 
   export default class medalDetail extends wepy.page {
     config = {
       navigationBarTitleText: '我的勋章'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, toast]
 
     data = {
-      color: '',
-      id: '',
-      title: '',
-      content: '',
-      condition: '',
-      reward: '',
-      icon: '',
+      MEDAL_URL,
+      color: colorArr[Math.ceil(Math.random() * 10)],
+      medalName: '',
+      remark: '',
+      welcome: '',
+      medalCondition: '',
+      medalImage: '',
+      award: '',
       isGet: false,
       medalId: '',
       people: 100 + new Date().getMonth()
@@ -109,30 +110,52 @@
         }
       })
         .then((res) => {
-          this.ShowToast(res)
           this.isGet = true
           this.$apply()
         }).catch(err => {
           this.ShowToast(err)
         })
     }
+    getMedalInfo (medalId) {
+      get({
+        apiName: 'getMedalInfoByMedal',
+        data: {
+          medal_id: medalId
+        }
+      })
+        .then((res) => {
+          this.isGet = true
+          this.medalName = res.medalName
+          this.remark = res.remark
+          this.welcome = res.welcome
+          this.medalImage = res.medalImage
+          this.medalCondition = res.medalCondition
+          this.award = res.award || ''
+          this.$apply()
+        }).catch(err => {
+          this.ShowToast(err)
+        })
+    }
+    onShow () {
+    }
 
     onLoad (params) {
       console.log(params.medalId)
-      if (!params.medalId || !params.id) {
+      if (!params.medalId) {
         this.navigate('', 2)
         return
       }
-      let isPostgraduate = this.$parent.globalData.isPostgraduate
-      let medalInfo = isPostgraduate ? PS_MEDAL[params.id - 1] : G_MEDAL[params.id - 1]
-      this.medalId = params.medalId
-      this.isGet = params.isGet
-      this.icon = MEDAL_URL + params.id + '.png'
-      this.color = medalInfo.color
-      this.title = medalInfo.title
-      this.content = medalInfo.content
-      this.condition = medalInfo.condition
-      this.reward = medalInfo.reward
+      this.getMedalInfo(params.medalId)
+      // let isPostgraduate = this.$parent.globalData.isPostgraduate
+      // let medalInfo = isPostgraduate ? PS_MEDAL[params.id - 1] : G_MEDAL[params.id - 1]
+      // this.medalId = params.medalId
+      // this.isGet = params.isGet
+      // this.medalImage = MEDAL_URL + params.id + '.png'
+      // this.color = medalInfo.color
+      // this.title = medalInfo.title
+      // this.content = medalInfo.content
+      // this.condition = medalInfo.condition
+      // this.reward = medalInfo.reward
       this.$apply()
     }
   }

@@ -48,7 +48,6 @@
         <button disabled="{{userType === 1}}" class="weui-btn mini-btn enter-btn type_blue"  @getuserinfo="getUserInfo('1')" formType="submit" open-type="getUserInfo">解惑者入口</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('0')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo">考研里手故事</button>
         <button class="weui-btn mini-btn enter-btn type_blue" @tap="jump('1')" formType="submit" @getuserinfo="getUserInfoTwo" open-type="getUserInfo" >使用帮助</button>
-        <!--<button class="btn" form-type="submit" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>使用帮助</button>-->
       </form>
     </view>
     <view class="des bold">考研里手——实名制考研百科全书</view>
@@ -70,17 +69,25 @@
     mixins = [navigate, shareApp]
 
     data = {
+      flag: false
     }
 
     computed = {
       userType () {
-        return this.$parent.globalData.userInfo.userType
+        let userType = this.$parent.globalData.userInfo.userType
+        if (!this.flag) {
+          if (userType === 1) {
+            this.navigate('chooseInterest', 1)
+            this.flag = true
+            this.$apply()
+          } else if (userType === 2 || userType === 3) {
+            this.navigate('answer', 1)
+            this.flag = true
+            this.$apply()
+          }
+        }
+        return userType
       }
-    }
-
-    getPhoneNumber(e) {
-      console.log(e.detail)
-      // const { encryptedData, iv }
     }
 
     authorize() {
@@ -132,13 +139,6 @@
     }
 
     onLoad() {
-      // this.userType = this.$parent.globalData.userType
-      // this.$apply()
-      // if (userType === 1) {
-      //   this.navigate('chooseInterest', 1)
-      // } else if (userType === 2 || userType === 3) {
-      //   this.navigate('chooseInterest', 1)
-      // }
     }
   }
 </script>

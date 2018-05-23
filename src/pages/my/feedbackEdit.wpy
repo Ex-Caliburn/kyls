@@ -45,6 +45,7 @@
   import uploadPic from '@/components/uploadPic' // alias example
   // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
+  import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
   // import db from 'utils/db'
@@ -59,7 +60,7 @@
       uploadPic: uploadPic
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, toast, navigate]
 
     data = {
       content: '',
@@ -111,7 +112,10 @@
         apiName: this.id ? 'addUserComplain' : 'addFeedback',
         data: { content, pictures: pictures.join(','), complainType, feedbackType }
       }).then((res) => {
-        this.ShowToast('提交成功')
+        this.ShowToast('提交成功, 我们会尽快处理')
+        setTimeout(() => {
+          this.navigate('', 2)
+        }, 1000)
       }).catch(err => {
         this.ShowToast('提交失败')
         console.log(err)

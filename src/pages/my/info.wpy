@@ -346,16 +346,10 @@
         apiName: 'getUserInfo'
       }).then((res) => {
         console.log(res)
-        this.creditScore = res.creditScore && 20
-        this.creditScoreStatus = res.creditScoreStatus || 20
+        this.creditScore = res.creditScore
+        this.creditScoreStatus = res.creditScoreStatus
         this.starLevel = res.starLevel
         db.set('inviteCode', res.inviteCode)
-      //   “inviteCode”: “qcacaa”, //用户邀请码，
-      // “creditScore”: 10, //信誉分
-      // “amountCount”: 0, //研呗
-      // “creditScoreStatus”: null,//当前信誉分的变化 给的字符串 null 就是没有的意思
-      // “starLevel”: 0, //星级 如果小于60 现在返回0
-      // “userType”: 1 //用户类型
         this.$apply()
       }).catch(err => {
         console.log(err)

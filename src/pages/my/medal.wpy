@@ -22,7 +22,9 @@
     background-color: #ff6a3c;
   }
 
-  .model{
+  .medel{
+    width: 49%;
+    box-sizing: border-box;
     padding: 30rpx;
     background-color: #fff;
     margin-top: 10rpx;
@@ -33,12 +35,20 @@
   .icon{
     height: 180rpx;
     width: 180rpx;
-    margin-right: 30rpx;
+    display: block;
+    margin: 0 auto;
+    /*margin-right: 30rpx;*/
   }
   .title{
     text-align: center;
     margin-bottom: 50rpx;
   }
+
+  .unReceive {
+    background-color: #f5f5f5;
+    color: #fff;
+  }
+
 </style>
 
 <template>
@@ -48,15 +58,15 @@
         暂无勋章，快去完善个人信息吧
       </view>
 
-      <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-        <view @tap="choose({{index}}, {{item.isReceiveReward}}, {{item.id}})" class="{{index < 2 ? 'border model': 'model' }}">
-          <view class="title" style="color: {{item.color}}">{{item.title}}</view>
-          <view class="flex flex-between">
+      <view class="flex flex-wrap flex-between">
+        <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          <view @tap="choose({{item.medalId}}, {{item.isReceiveReward}})" class="medel {{index < 2 ? 'border': '' }} {{item.isReceiveReward === 1 ? '' : 'unReceive' }}">
+            <view class="title">{{item.title}}({{item.medalLevel}}级)</view>
             <image class="icon" src="{{item.icon}}"/>
-            <view class="flex1">{{item.content}}</view>
           </view>
-        </view>
-      </block>
+        </block>
+      </view>
+
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -73,7 +83,6 @@
   import { get, share } from 'utils/service'
   // import db from 'utils/db'
   import { MEDAL_URL } from 'utils/constant'
-  import { G_MEDAL, PS_MEDAL } from 'utils/medal'
 
   export default class medal extends wepy.page {
     config = {
@@ -88,12 +97,13 @@
 
     data = {
       isPostgraduate: '',
-      list: []
+      list: [],
+      getList: []
     }
 
     methods = {
-      choose (i, isGet, id) {
-        this.navigate('my/medalDetail?medalId=' + i + '&isGet=' + isGet + '&id=' + id)
+      choose (medalId, isGet) {
+        this.navigate('my/medalDetail?medalId=' + medalId + '&isGet=' + isGet)
       }
     }
 
@@ -102,28 +112,30 @@
         apiName: 'getUserMedal'
       })
         .then((res) => {
-          if (res.length > 0) {
-            res.forEach((item) => {
-                // {
-                //   'medalId': 28,
-                //   'userId': 12,
-                //   'isReceiveReward': 1,
-                //   'medalName': '赏金猎人',
-                //   'medalImage': '/medal/sjlr.png',
-                //   'userType': 2,
-                //   'medalLevel': 1,
-                //   'isReward': 1
-                // }
-              item.icon = MEDAL_URL + item.medalImage
-              item.title = item.medalName
-              let info = this.medalInfo[item.id - 1]
-              if (info && info.title) {
-                item.content = info.content
-                item.color = info.color
-              }
-            })
-            this.list = res
-          }
+          let temp = []
+          res.map((item) => {
+            temp.push(item.medalId)
+          })
+          this.getMedalInfoList(temp)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    getMedalInfoList (temp) {
+      get({
+        apiName: 'getMedalInfoList'
+      })
+        .then((res) => {
+          let userType = this.$parent.globalData.userInfo.userType
+          this.list = res.filter((item) => {
+            item.icon = MEDAL_URL + item.medalImage
+            item.title = item.medalName
+            if (temp.indexOf(item.medalId) > -1) {
+              item.isReceiveReward = 1
+            }
+            return item.userType === userType
+          })
           this.$apply()
         }).catch(err => {
           console.log(err)
@@ -131,11 +143,11 @@
     }
 
     onShow () {
+      console.log(this.$wxpage)
       this.getUserMedal()
     }
     onLoad (params) {
-      let isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.medalInfo = isPostgraduate ? PS_MEDAL : G_MEDAL
+      this.isPostgraduate = this.$parent.globalData.isPostgraduate
       this.$apply()
     }
     onShareAppMessage (res) {

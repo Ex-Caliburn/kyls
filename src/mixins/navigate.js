@@ -9,6 +9,7 @@ export default class navigate extends wepy.mixin {
       return
     }
     this.isNavigate = false
+    this.$apply()
     if (url) {
       url = '/pages/' + url
       console.log(url)
