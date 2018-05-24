@@ -28,7 +28,7 @@
               <view>{{item.schoolName}}</view>
               <view class="class=flex flex-between">
                 <view>{{item.majorName}}</view>
-                <view>{{item.grade}}年级</view>
+                <view>{{gradeArr[item.grade]}}</view>
               </view>
               <view class="flex flex-between">
                 <view class="">信誉分: {{item.creditScore}}</view>
@@ -74,6 +74,7 @@
     data = {
       scienceId: '',
       scienceType: '',
+      gradeArr: ['准研究生', '研一', '研二', '研三'],
       dataList: []
     }
 
@@ -87,6 +88,7 @@
           res.forEach((item) => {
             item.answerTime = formatDuration(item.avgAnswerTime).minutes + 'M'
             item.faceUrl = formatPng(item.faceUrl)
+            item.grade = item.grade.toString().slice(0, 1)
           })
           this.dataList = this.dataList.concat(res)
           this.$apply()

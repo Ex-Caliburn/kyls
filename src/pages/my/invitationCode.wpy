@@ -1,16 +1,16 @@
 <style>
-  .invitation-code{
+  .invitation-code {
     font-size: 40rpx;
     position: absolute;
     top: 40%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
 </style>
 
 <template>
   <view class="page" @tap="tap">
-    <text class="invitation-code" selectable>{{invitationCode}}</text>
+    <text class="invitation-code red" selectable @tap="tap">{{invitationCode}}</text>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -37,12 +37,24 @@
     }
 
     methods = {
+      tap() {
+        wepy.setClipboardData({
+          data: this.invitationCode
+        }).then(() => {
+          wepy.showModal({
+            title: '复制到粘贴板',
+            content: this.invitationCode
+          })
+        }).catch(res => {
+          console.log(res)
+        })
+      }
     }
 
-    onShow () {
+    onShow() {
     }
 
-    onLoad (params) {
+    onLoad(params) {
       this.invitationCode = db.get('inviteCode')
       this.$apply()
     }

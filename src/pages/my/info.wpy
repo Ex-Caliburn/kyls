@@ -118,6 +118,7 @@
   .subTitle-special{
     font-size: 26rpx;
     margin: 0rpx;
+    padding:0 6px ;
     box-sizing:border-box;
     text-align:center;
     text-decoration:none;
@@ -134,16 +135,16 @@
   .tl{
     text-align: left;
   }
-  .noPadding {
-    padding: 0;
-  }
+  /*.noPadding {*/
+    /*padding: 0;*/
+  /*}*/
 .isPostgraduate{
   margin-left: 10rpx;
 }
   .navigate-btn-special{
     border-radius: 20rpx;
     box-sizing: border-box;
-    padding-left:10rpx;
+    /*padding-left:10rpx;*/
   }
 
 </style>
@@ -175,7 +176,7 @@
               <view class="subTitle  type_pink">我的勋章</view>
             </navigator>
             <view class="navigate-btn navigate-btn-special flex1 fz26  type_pink {{isPostgraduate ? 'isPostgraduate' : '' }}">
-              <view class="subTitle-special flex flex-bewteen {{isPostgraduate ? '' : 'noPadding' }}">
+              <view class="subTitle-special flex flex-between">
                 <text class="white">信誉：{{creditScore}}</text>
                 <text hidden="{{!creditScoreStatus || creditScoreStatus < 0}}" class="green ML10">+ {{creditScoreStatus}}</text>
                 <text hidden="{{!creditScoreStatus || creditScoreStatus > 0}}" class="red ML10">- {{creditScoreStatus}}</text>

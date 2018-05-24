@@ -45,13 +45,13 @@
     <view class="page__bd">
       <button class="radius share type_red" open-type="share">分享</button>
       <view hidden="{{!isGet}}" class="red item">恭喜你获得新勋章</view>
-      <view hidden="{{isGet}}" class="center">革命尚未成功，仍需努力</view>
+      <view hidden="{{isGet}}" class="item">革命尚未成功，仍需努力</view>
       <view class="item">已有{{people}}人获得</view>
-      <image class="icon" src="{{MEDAL_URL + medalImage}}"/>
+      <image class="icon" src="{{medalImage ? (MEDAL_URL + medalImage) : ''}}"/>
       <view class="item" style="color: {{color}}">{{medalName}}</view>
-      <view class="item">{{welcome}}</view>
-      <view class="item">勋章获得条件：{{medalCondition}}</view>
-      <view class="item">勋章获得奖励：{{award || remark}}</view>
+      <view class="item"  hidden="{{!welcome}}">{{welcome}}</view>
+      <view class="item" hidden="{{!medalCondition}}">勋章获得条件：{{medalCondition}}</view>
+      <view class="item" hidden="{{!award && !remark}}">勋章获得奖励：{{award || remark}}</view>
       <!--<view class="item">备注：{{remark}}</view>-->
       <!--<view class="item">完成度：100</view>-->
     </view>
@@ -89,6 +89,7 @@
       remark: '',
       welcome: '',
       medalCondition: '',
+      isReward: '',
       medalImage: '',
       award: '',
       isGet: false,
@@ -103,6 +104,7 @@
     }
 
     getMedalAward () {
+      console.log(this.medalId)
       get({
         apiName: 'getMedalAward',
         data: {
@@ -124,12 +126,12 @@
         }
       })
         .then((res) => {
-          this.isGet = true
           this.medalName = res.medalName
-          this.remark = res.remark
-          this.welcome = res.welcome
-          this.medalImage = res.medalImage
-          this.medalCondition = res.medalCondition
+          this.remark = res.remark || ''
+          this.isReward = res.isReward
+          this.welcome = res.welcome || ''
+          this.medalImage = res.medalImage || ''
+          this.medalCondition = res.medalCondition || ''
           this.award = res.award || ''
           this.$apply()
         }).catch(err => {
@@ -140,22 +142,15 @@
     }
 
     onLoad (params) {
-      console.log(params.medalId)
+      console.log(params)
       if (!params.medalId) {
         this.navigate('', 2)
         return
       }
       this.getMedalInfo(params.medalId)
+      this.medalId = params.medalId
+      this.isGet = params.isGet === '1'
       // let isPostgraduate = this.$parent.globalData.isPostgraduate
-      // let medalInfo = isPostgraduate ? PS_MEDAL[params.id - 1] : G_MEDAL[params.id - 1]
-      // this.medalId = params.medalId
-      // this.isGet = params.isGet
-      // this.medalImage = MEDAL_URL + params.id + '.png'
-      // this.color = medalInfo.color
-      // this.title = medalInfo.title
-      // this.content = medalInfo.content
-      // this.condition = medalInfo.condition
-      // this.reward = medalInfo.reward
       this.$apply()
     }
   }

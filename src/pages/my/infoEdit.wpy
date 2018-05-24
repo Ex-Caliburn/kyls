@@ -261,6 +261,16 @@
         this._updateInfo()
       },
       choose (i) {
+        let length = 0
+        for (let j = 0; j < this.willTypes.length; j++) {
+          if (this.willTypes[j].choose) {
+            length++
+          }
+        }
+        if (length >= 3 && !this.willTypes[i].choose) {
+          this.ShowToast('最多选三个')
+          return
+        }
         this.willTypes[i].choose = !this.willTypes[i].choose
       },
       emailInp (e) {
@@ -298,8 +308,12 @@
         if (userInfo.avatarUrl !== avatarUrl) {
           userInfo.avatarUrl = avatarUrl
           db.set(USER_INFO, userInfo)
+          this.$apply()
         }
         this.ShowToast(res)
+        setTimeout(() => {
+          this.navigate('my/info')
+        }, 1000)
       }).catch(res => {
         console.log(res)
         if (res.code === 100) {
@@ -327,8 +341,12 @@
           userInfo.avatarUrl = avatarUrl
           userInfo.phone = phoneNumber
           db.set(USER_INFO, userInfo)
+          this.$apply()
         }
         this.ShowToast(res)
+        setTimeout(() => {
+          this.navigate('my/info')
+        }, 1000)
       }).catch(res => {
         console.log(res)
         if (res.code === 100) {
@@ -340,8 +358,7 @@
       let { phoneNumber } = this
       let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
       if (!phoneNumber || !PHONE_RULE.test(phoneNumber)) {
-        let errMsg = '请输入正确的手机'
-        this.ShowToast(errMsg)
+        this.ShowToast('请输入正确的手机')
         return
       }
       if (this.isPostgraduate) {

@@ -357,6 +357,16 @@
         addFormId(e.detail.formId)
       },
       choose (i) {
+        let length = 0
+        for (let j = 0; j < this.willTypes.length; j++) {
+          if (this.willTypes[j].choose) {
+            length++
+          }
+        }
+        if (length >= 3 && !this.willTypes[i].choose) {
+          this.ShowToast('最多选三个')
+          return
+        }
         this.willTypes[i].choose = !this.willTypes[i].choose
       },
       publicSubjectFirst (i) {
@@ -488,12 +498,12 @@
           undergraduateSchoolId,
           undergraduateMajorId,
           postgraduateSchoolId,
-          postgraduateMajorTypeId: majorIndex + 1, // 专业大类
+          postgraduateMajorTypeId: +majorIndex + 1, // 专业大类
           postgraduateMajorId,
           postgraduateNumber,
-          degreeNature: degreeIndex + 1, //  学位性质 1学术型、2专业型
-          studyMode: studyModeIndex + 1, // 就读学习方式 1:全日制、2:非全日制
-          grade: gradeIndex + 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
+          degreeNature: +degreeIndex + 1, //  学位性质 1学术型、2专业型
+          studyMode: +studyModeIndex + 1, // 就读学习方式 1:全日制、2:非全日制
+          grade: +gradeIndex + 1, // 年级 1.准研究生、2.研一、3.研二、4.研三
           publicSubjectFirst: publicSubjectFirst.join(), // 初试公共科目
           professionalSubjectFirst: professionalSubjectFirst, // 初试专业科目，逗号分割
           answerWill: answerWill.join(','), //  回答意愿   1:13大学科 2：公共科目类 3：复试科目类问题咨询 4：考研四大选择题与考研规划问题 5 院校及专业咨询
@@ -508,7 +518,7 @@
         this.$apply()
         wepy.showModal({
           title: '使用声明',
-          content: '使用声明各位小可爱，大家目前平台正在加紧推广中，根据解惑者的注册数量，我们将会逐步开放问答功能，预期将在六月底将开放问答所有功能；根据大家求助者的注册数量，预期将在9月份开放神秘功能！希望大家帮忙推荐给身边有需要的闺蜜和基友，推荐有礼哦！你的每一次推荐，都将会助力平台功能开放一步！'
+          content: '各位小可爱，大家目前平台正在加紧推广中，根据解惑者的注册数量，我们将会逐步开放问答功能，预期将在六月底将开放问答所有功能；根据大家求助者的注册数量，预期将在9月份开放神秘功能！希望大家帮忙推荐给身边有需要的闺蜜和基友，推荐有礼哦！你的每一次推荐，都将会助力平台功能开放一步！'
         })
         this.navigate('my/info')
       }).catch(res => {

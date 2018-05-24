@@ -26,7 +26,7 @@ export default class tabbar extends wepy.mixin {
     }
     for (let i in tabbar.list) {
       tabbar.list[i].selected = false
-      if (tabbar.list[i].pagePath === pagePath) {
+      if (('/pages/' + tabbar.list[i].pagePath) === pagePath) {
         tabbar.list[i].selected = true
       }
     }
