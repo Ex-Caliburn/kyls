@@ -15,8 +15,8 @@
   <view class="weui-panel">
     <view class="weui-panel__bd">
       <repeat for="{{dataList}}" key="item.userId" index="index" item="item">
-        <navigator  url="/pages/serviceList?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">
-        <!--<navigator  url="/pages/probation?id={{item.userId}}" class="list-container" hover-class="weui-cell_active">-->
+        <!--<navigator  url="/pages/serviceList?userId={{item.userId}}" class="list-container" hover-class="weui-cell_active">-->
+        <navigator  url="/pages/probation?userId={{item.userId}}" class="list-container" hover-class="weui-cell_active">
           <view class="flex flex-between">
             <view>{{(index + 1)}}</view>
             <view>￥{{item.cost || 0}}</view>

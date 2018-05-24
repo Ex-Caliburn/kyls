@@ -107,12 +107,13 @@
             })
         } else {
           get({
-            apiName: 'getPostduateOpinionAndSilence',
+            apiName: 'viewPostgraduateCustomQuestion',
             data: {
               pg_user_id: this.userId
             }
           })
             .then((res) => {
+              console.log(res)
               this.questionContent = res.questionContent
               this.answerContent = res.answerContent
               this.flag = true
@@ -127,7 +128,7 @@
 
     getPgShowInfo() {
       get({
-        apiName: 'viewPostgraduateCustomQuestion',
+        apiName: 'getPostduateOpinionAndSilence',
         data: {
           pg_user_id: this.userId
         }
