@@ -5,3 +5,5 @@ dist
 *.wpy___jb_tmp___
 example
 images
+src/example
+

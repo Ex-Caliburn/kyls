@@ -119,10 +119,12 @@
     }
 
     methods = {
-      jump(i) {
-        console.log(i, this.publicTypes.length)
-        let id = this.publicTypes[i].id
-        this.navigate('graduateList?id=' + id + '&scienceType=' + i)
+      jump(i, e) {
+        if (this.publicTypes.length > 0) {
+          let id = this.publicTypes[e.detail.value].id
+          console.log(id, i)
+          this.navigate('graduateList?id=' + id + '&scienceType=' + i)
+        }
       },
       getFormId (e) {
         console.log(this.publicTypes.length)

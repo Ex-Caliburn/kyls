@@ -435,6 +435,7 @@
           publicSubjectFirst.push(item.id)
         }
       })
+      console.log(publicSubjectFirst)
       if (phoneNumber && userName && undergraduateSchoolId && undergraduateMajorId &&
         postgraduateMajorId && postgraduateNumber && (degreeIndex !== '') && answerWill.length > 0 &&
         publicSubjectFirst.length > 0 && (studyModeIndex !== '') && (majorIndex !== '') && (gradeIndex !== '') &&
