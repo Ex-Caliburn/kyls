@@ -38,14 +38,18 @@
     left: 50%;
     transform: translate(-50%, 0);
   }
+  .income{
+    color: #ff6a3c ;
+  }
+
 
 </style>
 
 <template>
   <view class="page">
     <view class="page__bd flex flex-column flex-around">
-      <view class="tc fz32 title">研贝余额:
-        <text class="income">{{money}}</text>
+      <view class="tc fz32  title ">研贝余额:
+        <text class="income bold">{{money}}</text>
       </view>
     </view>
   </view>
@@ -55,7 +59,7 @@
     <navigator hidden="{{isPostgraduate}}"  url="/pages/my/recharge" class="weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">
       研贝充值
     </navigator>
-    <navigator  class="weui-btn mini-btn enter-btn btn grey" hover-class="weui-cell_active">
+    <navigator  hidden="{{!isPostgraduate}}" class="weui-btn mini-btn enter-btn btn grey" hover-class="weui-cell_active">
       研贝提现
     </navigator>
     <!--<navigator url="/pages/my/withdraw" class="grey weui-btn mini-btn enter-btn btn type_pink" hover-class="weui-cell_active">-->

@@ -12,10 +12,11 @@
           <!--<view class="weui-cell__bd">帮助中心</view>-->
           <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
         <!--</navigator>-->
-        <navigator hidden="{{isPostgraduate}}" url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view hidden="{{isPostgraduate}}" url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <web-view src="https://mp.weixin.qq.com/s?__biz=MzU3OTUwODU5NA==&tempkey=OTU4X1lDTTBTdEdlQjdjUGlpOG9ZWkNiMVRRSzgtS3I1dmQzWnVnM01VdFpYOVY4NHJia2FVdEJkX0g3TGlqZ1dsQWdpWUV5YWJUdW1EQVFFWTBlSENrNENDaV9HQi1ZWDR4LXZRMU1YaVA0QmZkZkxSdzBHSjZtWC04QWtPY2VSRUZpR2ZXMFlyaWdYT181bGxyd3dOSDlWNndqN21sX0VVeWE3LXNhZ1F%2Bfg%3D%3D&chksm=7d6441074a13c811f4e73432e94ecef2f982fa0cc52e63ae82c0e5487a083de72542cc09f11c&mpshare=1&scene=1&srcid=0525uwIGl937lFEGzPEMzDgx#rd"></web-view>
           <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
+        </view>
         <navigator hidden="{{!isPostgraduate}}" url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>

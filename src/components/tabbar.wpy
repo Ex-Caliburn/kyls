@@ -59,7 +59,7 @@
     methods = {
       tap (url) {
         console.log(url)
-        this.navigate(url)
+        this.navigate(url, 1)
       }
     }
 

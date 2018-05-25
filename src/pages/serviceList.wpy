@@ -106,7 +106,7 @@
         .then((res) => {
           if (res >= this.cost) {
             const route = [
-              'questionFrom?userId=' + this.userId
+              'questionFrom?userId=' + this.userId + '?rewardMoney=' + this.cost
             ]
             this.navigate(route[index])
           } else {
