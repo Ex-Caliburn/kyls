@@ -12,15 +12,14 @@
           <!--<view class="weui-cell__bd">帮助中心</view>-->
           <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
         <!--</navigator>-->
-        <view hidden="{{isPostgraduate}}" url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <web-view src="https://mp.weixin.qq.com/s?__biz=MzU3OTUwODU5NA==&tempkey=OTU4X1lDTTBTdEdlQjdjUGlpOG9ZWkNiMVRRSzgtS3I1dmQzWnVnM01VdFpYOVY4NHJia2FVdEJkX0g3TGlqZ1dsQWdpWUV5YWJUdW1EQVFFWTBlSENrNENDaV9HQi1ZWDR4LXZRMU1YaVA0QmZkZkxSdzBHSjZtWC04QWtPY2VSRUZpR2ZXMFlyaWdYT181bGxyd3dOSDlWNndqN21sX0VVeWE3LXNhZ1F%2Bfg%3D%3D&chksm=7d6441074a13c811f4e73432e94ecef2f982fa0cc52e63ae82c0e5487a083de72542cc09f11c&mpshare=1&scene=1&srcid=0525uwIGl937lFEGzPEMzDgx#rd"></web-view>
+        <view @tap="openDoc1" hidden="{{isPostgraduate}}" url="/pages/materials/guideU" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
-        <navigator hidden="{{!isPostgraduate}}" url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view @tap="openDoc2" hidden="{{!isPostgraduate}}" url="/pages/materials/guideP" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">使用帮助</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
+        </view>
         <navigator url="/pages/my/feedbackEdit" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">我的反馈</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
@@ -58,6 +57,22 @@
     }
 
     methods = {
+      openDoc1 () {
+        this.open('https://kyls-test.oss-cn-hangzhou.aliyuncs.com/document/%E6%B1%82%E5%8A%A9%E8%80%85%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%28%E6%95%B4%E7%90%86%29.docx')
+      },
+      openDoc2 () {
+        this.open('https://kyls-test.oss-cn-hangzhou.aliyuncs.com/document/%E8%A7%A3%E6%83%91%E8%80%85%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%28%E6%95%B4%E7%90%86%29.docx')
+      }
+    }
+
+    async open (Document) {
+      try {
+        let res = await wepy.downloadFile({url: Document})
+        var filePath = res.tempFilePath
+        await wepy.openDocument({filePath})
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     onLoad () {
