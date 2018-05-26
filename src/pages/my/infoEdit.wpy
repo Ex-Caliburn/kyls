@@ -244,7 +244,7 @@
           choose: false
         },
         {
-          txt: '考研四大选择题与考研规划问题',
+          txt: '考研原因与考研规划',
           value: '4',
           choose: false
         },
