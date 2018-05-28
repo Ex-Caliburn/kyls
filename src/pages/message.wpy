@@ -57,7 +57,7 @@
 
     methods = {
       operation(id) {
-        this._readMessage(id)
+        // this._readMessage(id)
         // const route = [
         //   'chat',
         //   'medalDetail'
