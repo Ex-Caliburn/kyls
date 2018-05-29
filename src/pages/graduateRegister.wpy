@@ -110,7 +110,7 @@
           </view>
         </view>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">本科院校*</view>
           </view>
@@ -120,7 +120,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">本科专业*</view>
           </view>
@@ -130,7 +130,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">硕士院校*</view>
           </view>
@@ -140,7 +140,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
 
-        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <view class="weui-label">硕士专业*</view>
           </view>
