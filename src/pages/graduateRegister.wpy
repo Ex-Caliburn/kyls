@@ -110,15 +110,55 @@
           </view>
         </view>
 
-        <navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
-            <view class="weui-label">院校信息*</view>
+            <view class="weui-label">本科院校*</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请选择院校" disabled value="{{undergraduateSchoolName ? '已选' : ''}}"/>
+            <input class="weui-input" placeholder="请选择本科院校" disabled value="{{undergraduateSchoolName}}"/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">本科专业*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择本科专业" disabled value="{{undergraduateMajorName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">硕士院校*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择硕士院校" disabled value="{{postgraduateSchoolName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <navigator url="/pages/searchList" class="weui-cell weui-cell_input" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <view class="weui-label">硕士专业*</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请选择硕士专业" disabled value="{{postgraduateMajorName}}"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+
+        <!--<navigator url="/pages/searchList?isPostgraduate=true" class="weui-cell weui-cell_input" hover-class="weui-cell_active">-->
+          <!--<view class="weui-cell__hd">-->
+            <!--<view class="weui-label">院校信息*</view>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__bd">-->
+            <!--<input class="weui-input" placeholder="请选择院校" disabled value="{{undergraduateSchoolName ? '已选' : ''}}"/>-->
+          <!--</view>-->
+          <!--<view class="weui-cell__ft weui-cell__ft_in-access"></view>-->
+        <!--</navigator>-->
 
         <view class="weui-cell weui-cell_select">
           <view class="weui-cell__hd weui-cell__hd_in-select-after">
@@ -255,7 +295,6 @@
       email: '',
       phoneNumber: '',
       code: '',
-      undergraduateSchoolName: '',
       // idNumber: '',
       degrees: ['学术型', '专业型'],
       degreeIndex: '',
@@ -340,6 +379,10 @@
       undergraduateMajorId: '',
       postgraduateSchoolId: '',
       postgraduateMajorId: '',
+      undergraduateSchoolName: '',
+      undergraduateMajorName: '',
+      postgraduateSchoolName: '',
+      postgraduateMajorName: '',
       postgraduateNumber: '',
       degreeNature: '', //  学位性质 1学术型、2专业型
       studyMode: '', // 就读学习方式 1:全日制、2:非全日制
@@ -466,8 +509,14 @@
           errMsg = '请输入硕士阶段学号'
         } else if (!professionalSubjectFirst) {
           errMsg = '请输入初试专业科目'
-        } else if (!undergraduateSchoolId || !undergraduateMajorId || !postgraduateSchoolId || !postgraduateMajorId) {
-          errMsg = '请选择毕业院校以及专业'
+        } else if (!undergraduateSchoolId) {
+          errMsg = '请选择本科院校'
+        } else if (!undergraduateMajorId) {
+          errMsg = '请选择本科专业'
+        } else if (!postgraduateSchoolId) {
+          errMsg = '请选择硕士院校'
+        } else if (!postgraduateMajorId) {
+          errMsg = '请选择硕士专业'
         } else if (majorIndex === '') {
           errMsg = '请选择硕士就读专业大类'
         } else if (degreeIndex === '') {

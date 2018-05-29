@@ -106,7 +106,7 @@
         position: 'bottom',
         list: [
           {
-            pagePath: 'chooseInterest',
+            pagePath: '/pages/chooseInterest',
             text: '里手',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',
@@ -114,7 +114,7 @@
             show: true
           },
           {
-            pagePath: 'my/answerHistory',
+            pagePath: '/pages/my/answerHistory',
             text: '里手',
             iconPath: '/icon/home.png',
             selectedIconPath: '/icon/home@select.png',
@@ -122,7 +122,7 @@
             show: true
           },
           {
-            pagePath: 'message',
+            pagePath: '/pages/message',
             text: '消息',
             iconPath: '/icon/message.png',
             selectedIconPath: '/icon/message@select.png',
@@ -130,7 +130,7 @@
             show: true
           },
           {
-            pagePath: 'answer',
+            pagePath: '/pages/answer',
             text: '悬赏速答',
             iconPath: '/icon/answer.png',
             selectedIconPath: '/icon/answer@select.png',
@@ -138,7 +138,7 @@
             show: false
           },
           {
-            pagePath: 'question',
+            pagePath: '/pages/question',
             text: '悬赏速问',
             iconPath: '/icon/question.png',
             selectedIconPath: '/icon/question@select.png',
@@ -146,7 +146,7 @@
             show: false
           },
           {
-            pagePath: 'my/info',
+            pagePath: '/pages/my/info',
             text: '我的',
             iconPath: '/icon/user.png',
             selectedIconPath: '/icon/user@select.png',

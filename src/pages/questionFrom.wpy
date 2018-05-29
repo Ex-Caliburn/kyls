@@ -72,7 +72,7 @@
 
     data = {
       content: '',
-      rewardMoney: '',
+      rewardMoney: 0,
       pictures: [],
       answerUserId: '',
       questionType: 1
@@ -114,7 +114,8 @@
     onLoad (params) {
       console.log(params)
       this.answerUserId = params.userId || ''
-      this.rewardMoney = params.rewardMoney || ''
+      this.rewardMoney = params.rewardMoney || 0
+      console.log(params.rewardMoney)
       this.$apply()
     }
   }
