@@ -40,7 +40,6 @@
 
 <script>
   import wepy from 'wepy'
-  // import {get, post} from '../utils/service'
 
   export default class feedback extends wepy.page {
     config = {

@@ -25,7 +25,6 @@
   }
 
   .answer-btn{
-    /*font-weight: bold;*/
     font-size: 30rpx;
     /*color: red;*/
     text-align: right;
@@ -108,23 +107,19 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import { formatDate, formatPng } from 'utils/common'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { get } from 'utils/service'
+  import { get, post } from 'utils/service'
   import { LOVE, UNLOVE } from 'utils/constant'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class chat extends wepy.page {
     config = {
       navigationBarTitleText: '问与答'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate]

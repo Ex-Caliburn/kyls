@@ -1,8 +1,5 @@
 <style scoped>
   .btn{
-    /*position: fixed;*/
-    /*bottom: 500rpx;*/
-    /*width: 100%;*/
    margin-bottom:200rpx ;
   }
 </style>
@@ -59,7 +56,6 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
@@ -70,8 +66,7 @@
       navigationBarTitleText: '吸睛设问'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, toast, navigate]

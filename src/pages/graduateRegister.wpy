@@ -267,8 +267,6 @@
 <script>
   import wepy from 'wepy'
   import uploadPic from '@/components/uploadPic'
-  // import tip from 'utils/tip'
-  // import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import Tabbar from '@/components/tabbar' // alias example
   import { addFormId, get, post } from '../utils/service'

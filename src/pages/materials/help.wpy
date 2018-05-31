@@ -22,24 +22,10 @@
 
 <script>
   import wepy from 'wepy'
-  // import {get, post} from '../utils/service'
 
   export default class Help extends wepy.page {
     config = {
       navigationBarTitleText: '帮助'
-    }
-    components = {
-    }
-
-    mixins = []
-
-    data = {
-    }
-
-    methods = {
-    }
-
-    onLoad () {
     }
   }
 </script>

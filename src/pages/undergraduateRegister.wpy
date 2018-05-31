@@ -108,7 +108,6 @@
 
 <script>
   import wepy from 'wepy'
-  // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import Tabbar from '@/components/tabbar' // alias example

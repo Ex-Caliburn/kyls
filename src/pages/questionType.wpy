@@ -104,21 +104,16 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import {get} from 'utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class questionType extends wepy.page {
     config = {
       navigationBarTitleText: '问题类型'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate]

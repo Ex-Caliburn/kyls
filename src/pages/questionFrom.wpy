@@ -50,13 +50,11 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
   import uploadPic from '@/components/uploadPic'
-  // import { diff } from 'utils/common'
 
   export default class questionFrom extends wepy.page {
     config = {
@@ -64,7 +62,6 @@
     }
     components = {
       tabbar: Tabbar,
-      toast: Toast,
       uploadPic
     }
 

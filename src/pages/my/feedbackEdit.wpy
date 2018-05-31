@@ -43,13 +43,10 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import uploadPic from '@/components/uploadPic' // alias example
-  // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class feedbackEdit extends wepy.page {
     config = {

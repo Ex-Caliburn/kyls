@@ -41,7 +41,6 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar'
   import uploadPic from '@/components/uploadPic'
-  import Toast from 'wepy-com-toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
@@ -53,8 +52,7 @@
     }
     components = {
       tabbar: Tabbar,
-      uploadPic: uploadPic,
-      toast: Toast
+      uploadPic: uploadPic
     }
 
     mixins = [tabbar, navigate]
@@ -97,7 +95,7 @@
           }
         }).then((res) => {
           this.$parent.globalData.diaryEdit = ''
-          this.navigate('my/diary', 1)
+          this.navigate('', 2)
         }).catch(err => {
           console.log(err)
         })

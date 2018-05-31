@@ -62,22 +62,17 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import tip from 'utils/tip'
-  // import toast from '../mixins/toast'
   import tabbar from '../mixins/tabbar'
   import navigate from 'mixins/navigate'
   import {get} from '../utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class serviceList extends wepy.page {
     config = {
       navigationBarTitleText: '服务列表'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate]

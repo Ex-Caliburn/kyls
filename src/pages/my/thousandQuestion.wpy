@@ -19,11 +19,7 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
-  // import db from 'utils/db'
   import { Document } from 'utils/constant'
 
   export default class thousandQuestion extends wepy.page {
@@ -31,8 +27,7 @@
       navigationBarTitleText: '我的千问'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar]

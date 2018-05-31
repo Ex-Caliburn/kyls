@@ -30,11 +30,8 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   // import {get, post} from 'utils/service'
-  // import db from 'utils/db'
   import { QRCode } from 'utils/constant'
 
   export default class contact extends wepy.page {
@@ -42,11 +39,10 @@
       navigationBarTitleText: '联系CEO'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar]
 
     data = {
       QRCode

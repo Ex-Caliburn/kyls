@@ -27,14 +27,9 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  // import {get} from 'utils/service'
-  // import db from 'utils/db'
   import {formatDate} from 'utils/common'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class helpMe extends wepy.page {
     config = {
@@ -44,8 +39,7 @@
       }
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate]

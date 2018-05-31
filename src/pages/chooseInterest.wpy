@@ -33,9 +33,6 @@
   .swiper_item {
     padding: 0 20rpx;
     font-size: 25rpx;
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    /*white-space: nowrap;*/
     letter-spacing: 2px;
     color: #ea4a3a ;
     text-align: left;
@@ -52,7 +49,6 @@
     cursor: pointer;
     background: #fff;
     border: 1px solid #dcdfe6;
-    border-color: #dcdfe6;
     color: #606266;
     -webkit-appearance: none;
     text-align: center;

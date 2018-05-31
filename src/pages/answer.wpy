@@ -52,14 +52,12 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
   import { post, get } from 'utils/service'
   import { formatDate } from 'utils/common'
-  // import db from 'utils/db'
 
   export default class Answer extends wepy.page {
     config = {

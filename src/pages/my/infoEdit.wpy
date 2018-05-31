@@ -144,7 +144,6 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { picturePrefix } from 'utils/config'
@@ -179,8 +178,7 @@
       navigationBarTitleText: '编辑个人信息'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, toast]

@@ -1,8 +1,8 @@
 <style lang="less">
   @import "./styles/base";
   @import "./styles/icon";
-  @import "./styles/style";
   @import './style/weui.less';
+  /*@import './icon/iconfont.less';*/
 
   .container {
     height: 100%;
@@ -55,7 +55,6 @@
         'pages/my/feedbackEdit',
         'pages/my/invitationCode',
         'pages/my/money',
-        'pages/my/credit',
         'pages/my/recharge',
         'pages/my/withdraw',
         // 本科生我的
@@ -76,7 +75,8 @@
         'pages/materials/help',
         'pages/materials/guideP',
         'pages/materials/guideU',
-        'pages/materials/story'
+        'pages/materials/story',
+        'pages/my/zzzdemo'
       ],
       window: {
         navigationBarBackgroundColor: '#409EFF',

@@ -17,7 +17,6 @@ if (env) {
 
 // api主机
 const hostMap = {
-  // dev: 'http://47.98.211.80:8080/kyls_backend/',
   dev: 'https://kyls3t.csytgj.com/kyls_backend/',
   prod: 'https://kyls3t.csytgj.com/kyls_backend/'
 }

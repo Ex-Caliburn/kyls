@@ -43,7 +43,6 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   import uploadPic from '@/components/uploadPic'
   import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
@@ -57,7 +56,6 @@
     }
     components = {
       tabbar: Tabbar,
-      toast: Toast,
       uploadPic
     }
     mixins = [tabbar, navigate, toast]

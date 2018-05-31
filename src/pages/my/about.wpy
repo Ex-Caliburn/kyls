@@ -19,55 +19,16 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
-  // import {get, post} from 'utils/service'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class about extends wepy.page {
     config = {
       navigationBarTitleText: '关于我们'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar]
-
-    data = {
-      showGuide: false,
-      showAnswer: false,
-      id: '',
-      icon20: '',
-      icon60: '',
-      dataList: []
-    }
-
-    methods = {
-      goService () {
-        wepy.navigateTo({
-          url: '/pages/serviceList?id=' + this.id
-        }).then((res) => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      showGuide () {
-        this.showGuide = !this.showGuide
-      },
-      showAnswer () {
-        this.showAnswer = !this.showAnswer
-      }
-    }
-
-    onLoad (params) {
-      console.log(params.id)
-      this.id = params.id
-      this.$apply()
-    }
   }
 </script>

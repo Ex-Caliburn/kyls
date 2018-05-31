@@ -50,14 +50,11 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
-  // import toast from '../mixins/toast'
   import reachBottom from 'mixins/reachBottom'
   import pic from '@/components/pic'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
   import { formatDuration, formatPng } from 'utils/common'
-  // import db from 'utils/db'
 
   export default class graduateList extends wepy.page {
     config = {
@@ -65,7 +62,6 @@
     }
     components = {
       tabbar: Tabbar,
-      toast: Toast,
       pic
     }
 

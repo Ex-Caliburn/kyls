@@ -110,8 +110,6 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar'
   import { formatPng } from 'utils/common'
-  import Toast from 'wepy-com-toast'
-  // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
@@ -127,8 +125,7 @@
       navigationBarTitleText: '我的提问'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate, reachBottom]

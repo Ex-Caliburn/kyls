@@ -88,15 +88,12 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  // import Toast from 'wepy-com-toast'
   import toast from 'mixins/toast'
   import tip from 'utils/tip'
   import tabbar from 'mixins/tabbar'
   import { get, post } from 'utils/service'
   import navigate from 'mixins/navigate'
   import uploadPic from '@/components/uploadPic'
-  // import db from 'utils/db'
-  // import { IS_POSTGRADUATE } from 'utils/constant'
 
   export default class question extends wepy.page {
     config = {

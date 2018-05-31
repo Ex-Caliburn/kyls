@@ -9,6 +9,9 @@
           <view class="weui-cell__bd">我的千问</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
+        <view class="iconfont icon-quanxuan">
+
+        </view>
       </view>
     </view>
   </view>
@@ -19,7 +22,6 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
-  import Toast from 'wepy-com-toast'
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
@@ -32,8 +34,7 @@
       navigationBarTitleText: 'test'
     }
     components = {
-      tabbar: Tabbar,
-      toast: Toast
+      tabbar: Tabbar
     }
 
     mixins = [tabbar, navigate]
