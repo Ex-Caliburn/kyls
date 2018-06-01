@@ -41,7 +41,7 @@
           </view>
         </block>
         <block wx:else>
-          <navigator class="tabbar_nav" url="{{item.pagePath}}" wx:if="{{item.show}}" style="width:{{1/tabbar.list.length*100}}%; color:{{item.selected ? tabbar.selectedColor : tabbar.color}}" open-type="reLaunch">
+          <navigator class="tabbar_nav" url="{{item.pagePath}}" wx:if="{{item.show}}" style="width:{{1/tabbar.list.length*100}}%; color:{{item.selected ? tabbar.selectedColor : tabbar.color}}" hover-class="none" open-type="reLaunch">
             <image class="tabbar_icon" src="{{item.selected ? item.selectedIconPath : item.iconPath}}"></image>
             <text>{{item.text}}</text>
           </navigator>
