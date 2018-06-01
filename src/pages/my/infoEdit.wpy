@@ -151,6 +151,7 @@
   import db from 'utils/db'
   import { USER_INFO } from 'utils/constant'
   import { formatPng } from 'utils/common'
+  import navigate from 'mixins/navigate'
 
   // 手机的宽度
   var windowWRPX = 750
@@ -181,7 +182,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, navigate, toast]
 
     data = {
       postgraduateSchoolId: '',
