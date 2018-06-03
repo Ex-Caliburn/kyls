@@ -358,8 +358,6 @@
       let { phoneNumber } = this
       let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
       if (!phoneNumber || !PHONE_RULE.test(phoneNumber)) {
-        console.log(phoneNumber)
-        console.log('请输入正确的手机')
         this.ShowToast('请输入正确的手机')
         return
       }

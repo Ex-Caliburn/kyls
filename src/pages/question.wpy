@@ -125,12 +125,12 @@
       },
       moneyBind(e) {
         this.entering = true
-        let value = e.detail.value
+        let value = Number(e.detail.value)
         if (!value || value < 8) {
           value = 8
         }
-        this.rewardMoney = Number(value)
-        this.moneyInp = Number(value)
+        this.rewardMoney = value
+        this.moneyInp = value
         this.$apply()
       },
       chooseMoney(val) {
