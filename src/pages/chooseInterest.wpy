@@ -84,7 +84,7 @@
       </form>
     </view>
     <view class="fz24">
-      温馨信息：具体答复内容可在“我－我的提问”中查看。
+      温馨信息：具体答复内容可在“我的-我的提问”中查看。
     </view>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
@@ -97,7 +97,6 @@
   import Tabbar from 'components/tabbar'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import shareApp from 'mixins/shareApp'
 
   export default class chooseInterest extends wepy.page {
     config = {
@@ -107,7 +106,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast, navigate, shareApp]
+    mixins = [tabbar, toast, navigate]
     data = {
       msgList: [],
       publicTypes: [],
@@ -165,6 +164,19 @@
       let userType = this.$parent.globalData.userInfo.userType
       if (userType === 0) {
         this.navigate('enter', 1)
+      }
+    }
+    onShareAppMessage (res) {
+      return {
+        title: '考研里手',
+        path: '/pages/enter',
+        success (res) {
+          // 转发成功
+          console.log(res)
+        },
+        fail: function(res) {
+          // 转发失败
+        }
       }
     }
   }

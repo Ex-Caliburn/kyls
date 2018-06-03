@@ -69,7 +69,7 @@
 
     computed = {
       route () {
-        console.log(this.$root.getCurrentPages())
+        // console.log(this.$root.getCurrentPages())
         return '/' + this.$wxpage.route
       }
     }

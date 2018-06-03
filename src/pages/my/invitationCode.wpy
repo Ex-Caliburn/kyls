@@ -10,7 +10,7 @@
 
 <template>
   <view class="page" @tap="tap">
-    <text class="invitation-code red" selectable @tap="tap">{{invitationCode}}</text>
+    <text class="invitation-code red" @tap="tap">{{invitationCode}}</text>
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>

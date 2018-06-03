@@ -131,6 +131,7 @@
         }
         this.rewardMoney = Number(value)
         this.moneyInp = Number(value)
+        this.$apply()
       },
       chooseMoney(val) {
         this.moneyInp = ''

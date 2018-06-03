@@ -9,10 +9,10 @@
     <view class="page__bd">
       <view class="tc title">{{isPostgraduate ? '我关注的本科生' : '我赞过的学长学姐'}}</view>
         <block wx:for-items="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-          <view @tap="goService({{item.id}})" class="list-container flex flex-between border">
-            <view>{{item.nickname}}</view>
-            <view>{{item.school}}</view>
-            <view>{{item.major}}</view>
+          <view @tap="goService({{item.userId}})" class="list-container flex flex-between border">
+            <view>{{item.userName}}</view>
+            <view>{{item.schoolName}}</view>
+            <view>{{item.majorName}}</view>
             <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
         </block>
@@ -54,15 +54,6 @@
     }
 
     fetchDate () {
-      // for (let i = 0; i < 10; i++) {
-      //   let obj = {
-      //     nickname: '李先生' + i,
-      //     major: '土木',
-      //     school: '清华'
-      //   }
-      //   this.dataList.push(obj)
-      // }
-      // this.$apply()
       let apiName = this.thisPostgraduate ? 'getUserCollectionLis' : 'getUserPraiseList'
       post({
         apiName,
@@ -72,6 +63,7 @@
         }
       })
         .then((res) => {
+          console.log(res)
           if (res && res.length > 0) {
             this.dataList = this.dataList.concat(res)
             this.$apply()

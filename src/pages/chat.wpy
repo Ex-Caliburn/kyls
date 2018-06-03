@@ -53,7 +53,7 @@
         <view class="title fz30 flex flex-between">
           <view class="bold">{{questionerName}}</view>
           <!--<view class="blue">￥{{cost}}</view>-->
-          <image @tap="focus" hidden="{{!isPostgraduate}}" class="love ML20 MR20" src="{{icon}}"></image>
+          <image @tap="focus" hidden="{{!isPostgraduate}}" class="love ML20 MR20" src="{{focusStatus ? LOVE : UNLOVE}}"></image>
         </view>
         <view class="{{showMore ? '' : 'hideMsg'}}">
           <view class="content fz32 tr">
@@ -82,7 +82,7 @@
             <!--<navigator url="/pages/questionFrom?id={{answererId}}" hover-class="weui-cell_active">-->
               <!--提问-->
             <!--</navigator>-->
-            <image @tap="love"  class="love ML20 MR20" src="{{icon}}"></image>
+            <image @tap="love"  class="love ML20 MR20" src="{{loveStatus ? LOVE : UNLOVE}}"></image>
 
             <navigator url="/pages/my/feedbackEdit?id={{answererId}}" hover-class="weui-cell_active">
               投诉
@@ -111,7 +111,7 @@
   // import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
-  import { get, post } from 'utils/service'
+  import { get } from 'utils/service'
   import { LOVE, UNLOVE } from 'utils/constant'
 
   export default class chat extends wepy.page {
@@ -125,8 +125,9 @@
     mixins = [tabbar, navigate]
 
     data = {
+      UNLOVE: '../' + UNLOVE,
+      LOVE: '../' + LOVE,
       showMore: false,
-      icon: UNLOVE,
       isPostgraduate: '',
       loveStatus: false, // 本科生是否对研究生点赞
       focusStatus: false, // 研究生是否对本科生关注
@@ -148,25 +149,13 @@
         this.showMore = true
       },
       love () {
-        if (this.loveStatus) {
-          this.icon = UNLOVE
-          this.undergraduatePraise()
-        } else {
-          this.icon = LOVE
-          this.undergraduatePraise()
-        }
         this.loveStatus = !this.loveStatus
+        this.undergraduatePraise()
         this.$apply()
       },
       focus () {
-        if (this.focusStatus) {
-          this.icon = UNLOVE
-          this.postgraduatePraise()
-        } else {
-          this.icon = LOVE
-          this.postgraduatePraise()
-        }
         this.focusStatus = !this.focusStatus
+        this.postgraduatePraise()
         this.$apply()
       },
       edit () {
@@ -235,7 +224,7 @@
         })
     }
     postgraduatePraise () {
-      post({
+      get({
         apiName: 'postgraduateAttention',
         data: {
           under_user_id: this.questionerId

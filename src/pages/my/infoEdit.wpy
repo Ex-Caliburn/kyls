@@ -50,7 +50,7 @@
             <view class="weui-label">手机号</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" maxlength="11" type="number" placeholder="请输入手机号"  @change="phoneNumberInp" value="{{phoneNumber}}"/>
+            <input class="weui-input" maxlength="11" type="number" placeholder="请输入手机号"  @input="phoneNumberInp" value="{{phoneNumber}}"/>
           </view>
         </view>
 
@@ -257,7 +257,7 @@
 
     methods = {
       updateInfo () {
-        this._updateInfo()
+        this.updateMyInfo()
       },
       choose (i) {
         let length = 0
@@ -277,6 +277,7 @@
       },
       phoneNumberInp (e) {
         this.phoneNumber = e.detail.value.trim()
+        this.$apply()
       },
       volunteerMajorInp (e) {
         this.volunteerMajor = e.detail.value.trim()
@@ -353,10 +354,12 @@
         }
       })
     }
-    _updateInfo() {
+    updateMyInfo() {
       let { phoneNumber } = this
       let PHONE_RULE = /^(0|86|17951)?(1[0-9][0-9])([0-9]{8})$/
       if (!phoneNumber || !PHONE_RULE.test(phoneNumber)) {
+        console.log(phoneNumber)
+        console.log('请输入正确的手机')
         this.ShowToast('请输入正确的手机')
         return
       }

@@ -1,6 +1,6 @@
 import wepy from 'wepy'
 
-export default class reachBottom extends wepy.mixin {
+export default class shareApp extends wepy.mixin {
   onShareAppMessage (res) {
     return {
       title: '考研里手',
