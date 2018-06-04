@@ -121,8 +121,8 @@
 
     onLoad(params) {
       this.isPostgraduate = this.$parent.globalData.isPostgraduate
-      this.id = params.id
       if (params.id) {
+        this.id = params.id
         this.complainTypes = this.suePostgraduateTypes
       }
       this.$apply()

@@ -27,7 +27,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的回答" value="{{content}}"/>
+            <textarea @input="questionInput" class="weui-textarea" maxlength="-1" placeholder="请填写您的问题" value="{{content}}"/>
             <view class="weui-textarea-counter">{{content.length}}</view>
           </view>
         </view>
