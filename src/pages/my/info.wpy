@@ -229,6 +229,7 @@
   import { getPhoneNumber, share, get } from 'utils/service'
   import { formatPng } from 'utils/common'
   import pic from '@/components/pic'
+  import { IS_POSTGRADUATE, USER_INFO } from 'utils/constant'
 
   export default class Info extends wepy.page {
     config = {
@@ -345,6 +346,13 @@
         this.creditScore = res.creditScore
         this.creditScoreStatus = res.creditScoreStatus
         this.starLevel = res.starLevel
+        let gd = this.$parent.globalData
+        if (res.userType > 2) {
+          gd.userInfo.userType = 2
+          gd.isPostgraduate = true
+          db.set(USER_INFO, gd.userInfo)
+          db.set(IS_POSTGRADUATE, true)
+        }
         db.set('inviteCode', res.inviteCode)
         this.$apply()
       }).catch(err => {
