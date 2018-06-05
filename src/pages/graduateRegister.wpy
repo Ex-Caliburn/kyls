@@ -224,8 +224,8 @@
         <uploadPic :files.sync="pictures" :tips.sync="tips">
           <view class="weui-uploader__hd" slot="content">
             <view class="weui-uploader__title fz22">
-              1.准研究生需上传 拟录取证明图片（拟录取名单截图 或者 通知短信 或者 通知邮件 或者 录取通知书）；
-              2.在读研究生需上传学生证或者身份证。
+              1.准研究生需上传 拟录取证明图片（拟录取名单截图 <span class="red">或者</span> 通知短信 <span class="red">或者</span> 通知邮件 <span class="red">或者</span> 录取通知书）；
+              2.在读研究生需上传学生证<span class="red">或者</span>身份证。
             </view>
           </view>
         </uploadPic>
@@ -235,7 +235,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入推荐人邀请码" @change="invitationCodeInp"  value="{{invitationCode}}"/>
+            <input class="weui-input" placeholder="有则填，无则不填~" @change="invitationCodeInp"  value="{{invitationCode}}"/>
           </view>
         </view>
 
@@ -286,7 +286,7 @@
     mixins = [toast, navigate]
 
     data = {
-      tips: '请上传您的学历证明*',
+      tips: '请上传您的相关证明*',
       invitationCode: '',
       pictures: [], // pic
       userName: '',

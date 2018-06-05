@@ -78,7 +78,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请推荐人邀请码" @change="invitationCodeInp" value="{{InvitationCode}}"/>
+            <input class="weui-input" placeholder="有则填，无则不填~" @change="invitationCodeInp" value="{{InvitationCode}}"/>
           </view>
         </view>
       </view>
