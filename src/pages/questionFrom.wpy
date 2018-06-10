@@ -41,7 +41,9 @@
       </view>
     </view>
   </view>
-  <button @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26">填写完毕</button>
+  <form report-submit="ture" @submit="getFormId">
+    <button @tap="submitQuestion" class="weui-btn mini-btn type_yellow fz26" formType="submit" >填写完毕</button>
+  </form>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
 
@@ -52,6 +54,7 @@
   import Tabbar from '@/components/tabbar' // alias example
   import toast from '../mixins/toast'
   import tabbar from 'mixins/tabbar'
+  import addFormId from 'mixins/addFormId'
   import navigate from 'mixins/navigate'
   import { post } from 'utils/service'
   import uploadPic from '@/components/uploadPic'
@@ -65,7 +68,7 @@
       uploadPic
     }
 
-    mixins = [tabbar, navigate, toast]
+    mixins = [tabbar, navigate, toast, addFormId]
 
     data = {
       content: '',

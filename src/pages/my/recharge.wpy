@@ -61,7 +61,9 @@
         <view class="fz22">5、充值1666研贝您将获赠166研贝及无限次免费查看问题的权力，同时获得最佳考研里手见面会入场券一张。</view>
       </view>
 
-      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">立即支付</button>
+      <form report-submit="ture" @submit="getFormId">
+        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26" formType="submit">立即支付</button>
+      </form>
 
     </view>
   </view>
@@ -72,6 +74,7 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
+  import addFormId from 'mixins/addFormId'
   import toast from 'mixins/toast'
   import navigate from 'mixins/navigate'
   import tabbar from 'mixins/tabbar'
@@ -85,7 +88,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast, navigate]
+    mixins = [tabbar, navigate, toast, addFormId]
 
     data = {
       amount: '666',

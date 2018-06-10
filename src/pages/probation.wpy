@@ -43,9 +43,13 @@
     </view>
   </view>
   <view class="operation">
-    <button @tap="showGuide" class="weui-btn fz30" type="primary" >研究生个人介绍及考研指导意见(免费阅读)</button>
-    <button @tap="showAnswer" class="weui-btn type_yellow fz30" >TA猜你想问(免费阅读，每人初始只有一次机会)</button>
-    <button @tap="goService" class="weui-btn type_pink fz30" >阅读完成</button>
+
+    <form report-submit="ture" @submit="getFormId">
+      <button @tap="showGuide" class="weui-btn fz30" type="primary" formType="submit">研究生个人介绍及考研指导意见(免费阅读)</button>
+      <button @tap="showAnswer" class="weui-btn type_yellow fz30" formType="submit">TA猜你想问(免费阅读，每人初始只有一次机会)</button>
+      <button @tap="goService" class="weui-btn type_pink fz30" formType="submit">阅读完成</button>
+    </form>
+
   </view>
   <tabbar :tabbar.sync='tabbar'></tabbar>
 </template>
@@ -54,6 +58,7 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
+  import addFormId from 'mixins/addFormId'
   import tabbar from '../mixins/tabbar'
   import navigate from '../mixins/navigate'
   import { get } from '../utils/service'
@@ -67,7 +72,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, navigate]
+    mixins = [tabbar, navigate, addFormId]
 
     data = {
       showGuide: false,

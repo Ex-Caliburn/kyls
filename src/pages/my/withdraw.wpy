@@ -71,7 +71,10 @@
         <view class="fz22">2、提现发起后24小时内提现至微信余额（一研贝=一元人民币）。</view>
       </view>
 
-      <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">确认提现</button>
+      <form report-submit="ture" @submit="getFormId">
+        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26" formType="submit">确认提现</button>
+      </form>
+
     </view>
   </view>
 </template>
@@ -79,6 +82,7 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
+  import addFormId from 'mixins/addFormId'
   import toast from 'mixins/toast'
   import tabbar from 'mixins/tabbar'
   import { post } from 'utils/service'
@@ -91,7 +95,7 @@
       tabbar: Tabbar
     }
 
-    mixins = [tabbar, toast]
+    mixins = [tabbar, toast, addFormId]
 
     data = {
       money: '',

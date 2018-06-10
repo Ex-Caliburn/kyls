@@ -77,7 +77,9 @@
           <view class="fz22">3、若一小时后您仍未得到回复，则研贝自动退还至您的余额。</view>
         </view>
 
-        <button @tap="submit" class="weui-btn mini-btn type_yellow fz26">我要提问</button>
+        <form report-submit="ture" @submit="getFormId">
+          <button @tap="submit" class="weui-btn mini-btn type_yellow fz26" formType="submit">我要提问</button>
+        </form>
       </view>
     </view>
   </view>
@@ -89,6 +91,7 @@
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar' // alias example
   import toast from 'mixins/toast'
+  import addFormId from 'mixins/addFormId'
   import tip from 'utils/tip'
   import tabbar from 'mixins/tabbar'
   import { get, post } from 'utils/service'
@@ -104,7 +107,7 @@
       uploadPic
     }
 
-    mixins = [tabbar, navigate, toast]
+    mixins = [tabbar, navigate, toast, addFormId]
 
     data = {
       questionInfo: {
