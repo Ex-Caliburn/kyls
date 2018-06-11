@@ -70,11 +70,11 @@
                   <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
                 </view>
                 <view>
-                  <view class="tl">{{item.userName}}</view>
+                  <view class="tl">回答者: {{item.userName || '无'}}</view>
                   <view class="tl">{{item.schoolName}}</view>
                   <view class="tl">{{item.majorName}}</view>
-                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
-                  <!--<view class="">{{item.askTime}}</view>-->
+                  <view class="ellipsis ellipsis-content tl">问题: {{item.question}}</view>
+                  <view class="tl">提问时间: {{item.askTime}}</view>
                 </view>
               </navigator>
             </view>
@@ -89,11 +89,11 @@
                   <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
                 </view>
                 <view>
-                  <view class="tl">{{item.userName}}</view>
-                  <view class="tl">{{item.schoolName}}</view>
-                  <view class="tl">{{item.majorName}}</view>
-                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
-                  <!--<view class="">{{item.askTime}}</view>-->
+                  <view class="tl">回答者: {{item.userName || '无'}}</view>
+                  <view v-if="item.userName" class="tl">{{item.schoolName}}</view>
+                  <view v-if="item.userName" class="tl">{{item.majorName}}</view>
+                  <view class="ellipsis ellipsis-content tl">问题: {{item.question}}</view>
+                  <view class="tl">提问时间: {{item.askTime}}</view>
                 </view>
               </navigator>
             </view>
@@ -109,7 +109,7 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar'
-  import { formatPng } from 'utils/common'
+  import { formatPng, formatDate } from 'utils/common'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
@@ -131,7 +131,7 @@
     mixins = [tabbar, navigate, reachBottom]
 
     data = {
-      tabs: ['进行中', '待评分（近期开放）'],
+      tabs: ['进行中', '已结束'],
       activeIndex: 0,
       sliderOffset: 0,
       sliderLeft: 0,
@@ -143,12 +143,12 @@
         this.navigate('chat?id=' + this.id)
       },
       tabClick(e) {
-        // this.sliderOffset = e.currentTarget.offsetLeft
-        // this.activeIndex = e.currentTarget.id
-        // this.pageSize = 10
-        // this.pageNum = 1
-        // this.dataList = []
-        // this.fetchDate()
+        this.sliderOffset = e.currentTarget.offsetLeft
+        this.activeIndex = e.currentTarget.id
+        this.pageSize = 10
+        this.pageNum = 1
+        this.dataList = []
+        this.fetchDate()
       }
     }
     fetchDate() {
@@ -164,6 +164,7 @@
           if (res.list && res.list.length > 0) {
             res.list.forEach((item) => {
               item.faceUrl = formatPng(item.faceUrl)
+              item.askTime = formatDate(new Date(item.question_time))
             })
             this.dataList = this.dataList.concat(res.list)
             this.$apply()

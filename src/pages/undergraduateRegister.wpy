@@ -78,7 +78,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="有则填，无则不填~" @change="invitationCodeInp" value="{{InvitationCode}}"/>
+            <input class="weui-input" placeholder="有则填，无则不填~" @change="inviteCodeInp" value="{{inviteCode}}"/>
           </view>
         </view>
       </view>
@@ -136,7 +136,7 @@
       userName: '',
       email: '',
       isAgree: false,
-      invitationCode: ''
+      inviteCode: ''
     }
 
     computed = {}
@@ -145,8 +145,8 @@
       getFormId (e) {
         addFormId(e.detail.formId)
       },
-      invitationCodeInp (e) {
-        this.invitationCode = e.detail.value.trim()
+      inviteCodeInp (e) {
+        this.inviteCode = e.detail.value.trim()
       },
       changePrepareGraduate (e) {
         this.prepareGraduate = e.detail.value
@@ -180,7 +180,7 @@
     submit() {
       let userId = this.$parent.globalData.userInfo.userId
       let { email, userName, prepareGraduate, undergraduateSchoolId,
-        undergraduateMajorId, isAgree, volunteerSchool, volunteerMajor, invitationCode} = this
+        undergraduateMajorId, isAgree, volunteerSchool, volunteerMajor, inviteCode} = this
       if (email && userName && undergraduateSchoolId && undergraduateMajorId && isAgree) {
       } else {
         let errMsg
@@ -205,7 +205,7 @@
           userId,
           userName,
           email,
-          invitationCode,
+          inviteCode,
           isfreshGraduate: prepareGraduate ? 1 : 0, // 是否应届
           undergraduateSchoolId,
           undergraduateMajorId,

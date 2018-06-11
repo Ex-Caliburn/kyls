@@ -61,9 +61,9 @@ function formatDate(date) {
   var minute = date.getMinutes()
   var second = date.getSeconds()
   if (month < 9) {
-    month = '/0' + month + '/'
+    month = '-0' + month + '-'
   } else {
-    month = '/' + month + '/'
+    month = '-' + month + '-'
   }
   if (day < 10) {
     day = '0' + day

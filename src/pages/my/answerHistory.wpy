@@ -70,11 +70,11 @@
                   <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
                 </view>
                 <view>
-                  <view class="tl">{{item.userName}}</view>
+                  <view class="tl">提问者: {{item.userName}}</view>
                   <view class="tl">{{item.schoolName}}</view>
                   <view class="tl">{{item.majorName}}</view>
-                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
-                  <!--<view class="">{{item.askTime}}</view>-->
+                  <view class="ellipsis ellipsis-content tl">问题: {{item.question}}</view>
+                  <view class="tl">提问时间: {{item.askTime}}</view>
                 </view>
               </navigator>
             </view>
@@ -89,11 +89,11 @@
                   <image class="avatarUrl" src="{{item.faceUrl}}" mode="aspectFill"></image>
                 </view>
                 <view>
-                  <view class="tl">{{item.userName}}</view>
+                  <view class="tl">提问者: {{item.userName}}</view>
                   <view class="tl">{{item.schoolName}}</view>
                   <view class="tl">{{item.majorName}}</view>
-                  <view class="ellipsis ellipsis-content tl">问题:{{item.question}}</view>
-                  <!--<view class="">{{item.askTime}}</view>-->
+                  <view class="ellipsis ellipsis-content tl">问题: {{item.question}}</view>
+                  <view class="tl">提问时间: {{item.askTime}}</view>
                 </view>
               </navigator>
             </view>
@@ -109,12 +109,10 @@
 <script>
   import wepy from 'wepy'
   import Tabbar from '@/components/tabbar'
-  import { formatPng } from 'utils/common'
-  // import toast from 'mixins/toast'
+  import { formatPng, formatDate } from 'utils/common'
   import tabbar from 'mixins/tabbar'
   import navigate from 'mixins/navigate'
   import reachBottom from 'mixins/reachBottom'
-  // import { formatDate } from 'utils/common'
   import { post } from 'utils/service'
   import { SYSTEM_INFO } from 'utils/constant'
   import db from 'utils/db'
@@ -166,6 +164,7 @@
           if (res.list && res.list.length > 0) {
             res.list.forEach((item) => {
               item.faceUrl = formatPng(item.faceUrl)
+              item.askTime = formatDate(new Date(item.question_time))
             })
             this.dataList = this.dataList.concat(res.list)
             this.$apply()

@@ -235,7 +235,7 @@
             <view class="weui-label">推荐人邀请码</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="有则填，无则不填~" @change="invitationCodeInp"  value="{{invitationCode}}"/>
+            <input class="weui-input" placeholder="有则填，无则不填~" @change="inviteCodeInp"  value="{{inviteCode}}"/>
           </view>
         </view>
 
@@ -287,7 +287,7 @@
 
     data = {
       tips: '请上传您的相关证明*',
-      invitationCode: '',
+      inviteCode: '',
       pictures: [], // pic
       userName: '',
       email: '',
@@ -413,8 +413,8 @@
       publicSubjectFirst (i) {
         this.publicSubjectFirstArr[i].choose = !this.publicSubjectFirstArr[i].choose
       },
-      invitationCodeInp (e) {
-        this.invitationCode = e.detail.value.trim()
+      inviteCodeInp (e) {
+        this.inviteCode = e.detail.value.trim()
       },
       professionalSubjectInp (e) {
         this.professionalSubjectFirst = e.detail.value.trim()
@@ -472,7 +472,7 @@
         userName, undergraduateSchoolId, undergraduateMajorId,
         isAgree, postgraduateSchoolId, majorIndex, postgraduateMajorId,
         postgraduateNumber, degreeIndex, studyModeIndex, gradeIndex, willTypes,
-         publicSubjectFirstArr, professionalSubjectFirst, invitationCode, phoneNumber, pictures
+         publicSubjectFirstArr, professionalSubjectFirst, inviteCode, phoneNumber, pictures
       } = this
       let answerWill = []
       willTypes.forEach(item => {
@@ -541,7 +541,7 @@
           userId,
           userName,
           phoneNumber,
-          invitationCode,
+          inviteCode,
           undergraduateSchoolId,
           undergraduateMajorId,
           postgraduateSchoolId,
